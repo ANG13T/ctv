@@ -10,6 +10,8 @@ struct Cli {
 
 fn main() {
     // parses args into our CLI struct
+    // Clap knows which fields to expect, and what their expected format is
+    // Automatic error catching
     let args = Cli::from_args();
     println!("Hello, world!");
     let pattern = std::env::args().nth(1).expect("no pattern given");
@@ -18,4 +20,5 @@ fn main() {
         pattern: pattern,
         path: std::path::PathBuf::from(path),
     };
+    println!("Hello, world!");
 }
