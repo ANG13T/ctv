@@ -22,9 +22,15 @@ fn main() {
         pattern: pattern,
         path: std::path::PathBuf::from(path),
     };
+    
     for line in content.lines() {
         if line.contains(&args.pattern) {
             println!("{}", line);
         }
     }  
+    let result = std::fs::read_to_string("test.txt");
+    match result {
+        Ok(content) => { println!("File content: {}", content); }
+        Err(error) => { println!("Oh noes: {}", error); }
+    }
 }
