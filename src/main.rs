@@ -14,11 +14,17 @@ fn main() {
     // Automatic error catching
     let args = Cli::from_args();
     println!("Hello, world!");
+    let content = std::fs::read_to_string(&args.path)
+    .expect("could not read file");
     let pattern = std::env::args().nth(1).expect("no pattern given");
     let path = std::env::args().nth(2).expect("no path given");
     let args = Cli {
         pattern: pattern,
         path: std::path::PathBuf::from(path),
     };
-    println!("Hello, world!");
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
+        }
+    }  
 }
