@@ -8,29 +8,13 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
-fn main() {
-    // parses args into our CLI struct
-    // Clap knows which fields to expect, and what their expected format is
-    // Automatic error catching
-    let args = Cli::from_args();
-    println!("Hello, world!");
-    let content = std::fs::read_to_string(&args.path)
-    .expect("could not read file");
-    let pattern = std::env::args().nth(1).expect("no pattern given");
-    let path = std::env::args().nth(2).expect("no path given");
-    let args = Cli {
-        pattern: pattern,
-        path: std::path::PathBuf::from(path),
-    };
-    
-    for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line);
-        }
-    }  
-    let result = std::fs::read_to_string("test.txt");
-    match result {
-        Ok(content) => { println!("File content: {}", content); }
-        Err(error) => { println!("Oh noes: {}", error); }
-    }
+// return types of function can either be error or default return value
+// Box<dyn std::error::Error>> => It’s a Box that can contain any type that implements the standard Error trait. 
+// This means that basically all errors can be put into this box, so we can use ? on all of the usual functions that return Results.
+fn main() -> Result<(), Box<dyn std::error::Error>>{
+    // read read file from string
+    // question mark at end automatically returns an error if path is incorrect
+    let result = std::fs::read_to_string("test.txt")?;
+    println!("file content: {}", content);
+    Ok(())
 }
