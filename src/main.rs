@@ -44,30 +44,30 @@ struct Cli {
 
 // using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
 fn main() -> Result<()>{
-    let current_dir = env::current_dir()?;
+    // let current_dir = env::current_dir()?;
 
-    for entry in fs::read_dir(current_dir)? {
-        let entry = entry?;
-        let path = entry.path();
+    // for entry in fs::read_dir(current_dir)? {
+    //     let entry = entry?;
+    //     let path = entry.path();
 
-        let metadata = fs::metadata(&path)?;
-        let last_modified = metadata.modified()?.elapsed()?.as_secs();
+    //     let metadata = fs::metadata(&path)?;
+    //     let last_modified = metadata.modified()?.elapsed()?.as_secs();
 
-        // metadata.is_file
-        if metadata.is_file(){
+    //     // metadata.is_file
+    //     if metadata.is_file(){
 
-        }else if metadata.is_dir(){
+    //     }else if metadata.is_dir(){
 
-        }
+    //     }
 
-        println!(
-            "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
-            last_modified,
-            metadata.permissions().readonly(),
-            metadata.len(),
-            path.file_name().ok_or("No filename")
-        );
-    }
+    //     println!(
+    //         "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
+    //         last_modified,
+    //         metadata.permissions().readonly(),
+    //         metadata.len(),
+    //         path.file_name().ok_or("No filename")
+    //     );
+    // }
 
     Ok(())
 }
@@ -86,19 +86,18 @@ fn readdirLoop(dir: PathBuf, amount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
-
+            println!(
+                "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
+                last_modified,
+                metadata.permissions().readonly(),
+                metadata.len(),
+                path.file_name().ok_or("No filename")
+            );
         }else if metadata.is_dir(){
-
+            return readdirLoop(entry.path(), amount - 1);
         }
-
-        println!(
-            "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
-            last_modified,
-            metadata.permissions().readonly(),
-            metadata.len(),
-            path.file_name().ok_or("No filename")
-        );
     }
 
-    return readdirLoop(amount - 1);
+    Ok(())
+
 }
