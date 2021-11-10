@@ -74,7 +74,7 @@ fn main() -> Result<()>{
 
 fn readdirLoop(dir: PathBuf, amount: i8) -> Result<()>{
     if amount == 0 {
-        Ok(());
+        return Ok(());
     }
 
     for entry in fs::read_dir(dir)? {
