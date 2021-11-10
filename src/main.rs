@@ -44,7 +44,7 @@ struct Cli {
 
 // using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
 fn main() -> Result<()>{
-    // let current_dir = env::current_dir()?;
+    let current_dir = env::current_dir()?;
 
     // for entry in fs::read_dir(current_dir)? {
     //     let entry = entry?;
@@ -69,6 +69,10 @@ fn main() -> Result<()>{
     //     );
     // }
 
+    let var = readdirLoop(current_dir, 3);
+
+
+
     Ok(())
 }
 
@@ -86,6 +90,7 @@ fn readdirLoop(dir: PathBuf, amount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
+            println!("is file");
             println!(
                 "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
                 last_modified,
@@ -94,6 +99,7 @@ fn readdirLoop(dir: PathBuf, amount: i8) -> Result<()>{
                 path.file_name().ok_or("No filename")
             );
         }else if metadata.is_dir(){
+            println!("{value}", value=entry.path().display());
             return readdirLoop(entry.path(), amount - 1);
         }
     }
