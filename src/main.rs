@@ -47,37 +47,19 @@ fn getDirName(path: String) -> String {
     return res.last().unwrap().to_string();
 }
 
+fn padValues(line: String, amount: i8) -> String{
+    let mut newString = line.to_owned();
+    let pad = line.to_owned();
+    for i in 0..amount {
+        newString.push_str(&pad);
+    }
+    return newString;
+}
+
 // using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
 fn main() -> Result<()>{
     let current_dir = env::current_dir()?;
-
-    // for entry in fs::read_dir(current_dir)? {
-    //     let entry = entry?;
-    //     let path = entry.path();
-
-    //     let metadata = fs::metadata(&path)?;
-    //     let last_modified = metadata.modified()?.elapsed()?.as_secs();
-
-    //     // metadata.is_file
-    //     if metadata.is_file(){
-
-    //     }else if metadata.is_dir(){
-
-    //     }
-
-    //     println!(
-    //         "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
-    //         last_modified,
-    //         metadata.permissions().readonly(),
-    //         metadata.len(),
-    //         path.file_name().ok_or("No filename")
-    //     );
-    // }
-
     let var = readdirLoop(current_dir, 3);
-
-
-
     Ok(())
 }
 
