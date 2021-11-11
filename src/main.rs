@@ -42,6 +42,11 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
+fn getDirName(path: String) -> String {
+    let res: Vec<String> = path.split("/").map(|s| s.to_string()).collect();
+    return res.last().unwrap().to_string();
+}
+
 // using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
 fn main() -> Result<()>{
     let current_dir = env::current_dir()?;
@@ -99,7 +104,7 @@ fn readdirLoop(dir: PathBuf, amount: i8) -> Result<()>{
                 path.file_name().ok_or("No filename")
             );
         }else if metadata.is_dir(){
-            println!("{value}", value=entry.path().display());
+            println!("{value} -> ", value=getDirName(entry.path().display().to_string()));
             return readdirLoop(entry.path(), amount - 1);
         }
     }
