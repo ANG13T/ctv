@@ -10,22 +10,33 @@ use std::path::{Path, PathBuf};
 // use structopt::StructOpt;
 use std::cmp::Ordering;
 
-// struct Directory {
-//     paths: Vec<File>,
-//     args: input::Cli,
-// }
+struct Directory {
+    paths: Vec<File>,
+    // args: input::Cli,
+}
+
+#[derive(Copy, Clone, Debug)]
+enum PathType {
+  Dir,
+  Symlink,
+  Path,
+  Pipe,
+  CharD,
+  BlockD,
+  Socket,
+}
   
-// #[derive(Clone)]
-// struct File {
-//   path:      std::path::PathBuf,
-//   file_type: Vec<PathType>,
-//   group:     String,
-//   user:      String,
-//   modified:  String,
-//   created:   String,
-//   size:      String,
-//   perms:     String,
-// }
+#[derive(Clone)]
+struct File {
+  path:      std::path::PathBuf,
+  file_type: Vec<PathType>,
+  group:     String,
+  user:      String,
+  modified:  String,
+  created:   String,
+  size:      String,
+  perms:     String,
+}
 
 // fn printDirAndFilesForDir() -> Array<File|Directory>{
 
