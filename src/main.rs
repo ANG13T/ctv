@@ -48,11 +48,12 @@ fn getDirName(path: String) -> String {
 }
 
 fn padValues(line: String, amount: i8) -> String{
-    let mut newString = line.to_owned();
-    let pad = "    ".to_owned();
+    let mut newString = "".to_owned();
+    let pad = "   ".to_owned();
     for i in 0..amount {
         newString.push_str(&pad);
     }
+    newString.push_str(&line);
     return newString;
 }
 
@@ -77,8 +78,7 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
-            // padValues("this is a file", )
-            println!("is file");
+            println!("{value}", value=padValues("this is a file".to_string(), initialAmount - amount));
             println!(
                 "Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}",
                 last_modified,
