@@ -3,7 +3,7 @@ use anyhow::{Context, Result};
 use std::{env, fs};
 use  std::fs::metadata;
 // mod input;
-mod text_effects;
+mod decorators;
 mod services;
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
 use std::path::{Path, PathBuf};
@@ -76,13 +76,13 @@ impl PathType {
   
     fn get_text_traits_for_type(&self, name: &str, file: &Path) -> String {
       match self {
-        Self::Dir     => text_effects::bold(&format!( "{}{}/", name, termion::color::Fg(termion::color::White))),
-        Self::Symlink => text_effects::italic(&format!( "{} -> {}", name, std::fs::read_link(file).unwrap().display().to_string())),
-        Self::Path    => text_effects::bold(name),
-        Self::Pipe    => text_effects::bold(&format!( "{}{}", name, termion::color::Fg(termion::color::White))),
-        Self::CharD   => text_effects::bold(name),
-        Self::BlockD  => text_effects::bold(name),
-        Self::Socket  => text_effects::bold(&format!( "{}{}", name, termion::color::Fg(termion::color::White))),
+        Self::Dir     => decorators::bold(&format!( "{}{}/", name, termion::color::Fg(termion::color::White))),
+        Self::Symlink => decorators::italic(&format!( "{} -> {}", name, std::fs::read_link(file).unwrap().display().to_string())),
+        Self::Path    => decorators::bold(name),
+        Self::Pipe    => decorators::bold(&format!( "{}{}", name, termion::color::Fg(termion::color::White))),
+        Self::CharD   => decorators::bold(name),
+        Self::BlockD  => decorators::bold(name),
+        Self::Socket  => decorators::bold(&format!( "{}{}", name, termion::color::Fg(termion::color::White))),
       }
     }
   }
