@@ -3,7 +3,7 @@ use anyhow::{Context, Result};
 use std::{env, fs};
 use  std::fs::metadata;
 // mod input;
-// mod text_effects;
+mod text_effects;
 mod services;
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
 use std::path::{Path, PathBuf};
