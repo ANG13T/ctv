@@ -2,7 +2,7 @@ use structopt::StructOpt;
 use anyhow::{Context, Result};
 use std::{env, fs};
 use  std::fs::metadata;
-// mod input;
+mod input;
 mod decorators;
 mod services;
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
@@ -127,6 +127,39 @@ impl std::fmt::Display for File {
         }
       }
       write!(f, "{}", res)
+    }
+  }
+
+  impl std::fmt::Debug for File {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+      let mut res = String::new();
+      for (i, v) in self.file_type.iter().enumerate() {
+        if i == 0 {
+          res = v.get_text_traits_for_type(
+            &self.path
+              .components()
+              .next_back()
+              .unwrap()
+              .as_os_str()
+              .to_string_lossy()
+              .to_string(),
+            &self.path
+          );
+          res = format!("{}{}", v.get_color_for_type(), res);
+          continue;
+        }
+        res = v.get_text_traits_for_type(&res, &self.path);
+        res = format!("{}{}", v.get_color_for_type(), res);
+      }
+  
+        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+  
+      writeln!(f, "{} {green}{} {yellow}{} {blue} {}{} {}",
+        self.perms, self.size, self.user, self.group, time, res,
+        green = termion::color::Fg(termion::color::LightGreen),
+        yellow = termion::color::Fg(termion::color::Yellow),
+        blue = termion::color::Fg(termion::color::Blue),
+      )
     }
   }
 
