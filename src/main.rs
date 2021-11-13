@@ -4,7 +4,7 @@ use std::{env, fs};
 use  std::fs::metadata;
 // mod input;
 // mod text_effects;
-// mod utils;
+mod services;
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
 use std::path::{Path, PathBuf};
 // use structopt::StructOpt;
@@ -37,6 +37,21 @@ struct File {
   size:      String,
   perms:     String,
 }
+
+impl File {
+    fn new(file: std::path::PathBuf, time_format: String) -> Self {
+      Self {
+        group:     services::group(file.to_path_buf()),
+        user:      services::user(file.to_path_buf()),
+        modified:  services::file_times::modified(file.to_path_buf(), time_format.to_owned()),
+        created:   services::file_times::created(file.to_path_buf(), time_format),
+        size:      services::size::size(file.to_path_buf()),
+        perms:     services::perms::perms(file.to_path_buf()),
+        file_type: PathType::new(&file).unwrap(),
+        path: file,
+      }
+    }
+  }
 
 // fn printDirAndFilesForDir() -> Array<File|Directory>{
 
