@@ -99,6 +99,37 @@ struct File {
   perms:     String,
 }
 
+impl std::fmt::Display for File {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+      let mut res = String::new();
+      for (i, v) in self.file_type.iter().enumerate() {
+        if i == 0 {
+          res = format!(
+            "{}{}",
+            v.get_color_for_type(),
+            v.get_text_traits_for_type(
+              &self.path.
+                components()
+                .next_back()
+                .unwrap()
+                .as_os_str()
+                .to_string_lossy()
+                .to_string(),
+              &self.path
+            )
+          );
+        } else {
+          res = format!(
+            "{}{}",
+            v.get_color_for_type(),
+            v.get_text_traits_for_type(&res, &self.path)
+          );
+        }
+      }
+      write!(f, "{}", res)
+    }
+  }
+
 impl File {
     fn new(file: std::path::PathBuf, time_format: String) -> Self {
       Self {
@@ -165,6 +196,8 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
+            let coolFile = File::new(entry.path(), "".to_string());
+            print!("{:?}", coolFile);
             let formattedFilePath: String = format!("Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}", last_modified,
             metadata.permissions().readonly(),
             metadata.len(),
