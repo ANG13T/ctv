@@ -231,12 +231,9 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
         if metadata.is_file(){
             let coolFile = File::new(entry.path(), "".to_string());
             print!("{:?}", coolFile);
-            let formattedFilePath: String = format!("Last modified: {:?} seconds, is read only: {:?}, size: {:?} bytes, filename: {:?}", last_modified,
-            metadata.permissions().readonly(),
-            metadata.len(),
-            path.file_name().ok_or("No filename"));
 
-            println!("{value}", value=padValues(formattedFilePath.to_string(), initialAmount - amount));
+
+            // println!("{value}", value=padValues(formattedFilePath.to_string(), initialAmount - amount));
 
         }else if metadata.is_dir(){
             println!("{value} -> ", value=getDirName(entry.path().display().to_string()));
