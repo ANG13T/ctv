@@ -3,7 +3,7 @@ use crate::*;
 #[test]
 fn test_bold() {
   assert_eq!(
-    text_effects::bold("hello"),
+    decorators::bold("hello"),
     String::from("\x1B[1mhello\x1B[0m")
   )
 }
@@ -11,7 +11,7 @@ fn test_bold() {
 #[test]
 fn test_underline() {
   assert_eq!(
-    text_effects::underline("hello"),
+    decorators::underline("hello"),
     String::from("\x1B[4mhello\x1B[0m")
   )
 }
@@ -19,7 +19,7 @@ fn test_underline() {
 #[test]
 fn test_dimmed() {
   assert_eq!(
-    text_effects::dimmed("hello"),
+    decorators::dimmed("hello"),
     String::from("\x1B[2mhello\x1B[0m")
   )
 }
@@ -27,7 +27,7 @@ fn test_dimmed() {
 #[test]
 fn test_italic() {
   assert_eq!(
-    text_effects::italic("hello"),
+    decorators::italic("hello"),
     String::from("\x1B[3mhello\x1B[0m")
   )
 }
@@ -35,7 +35,7 @@ fn test_italic() {
 #[test]
 fn test_blink() {
   assert_eq!(
-    text_effects::blink("hello"),
+    decorators::blink("hello"),
     String::from("\x1B[5mhello\x1B[0m")
   )
 }
@@ -43,7 +43,7 @@ fn test_blink() {
 #[test]
 fn test_reverse() {
   assert_eq!(
-    text_effects::reverse("hello"),
+    decorators::reverse("hello"),
     String::from("\x1B[7mhello\x1B[0m")
   )
 }
@@ -51,7 +51,7 @@ fn test_reverse() {
 #[test]
 fn test_hidden() {
   assert_eq!(
-    text_effects::hidden("hello"),
+    decorators::hidden("hello"),
     String::from("\x1B[8mhello\x1B[0m")
   )
 }
@@ -59,7 +59,7 @@ fn test_hidden() {
 #[test]
 fn test_stricken() {
   assert_eq!(
-    text_effects::stricken("hello"),
+    decorators::stricken("hello"),
     String::from("\x1B[9mhello\x1B[0m")
   )
 }
