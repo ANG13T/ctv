@@ -97,6 +97,7 @@ struct File {
   created:   String,
   size:      String,
   perms:     String,
+  padding: i8
 }
 
 impl std::fmt::Display for File {
@@ -126,7 +127,8 @@ impl std::fmt::Display for File {
           );
         }
       }
-      write!(f, "{}", res)
+      // write!(f, "{}", res)
+      write!(f, "{}", padValues(res, self.padding));
     }
   }
 
@@ -164,7 +166,7 @@ impl std::fmt::Display for File {
   }
 
 impl File {
-    fn new(file: std::path::PathBuf, time_format: String) -> Self {
+    fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8) -> Self {
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
@@ -174,6 +176,7 @@ impl File {
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
         path: file,
+        padding: padding_amount
       }
     }
   }
@@ -229,7 +232,7 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
-            let coolFile = File::new(entry.path(), "".to_string());
+            let coolFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
             print!("{:?}", coolFile);
 
 
