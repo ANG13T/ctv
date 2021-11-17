@@ -1,1 +1,2 @@
-mod test_cases;
+mod decorators_test_cases;
+mod dir_structure_test_case;

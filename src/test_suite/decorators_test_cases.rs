@@ -18,6 +18,7 @@ fn test_underline() {
 
 #[test]
 fn test_dimmed() {
+    println!("hello");
   assert_eq!(
     decorators::dimmed("hello"),
     String::from("\x1B[2mhello\x1B[0m")
