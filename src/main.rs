@@ -155,13 +155,14 @@ impl std::fmt::Display for File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
   
-      writeln!(f, "{padding}{} {green}{} {yellow}{} {blue} {}{} {}",
+      return writeln!(f, "{padding}{} {green}{} {yellow}{} {blue} {}{} {}",
         self.perms, self.size, self.user, self.group, time, res,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
         blue = termion::color::Fg(termion::color::Blue),
         padding = getPaddingString(self.padding)
       );
+
     }
   }
 
