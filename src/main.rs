@@ -202,16 +202,6 @@ fn getDirName(path: String) -> String {
     return res.last().unwrap().to_string();
 }
 
-fn padValues(line: String, amount: i8) -> String{
-    let mut newString = "".to_owned();
-    let pad = "   ".to_owned();
-    for i in 0..amount {
-        newString.push_str(&pad);
-    }
-    newString.push_str(&line);
-    return newString;
-}
-
 fn getPaddingString(amount: i8) -> String {
   let mut newString = "".to_owned();
   let pad = "   ".to_owned();
@@ -249,7 +239,8 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
             // println!("{value}", value=padValues(formattedFilePath.to_string(), initialAmount - amount));
 
         }else if metadata.is_dir(){
-            println!("{value} -> ", value=getDirName(entry.path().display().to_string()));
+            let dirFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
+            print!("{:?} ->", dirFile);
             return readdirLoop(entry.path(), amount - 1, initialAmount);
         }
     }
