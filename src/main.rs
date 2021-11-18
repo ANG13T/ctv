@@ -155,8 +155,8 @@ impl std::fmt::Display for File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
   
-      return writeln!(f, "{padding}{} {green}{} {yellow}{} {blue} {}{} {}",
-        self.perms, self.size, self.user, self.group, time, res,
+      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {blue} {} {} {}]",
+       res, self.size, self.user, self.group, self.perms, time,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
         blue = termion::color::Fg(termion::color::Blue),
@@ -181,14 +181,6 @@ impl File {
       }
     }
   }
-
-// fn printDirAndFilesForDir() -> Array<File|Directory>{
-
-// }
-
-// fn printFileString(input : File) -> String {
-//     return "";
-// }
 
 
 /// Search for a pattern in a file and display the lines that contain it.
@@ -240,7 +232,7 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         }else if metadata.is_dir(){
             let dirFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
-            print!("{:?} ->", dirFile);
+            print!("{:?} |", dirFile);
             return readdirLoop(entry.path(), amount - 1, initialAmount);
         }
     }
