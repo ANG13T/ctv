@@ -155,11 +155,10 @@ impl std::fmt::Display for File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
   
-      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {blue} {} {} {}]",
-       res, self.size, self.user, self.group, self.perms, time,
+      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {} {}]",
+       res, self.size, self.user, self.perms, time,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
-        blue = termion::color::Fg(termion::color::Blue),
         padding = getPaddingString(self.padding)
       );
 
@@ -189,14 +188,9 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
-fn getDirName(path: String) -> String {
-    let res: Vec<String> = path.split("/").map(|s| s.to_string()).collect();
-    return res.last().unwrap().to_string();
-}
-
 fn getPaddingString(amount: i8) -> String {
   let mut newString = "".to_owned();
-  let pad = "   ".to_owned();
+  let pad = "__".to_owned();
   for i in 0..amount {
     newString.push_str(&pad);
   }
