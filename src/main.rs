@@ -127,8 +127,7 @@ impl std::fmt::Display for File {
           );
         }
       }
-      // write!(f, "{}", res)
-      write!(f, "{}", padValues(res, self.padding));
+      write!(f, "{}", res)
     }
   }
 
@@ -156,12 +155,13 @@ impl std::fmt::Display for File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
   
-      writeln!(f, "{} {green}{} {yellow}{} {blue} {}{} {}",
+      writeln!(f, "{padding}{} {green}{} {yellow}{} {blue} {}{} {}",
         self.perms, self.size, self.user, self.group, time, res,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
         blue = termion::color::Fg(termion::color::Blue),
-      )
+        padding = getPaddingString(self.padding)
+      );
     }
   }
 
@@ -209,6 +209,15 @@ fn padValues(line: String, amount: i8) -> String{
     }
     newString.push_str(&line);
     return newString;
+}
+
+fn getPaddingString(amount: i8) -> String {
+  let mut newString = "".to_owned();
+  let pad = "   ".to_owned();
+  for i in 0..amount {
+    newString.push_str(&pad);
+  }
+  return newString;
 }
 
 // using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
