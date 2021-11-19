@@ -25,6 +25,18 @@ impl File {
         padding: padding_amount
       }
     }
+
+    self pub fn getPaddingString(amount: i8) -> String {
+        let mut newString = "⎿".to_owned();
+        if amount == 0{
+          newString = "".to_owned();
+        }
+        let pad = "__".to_owned();
+        for i in 0..self.padding {
+          newString.push_str(&pad);
+        }
+        return newString;
+    }
   }
 
   impl std::fmt::Display for File {
@@ -86,7 +98,7 @@ impl File {
        res, self.size, self.user, self.perms, time,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
-        padding = getPaddingString(self.padding)
+        padding = self.getPaddingString()
       );
 
     }

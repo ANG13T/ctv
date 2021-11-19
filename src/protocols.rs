@@ -1,4 +1,4 @@
 pub use self::directory::Directory;
 pub use self::file::File;
-mod directory;
-mod file;
+pub mod directory;
+pub mod file;
