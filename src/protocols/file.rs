@@ -1,4 +1,4 @@
-
+mod protocols;
 
 #[derive(Clone)]
 pub struct File {
@@ -14,7 +14,7 @@ pub struct File {
 }
 
 impl File {
-    fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8) -> Self {
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),

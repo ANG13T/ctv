@@ -1,5 +1,5 @@
 #[derive(Copy, Clone, Debug)]
-enum PathType {
+pub enum PathType {
   Dir,
   Symlink,
   Path,
