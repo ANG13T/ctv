@@ -189,7 +189,10 @@ struct Cli {
 }
 
 fn getPaddingString(amount: i8) -> String {
-  let mut newString = "".to_owned();
+  let mut newString = "⎿".to_owned();
+  if amount == 0{
+    newString = "".to_owned();
+  }
   let pad = "__".to_owned();
   for i in 0..amount {
     newString.push_str(&pad);
@@ -226,7 +229,7 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         }else if metadata.is_dir(){
             let dirFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
-            print!("{:?} |", dirFile);
+            print!("{:?}", dirFile);
             return readdirLoop(entry.path(), amount - 1, initialAmount);
         }
     }
