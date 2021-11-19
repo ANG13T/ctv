@@ -12,7 +12,7 @@ use std::cmp::Ordering;
 
 struct Directory {
     paths: Vec<File>,
-    // args: input::Cli,
+    args: input::Cli
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -25,6 +25,7 @@ enum PathType {
   BlockD,
   Socket,
 }
+
 
 impl PathType {
     fn new(file: &Path) -> Result<Vec<Self>, Box<dyn std::error::Error>> {
@@ -99,6 +100,7 @@ struct File {
   perms:     String,
   padding: i8
 }
+
 
 impl std::fmt::Display for File {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -181,6 +183,37 @@ impl File {
     }
   }
 
+  impl Directory {
+    fn new(args: input::Cli) -> Result<Self, Box<dyn std::error::Error>> {
+      let dir = &args.dir;
+  
+      if !std::path::Path::new(&dir).exists() {
+        return Err(
+          Box::new(
+            std::io::Error::from_raw_os_error(2)
+          )
+        )
+      }
+  
+      if !std::path::Path::new(&dir).is_dir() {
+        let f = File::new(dir.to_owned(), args.time_format, 0);
+        match args.long {
+          true => print!("{:?}", f),
+          _ => print!("{}", f)
+        }
+        std::process::exit(0)
+      }
+  
+      let paths = std::fs::read_dir(dir)?
+          .map(|res| res.map(|e| File::new(
+            e.path(), args.time_format.to_owned(), 0
+              )
+            )
+          )
+          .collect::<Result<Vec<File>, std::io::Error>>()?;
+        Ok(Self { paths, args })
+    }
+  }
 
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(StructOpt)]
@@ -221,14 +254,14 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
-            let coolFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
+            let coolFile = File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
             print!("{:?}", coolFile);
 
 
             // println!("{value}", value=padValues(formattedFilePath.to_string(), initialAmount - amount));
 
         }else if metadata.is_dir(){
-            let dirFile = File::new(entry.path(), "".to_string(), initialAmount - amount);
+            let dirFile = File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
             print!("{:?}", dirFile);
             return readdirLoop(entry.path(), amount - 1, initialAmount);
         }
