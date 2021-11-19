@@ -1,3 +1,6 @@
+use std::path::{Path, PathBuf};
+use crate::decorators;
+
 #[derive(Copy, Clone, Debug)]
 pub enum PathType {
   Dir,
@@ -10,7 +13,7 @@ pub enum PathType {
 }
 
 impl PathType {
-    fn new(file: &Path) -> Result<Vec<Self>, Box<dyn std::error::Error>> {
+    pub fn new(file: &Path) -> Result<Vec<Self>, Box<dyn std::error::Error>> {
       let mut return_val = Vec::new();
       if file.symlink_metadata()?.is_dir() {return_val.push(Self::Dir) }
       if file.symlink_metadata()?.file_type().is_symlink() {return_val.push(Self::Symlink)}
@@ -33,7 +36,7 @@ impl PathType {
       )
     }
   
-    fn get_letter_for_type(&self) -> String {
+    pub fn get_letter_for_type(&self) -> String {
       match self {
         Self::Dir     => self.create_letter("d"),
         Self::Symlink => self.create_letter("l"),
