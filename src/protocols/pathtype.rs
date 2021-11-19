@@ -1,4 +1,5 @@
 use std::path::{Path, PathBuf};
+use std::os::unix::fs::FileTypeExt;
 use crate::decorators;
 
 #[derive(Copy, Clone, Debug)]
@@ -48,7 +49,7 @@ impl PathType {
       }
     }
   
-    fn get_color_for_type(&self) -> String {
+    pub fn get_color_for_type(&self) -> String {
       match self {
         Self::Dir     => format!("{}", termion::color::Fg(termion::color::LightBlue)),
         Self::Symlink => format!("{}", termion::color::Fg(termion::color::LightMagenta)),
@@ -60,7 +61,7 @@ impl PathType {
       }
     }
   
-    fn get_text_traits_for_type(&self, name: &str, file: &Path) -> String {
+    pub fn get_text_traits_for_type(&self, name: &str, file: &Path) -> String {
       match self {
         Self::Dir     => decorators::bold(&format!( "{}{}/", name, termion::color::Fg(termion::color::White))),
         Self::Symlink => decorators::italic(&format!( "{} -> {}", name, std::fs::read_link(file).unwrap().display().to_string())),

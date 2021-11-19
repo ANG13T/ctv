@@ -1,4 +1,7 @@
-mod protocols;
+use crate::services;
+use crate::input;
+use crate::protocols::{PathType};
+use structopt::StructOpt;
 
 #[derive(Clone)]
 pub struct File {
