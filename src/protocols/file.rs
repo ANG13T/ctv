@@ -26,9 +26,9 @@ impl File {
       }
     }
 
-    self pub fn getPaddingString(amount: i8) -> String {
+    fn getPaddingString(&self) -> String {
         let mut newString = "⎿".to_owned();
-        if amount == 0{
+        if self.padding == 0{
           newString = "".to_owned();
         }
         let pad = "__".to_owned();
