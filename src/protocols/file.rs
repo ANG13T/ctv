@@ -32,14 +32,19 @@ impl File {
     }
 
     fn getPaddingString(&self) -> String {
-        let mut newString = "⎿".to_owned();
+        let mut newString = "".to_owned();
         if self.padding == 0{
           newString = "".to_owned();
         }
-        let pad = "__".to_owned();
+        let pad = " ".to_owned();
         for i in 0..self.padding {
           newString.push_str(&pad);
         }
+
+        if self.padding > 0{
+            newString.push_str("⎿_");
+        }
+        
         return newString;
     }
   }
