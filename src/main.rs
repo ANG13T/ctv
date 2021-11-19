@@ -4,16 +4,13 @@ use std::{env, fs};
 use  std::fs::metadata;
 mod input;
 mod decorators;
+mod protocols;
 mod services;
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
 use std::path::{Path, PathBuf};
 // use structopt::StructOpt;
 use std::cmp::Ordering;
 
-struct Directory {
-    paths: Vec<File>,
-    args: input::Cli
-}
 
 #[derive(Copy, Clone, Debug)]
 enum PathType {
@@ -88,100 +85,6 @@ impl PathType {
     }
   }
   
-#[derive(Clone)]
-struct File {
-  path:      std::path::PathBuf,
-  file_type: Vec<PathType>,
-  group:     String,
-  user:      String,
-  modified:  String,
-  created:   String,
-  size:      String,
-  perms:     String,
-  padding: i8
-}
-
-
-impl std::fmt::Display for File {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-      let mut res = String::new();
-      for (i, v) in self.file_type.iter().enumerate() {
-        if i == 0 {
-          res = format!(
-            "{}{}",
-            v.get_color_for_type(),
-            v.get_text_traits_for_type(
-              &self.path.
-                components()
-                .next_back()
-                .unwrap()
-                .as_os_str()
-                .to_string_lossy()
-                .to_string(),
-              &self.path
-            )
-          );
-        } else {
-          res = format!(
-            "{}{}",
-            v.get_color_for_type(),
-            v.get_text_traits_for_type(&res, &self.path)
-          );
-        }
-      }
-      write!(f, "{}", res)
-    }
-  }
-
-  impl std::fmt::Debug for File {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-      let mut res = String::new();
-      for (i, v) in self.file_type.iter().enumerate() {
-        if i == 0 {
-          res = v.get_text_traits_for_type(
-            &self.path
-              .components()
-              .next_back()
-              .unwrap()
-              .as_os_str()
-              .to_string_lossy()
-              .to_string(),
-            &self.path
-          );
-          res = format!("{}{}", v.get_color_for_type(), res);
-          continue;
-        }
-        res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(), res);
-      }
-  
-        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
-  
-      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {} {}]",
-       res, self.size, self.user, self.perms, time,
-        green = termion::color::Fg(termion::color::LightGreen),
-        yellow = termion::color::Fg(termion::color::Yellow),
-        padding = getPaddingString(self.padding)
-      );
-
-    }
-  }
-
-impl File {
-    fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8) -> Self {
-      Self {
-        group:     services::group(file.to_path_buf()),
-        user:      services::user(file.to_path_buf()),
-        modified:  services::file_times::modified(file.to_path_buf(), time_format.to_owned()),
-        created:   services::file_times::created(file.to_path_buf(), time_format),
-        size:      services::size::size(file.to_path_buf()),
-        perms:     services::perms::perms(file.to_path_buf()),
-        file_type: PathType::new(&file).unwrap(),
-        path: file,
-        padding: padding_amount
-      }
-    }
-  }
 
 
 /// Search for a pattern in a file and display the lines that contain it.
@@ -223,21 +126,20 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
 
         // metadata.is_file
         if metadata.is_file(){
-            let coolFile = File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
+            let coolFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
             print!("{:?}", coolFile);
 
 
             // println!("{value}", value=padValues(formattedFilePath.to_string(), initialAmount - amount));
 
         }else if metadata.is_dir(){
-            let dirFile = File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
+            let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
             print!("{:?}", dirFile);
             return readdirLoop(entry.path(), amount - 1, initialAmount);
         }
     }
 
     Ok(())
-
 }
 
 
