@@ -1,24 +1,18 @@
 use structopt::StructOpt;
-use anyhow::{Context, Result};
 use std::{env, fs};
-use  std::fs::metadata;
 mod input;
-mod decorators;
 mod protocols;
-mod services;
-use std::os::unix::fs::{FileTypeExt, MetadataExt};
-use std::path::{Path, PathBuf};
-// use structopt::StructOpt;
-use std::cmp::Ordering;
+use std::path::{PathBuf};
 
 fn main() -> Result<()>{
     let current_dir = env::current_dir()?;
-    let var = readdirLoop(current_dir, 3, 3);
+    readdirLoop(current_dir, 10, 10);
     Ok(())
 }
 
 fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
     if amount == 0 {
+        println!("done!!!");
         return Ok(());
     }
 
@@ -40,7 +34,8 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
         }
     }
 
-    Ok(())
+    // println!("here");
+    // Ok(())
 }
 
 

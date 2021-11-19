@@ -42,7 +42,7 @@ impl File {
         }
 
         if self.padding > 0{
-            newString.push_str("⎿_");
+            newString.push_str("⎿__");
         }
         
         return newString;

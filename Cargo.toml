@@ -1,12 +1,12 @@
 [package]
 name = "ctv"
 version = "0.1.0"
+authors = ["Angelina Tsuboi <angelina.t1832@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0"
 chrono = "0.4.19"
 filetime = "0.2.14"
 humansize = "1.1.1"
