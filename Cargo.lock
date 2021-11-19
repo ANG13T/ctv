@@ -75,6 +75,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctv"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "filetime",
+ "humansize",
+ "libc",
+ "pretty-bytes",
+ "structopt",
+ "termion",
+ "users",
+]
+
+[[package]]
 name = "filetime"
 version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -93,21 +108,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
 dependencies = [
  "unicode-width",
-]
-
-[[package]]
-name = "grrs"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "filetime",
- "humansize",
- "libc",
- "pretty-bytes",
- "structopt",
- "termion",
- "users",
 ]
 
 [[package]]

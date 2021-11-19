@@ -11,15 +11,6 @@ use std::path::{Path, PathBuf};
 // use structopt::StructOpt;
 use std::cmp::Ordering;
 
-
-
-/// Search for a pattern in a file and display the lines that contain it.
-#[derive(StructOpt)]
-struct Cli {
-    path: std::path::PathBuf,
-}
-
-// using Context from anyhow library to provide context for error messages.  it also keeps the original error, so we get a “chain” of error messages pointing out the root cause.
 fn main() -> Result<()>{
     let current_dir = env::current_dir()?;
     let var = readdirLoop(current_dir, 3, 3);
