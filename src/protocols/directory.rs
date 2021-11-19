@@ -1,4 +1,5 @@
-
+use crate::input;
+use crate::protocols::{File};
 
 pub struct Directory {
     paths: Vec<File>,
