@@ -1,4 +1,5 @@
 use crate::*;
+use crate::decorators;
 
 #[test]
 fn test_bold() {

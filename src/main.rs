@@ -1,16 +1,17 @@
 use structopt::StructOpt;
 use std::{env, fs};
 mod input;
+use std::error::Error;
 mod protocols;
 use std::path::{PathBuf};
 
-fn main() -> Result<()>{
+fn main() -> Result<(), Box<dyn Error>>{
     let current_dir = env::current_dir()?;
     readdirLoop(current_dir, 10, 10);
     Ok(())
 }
 
-fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
+fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dyn Error>>{
     if amount == 0 {
         println!("done!!!");
         return Ok(());
@@ -35,7 +36,7 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<()>{
     }
 
     // println!("here");
-    // Ok(())
+    Ok(())
 }
 
 
