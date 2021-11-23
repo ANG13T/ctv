@@ -33,13 +33,19 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
         }else if metadata.is_dir(){
             let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount);
             print!("{:?}", dirFile);
-            return readdirLoop(entry.path(), amount - 1, initialAmount);
+            readdirLoop(entry.path(), amount - 1, initialAmount);
         }
     }
 
-    // println!("here");
+    println!("here");
     Ok(())
 }
+
+// fn readdir_while_loop(dir: PathBuf){
+//     let mut dirPath = dir;
+
+//     for entry in fs::read_dir(dirPath)? {
+// }
 
 
 #[cfg(test)]
