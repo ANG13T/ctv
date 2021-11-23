@@ -3,6 +3,8 @@ use std::{env, fs};
 mod input;
 use std::error::Error;
 mod protocols;
+mod decorators;
+mod services;
 use std::path::{PathBuf};
 
 fn main() -> Result<(), Box<dyn Error>>{
