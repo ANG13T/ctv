@@ -41,11 +41,6 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
     Ok(())
 }
 
-// fn readdir_while_loop(dir: PathBuf){
-//     let mut dirPath = dir;
-
-//     for entry in fs::read_dir(dirPath)? {
-// }
 
 
 #[cfg(test)]
