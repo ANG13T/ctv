@@ -14,11 +14,6 @@ fn main() -> Result<(), Box<dyn Error>>{
 }
 
 fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dyn Error>>{
-    if amount == 0 {
-        println!("done!!!");
-        return Ok(());
-    }
-
     for entry in fs::read_dir(dir)? {
         let entry = entry?;
         let path = entry.path();
@@ -31,13 +26,13 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
             print!("{:?}", coolFile);
 
         }else if metadata.is_dir(){
-            let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount, true);
-            print!("{:?}", dirFile);
-            readdirLoop(entry.path(), amount - 1, initialAmount);
+            if amount > 0 {
+                let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount, true);
+                print!("{:?}", dirFile);
+                readdirLoop(entry.path(), amount - 1, initialAmount);
+            }
         }
     }
-
-    println!("here");
     Ok(())
 }
 
