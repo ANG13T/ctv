@@ -1,5 +1,6 @@
 use crate::services;
 use crate::input;
+use std::{env, fs};
 use crate::protocols::{PathType};
 use structopt::StructOpt;
 
@@ -13,11 +14,12 @@ pub struct File {
   created:   String,
   size:      String,
   perms:     String,
-  padding: i8
+  padding: i8,
+  isDir: bool
 }
 
 impl File {
-    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8, directory: bool) -> Self {
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
@@ -27,7 +29,8 @@ impl File {
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
         path: file,
-        padding: padding_amount
+        padding: padding_amount,
+        isDir: directory
       }
     }
 
@@ -103,9 +106,10 @@ impl File {
       }
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+
   
       return writeln!(f, "{padding}{} [{green}{} {yellow}{} {} {}]",
-       res, self.size, self.user, self.perms, time,
+       res, self.size, self.user, self.perms, self.modified,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
         padding = self.getPaddingString()
