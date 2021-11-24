@@ -107,9 +107,11 @@ impl File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
+        let fileNum = if self.isDir {fs::read_dir(&self.path).unwrap().count().to_string() + " files"} else {" ".to_string()};
+
   
-      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {} {}]",
-       res, self.size, self.user, self.perms, self.modified,
+      return writeln!(f, "{padding}{} [{green}{} {yellow}{} {}] {}",
+       res, self.size, self.user, self.perms, fileNum,
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow),
         padding = self.getPaddingString()
