@@ -37,6 +37,5 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
 }
 
 
-
 #[cfg(test)]
 mod test_suite;
