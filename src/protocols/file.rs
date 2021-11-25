@@ -15,11 +15,12 @@ pub struct File {
   size:      String,
   perms:     String,
   padding: i8,
-  isDir: bool
+  isDir: bool,
+  last: bool
 }
 
 impl File {
-    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8, directory: bool) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8, directory: bool, isLast: bool) -> Self {
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
@@ -30,7 +31,8 @@ impl File {
         file_type: PathType::new(&file).unwrap(),
         path: file,
         padding: padding_amount,
-        isDir: directory
+        isDir: directory,
+        last: isLast
       }
     }
 
@@ -109,7 +111,7 @@ impl File {
 
         let fileNum = if self.isDir {fs::read_dir(&self.path).unwrap().count().to_string() + " files"} else {" ".to_string()};
 
-        let symbol = if self.isDir {"> "} else {"o "};
+        let symbol = if self.isDir {"> "} else {"└── "};
 
   
       return writeln!(f, "{padding}{symbol}{} [{green}{} {yellow}{} {}] {}",

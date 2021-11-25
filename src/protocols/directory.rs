@@ -20,7 +20,7 @@ impl Directory {
       }
   
       if !std::path::Path::new(&dir).is_dir() {
-        let f = File::new(dir.to_owned(), args.time_format, 0, false);
+        let f = File::new(dir.to_owned(), args.time_format, 0, false, false);
         match args.long {
           true => print!("{:?}", f),
           _ => print!("{}", f)
@@ -30,7 +30,7 @@ impl Directory {
   
       let paths = std::fs::read_dir(dir)?
           .map(|res| res.map(|e| File::new(
-            e.path(), args.time_format.to_owned(), 0, true
+            e.path(), args.time_format.to_owned(), 0, true, false
               )
             )
           )
