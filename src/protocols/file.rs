@@ -13,14 +13,11 @@ pub struct File {
   modified:  String,
   created:   String,
   size:      String,
-  perms:     String,
-  padding: i8,
-  isDir: bool,
-  last: bool
+  perms:     String
 }
 
 impl File {
-    pub fn new(file: std::path::PathBuf, time_format: String, padding_amount: i8, directory: bool, isLast: bool) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: String) -> Self {
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
@@ -29,29 +26,26 @@ impl File {
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
-        path: file,
-        padding: padding_amount,
-        isDir: directory,
-        last: isLast
+        path: file
       }
     }
 
-    fn getPaddingString(&self) -> String {
-        let mut newString = "".to_owned();
-        if self.padding == 0{
-          newString = "".to_owned();
-        }
-        let pad = " ".to_owned();
-        for i in 0..self.padding {
-          newString.push_str(&pad);
-        }
+    // fn getPaddingString(&self) -> String {
+    //     let mut newString = "".to_owned();
+    //     if self.padding == 0{
+    //       newString = "".to_owned();
+    //     }
+    //     let pad = " ".to_owned();
+    //     for i in 0..self.padding {
+    //       newString.push_str(&pad);
+    //     }
 
-        if self.padding > 0{
-            newString.push_str("  ");
-        }
+    //     if self.padding > 0{
+    //         newString.push_str("  ");
+    //     }
         
-        return newString;
-    }
+    //     return newString;
+    // }
   }
 
   impl std::fmt::Display for File {
@@ -109,19 +103,11 @@ impl File {
   
         let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
-        let fileNum = if self.isDir {fs::read_dir(&self.path).unwrap().count().to_string() + " files"} else {" ".to_string()};
-
-        let sideSymbol = if self.last {"└──"} else {"├──"};
-
-        let symbol = if self.isDir {"> "} else {sideSymbol};
-
   
-      return writeln!(f, "{padding}{symbol}{} [{green}{} {yellow}{} {}] {}",
-       res, self.size, self.user, self.perms, fileNum,
+      return writeln!(f, "{} [{green}{} {yellow}{} {}]",
+       res, self.size, self.user, self.perms,
         green = termion::color::Fg(termion::color::LightGreen),
-        yellow = termion::color::Fg(termion::color::Yellow),
-        padding = self.getPaddingString(),
-        symbol = symbol
+        yellow = termion::color::Fg(termion::color::Yellow)
       );
 
     }
