@@ -25,12 +25,12 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
         let last_modified = metadata.modified()?.elapsed()?.as_secs();
 
         if metadata.is_file(){
-            let coolFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount, false, isLast);
+            let coolFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string());
             print!("{:?}", coolFile);
 
         }else if metadata.is_dir(){
             if amount > 0 {
-                let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string(), initialAmount - amount, true, isLast);
+                let dirFile = protocols::File::new(entry.path(), input::Cli::from_args().created_time.to_string());
                 print!("{:?}", dirFile);
                 readdirLoop(entry.path(), amount - 1, initialAmount);
             }

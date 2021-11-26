@@ -30,6 +30,37 @@ impl File {
       }
     }
 
+    pub fn displayFormat(&self) -> String {
+      let mut res = String::new();
+      for (i, v) in self.file_type.iter().enumerate() {
+        if i == 0 {
+          res = v.get_text_traits_for_type(
+            &self.path
+              .components()
+              .next_back()
+              .unwrap()
+              .as_os_str()
+              .to_string_lossy()
+              .to_string(),
+            &self.path
+          );
+          res = format!("{}{}", v.get_color_for_type(), res);
+          continue;
+        }
+        res = v.get_text_traits_for_type(&res, &self.path);
+        res = format!("{}{}", v.get_color_for_type(), res);
+      }
+  
+        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+
+  
+      return format!("{} [{green}{} {yellow}{} {}]",
+       res, self.size, self.user, self.perms,
+        green = termion::color::Fg(termion::color::LightGreen),
+        yellow = termion::color::Fg(termion::color::Yellow)
+      );
+    }
+
     // fn getPaddingString(&self) -> String {
     //     let mut newString = "".to_owned();
     //     if self.padding == 0{

@@ -33,8 +33,8 @@ impl TreeGenerator {
     }
     fn tree_head(&self) {
         let dirFile = protocols::File::new(self.root_dir, input::Cli::from_args().created_time.to_string());
-        self.tree.append(self.root_dir.);
-        self.tree.append(self.PIPE);
+        self.tree.push(dirFile.displayFormat());
+        self.tree.push(self.PIPE);
     }
     fn tree_body(&self, directory: PathBuf, prefix: String) {
         
