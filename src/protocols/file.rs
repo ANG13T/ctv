@@ -111,7 +111,9 @@ impl File {
 
         let fileNum = if self.isDir {fs::read_dir(&self.path).unwrap().count().to_string() + " files"} else {" ".to_string()};
 
-        let symbol = if self.isDir {"> "} else {"└── "};
+        let sideSymbol = if self.last {"└──"} else {"├──"}
+
+        let symbol = if self.isDir {"> "} else {sideSymbol};
 
   
       return writeln!(f, "{padding}{symbol}{} [{green}{} {yellow}{} {}] {}",
