@@ -1,5 +1,7 @@
+extern crate dotenv;
+use dotenv::dotenv;
 use structopt::StructOpt;
-use std::{env, fs};
+use std::env;
 mod input;
 use std::error::Error;
 mod protocols;
@@ -7,7 +9,13 @@ mod decorators;
 mod services;
 use std::path::{PathBuf};
 
+
 fn main() -> Result<(), Box<dyn Error>>{
+    dotenv().ok();
+
+    for (key, val) in env::vars() {
+        println!("{}: {}", key, val);
+    }
     let current_dir = env::current_dir()?;
     // readdirLoop(current_dir, 2, 2);
     let out_dir = env::var("PIPE").unwrap();
