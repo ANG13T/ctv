@@ -14,13 +14,9 @@ fn main() -> Result<(), Box<dyn Error>>{
 }
 
 fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dyn Error>>{
-    let fileReading = &fs::read_dir(dir);
-    let fileCount = fileReading.unwrap().count() - 1;
-    let mut count = 0;
-    for entry in fileReading? {
+    for entry in fs::read_dir(dir)? {
         let entry = entry?;
         let path = entry.path();
-        let isLast = fileCount == count;
 
         let metadata = fs::metadata(&path)?;
         let last_modified = metadata.modified()?.elapsed()?.as_secs();
@@ -37,7 +33,6 @@ fn readdirLoop(dir: PathBuf, amount: i8, initialAmount: i8) -> Result<(), Box<dy
             }
         }
 
-        count += 1;
     }
     Ok(())
 }
