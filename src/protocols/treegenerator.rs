@@ -51,18 +51,18 @@ impl TreeGenerator {
     }
 
     fn add_directory(&self, directory: PathBuf, index: i32, entries_count: i32, prefix: String, connector: String) {
-        self.tree.push(format!("{prefix}{connector} {directory.name}{os.sep}"))
+        self.tree.push(format!("{prefix}{connector} {directory.name}{os.sep}"));
         if index != entries_count - 1 {
-            prefix += PIPE_PREFIX
+            prefix += &self.PIPE_PREFIX;
+        }else {
+            prefix += &self.SPACE_PREFIX;
         }
             
-        else:
-            prefix += SPACE_PREFIX
-        self._tree_body(
-            directory=directory,
-            prefix=prefix,
-        )
-        self._tree.append(prefix.rstrip())
+        self.tree_body(
+            directory,
+            prefix
+        );
+        self.tree.push(prefix.rstrip())
     }
 
     fn add_file(&self, file: protocols::File, prefix: String, connector: String) {
