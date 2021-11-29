@@ -37,17 +37,28 @@ impl TreeGenerator {
         self.tree.push(self.PIPE);
     }
     fn tree_body(&self, directory: PathBuf, prefix: String) {
-        let mut entries = directory.iterdir()
-        entries = sorted(entries, key=lambda entry: entry.is_file())
-        entries_count = len(entries)
-        for index, entry in enumerate(entries):
-            connector = ELBOW if index == entries_count - 1 else TEE
-            if entry.is_dir():
-                self._add_directory(
-                    entry, index, entries_count, prefix, connector
-                )
-            else:
-                self._add_file(entry, prefix, connector)
+
+        // let mut entries = directory.iterdir();
+
+        for fn int IterDir::new(directory) {
+            // do something with file
+
+        }
+
+        // entries = sorted(entries, key=lambda entry: entry.is_file());
+        // entries_count = len(entries)
+
+        // for index, entry in enumerate(entries):
+        //     connector = ELBOW if index == entries_count - 1 else TEE;
+
+        //     if entry.is_dir() {
+        //         self._add_directory(
+        //             entry, index, entries_count, prefix, connector
+        //         )
+        //     }else {
+        //         self._add_file(entry, prefix, connector)
+        //     }
+                
     }
 
     fn add_directory(&self, directory: PathBuf, index: i32, entries_count: i32, prefix: String, connector: String) {
@@ -62,7 +73,7 @@ impl TreeGenerator {
             directory,
             prefix
         );
-        self.tree.push(prefix.rstrip())
+        self.tree.push(prefix.trim_right().to_string());
     }
 
     fn add_file(&self, file: protocols::File, prefix: String, connector: String) {
