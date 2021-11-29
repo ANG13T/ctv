@@ -33,7 +33,8 @@ impl TreeGenerator {
         self.tree_body(self.root_dir.clone(), "".to_string());
         return self.tree.clone();
     }
-    fn sort_dir_first(directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>>{
+
+    fn sort_dir_first(&self, directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>>{
         let mut dirVec: Vec<fs::DirEntry> = Vec::new();
         let mut fileVec: Vec<fs::DirEntry> = Vec::new(); 
         for entry in fs::read_dir(directory)? {
@@ -50,7 +51,7 @@ impl TreeGenerator {
         }
 
         dirVec.append(&mut fileVec);
-        Ok((dirVec))
+        Ok(dirVec)
     }
 
     fn tree_head(&self) {
@@ -60,7 +61,8 @@ impl TreeGenerator {
     }
     fn tree_body(&self, directory: PathBuf, prefix: String) {
 
-        let entries = TreeGenerator::sort_dir_first(directory);
+        let entries = self.sort_dir_first(directory);
+        
         
 
         // for index, entry in enumerate(entries):
