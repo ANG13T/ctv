@@ -62,7 +62,9 @@ impl TreeGenerator {
     }
 
     fn add_directory(&self, directory: PathBuf, index: i32, entries_count: i32, prefix: String, connector: String) {
-        self.tree.push(format!("{prefix}{connector} {directory.name}{os.sep}"));
+        let newFile = protocols::File::new(directory, input::Cli::from_args().created_time.to_string());
+        let fileName = newFile.getName();
+        self.tree.push(format!("{}{} {}", prefix, connector, fileName));
         if index != entries_count - 1 {
             prefix += &self.PIPE_PREFIX;
         }else {
