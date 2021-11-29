@@ -1,9 +1,11 @@
 extern crate dotenv;
 use dotenv::dotenv;
-use std::env;
+use std::{fs, env};
 use structopt::StructOpt;
 use std::path::{PathBuf};
+use std::error::Error;
 use crate::protocols;
+use walkdir::WalkDir;
 use crate::input;
 
 pub struct TreeGenerator {
@@ -31,6 +33,26 @@ impl TreeGenerator {
         self.tree_body(self.root_dir.clone(), "".to_string());
         return self.tree.clone();
     }
+    fn sort_dir_first(directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>>{
+        let mut dirVec: Vec<fs::DirEntry> = Vec::new();
+        let mut fileVec: Vec<fs::DirEntry> = Vec::new(); 
+        for entry in fs::read_dir(directory)? {
+            let entry = entry?;
+            let path = entry.path();
+    
+            let metadata = fs::metadata(&path)?;
+    
+            if metadata.is_file(){
+                fileVec.push(entry);
+            }else if metadata.is_dir(){
+                dirVec.push(entry);
+            }
+        }
+
+        dirVec.append(&mut fileVec);
+        Ok((dirVec))
+    }
+
     fn tree_head(&self) {
         let dirFile = protocols::File::new(self.root_dir, input::Cli::from_args().created_time.to_string());
         self.tree.push(dirFile.displayFormat());
@@ -38,15 +60,8 @@ impl TreeGenerator {
     }
     fn tree_body(&self, directory: PathBuf, prefix: String) {
 
-        // let mut entries = directory.iterdir();
-
-        for fn int IterDir::new(directory) {
-            // do something with file
-
-        }
-
-        // entries = sorted(entries, key=lambda entry: entry.is_file());
-        // entries_count = len(entries)
+        let entries = TreeGenerator::sort_dir_first(directory);
+        
 
         // for index, entry in enumerate(entries):
         //     connector = ELBOW if index == entries_count - 1 else TEE;
