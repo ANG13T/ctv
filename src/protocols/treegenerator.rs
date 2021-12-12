@@ -5,9 +5,9 @@ use structopt::StructOpt;
 use std::path::{PathBuf};
 use std::error::Error;
 use crate::protocols;
-use walkdir::WalkDir;
 use crate::input;
 
+#[derive(Clone, Copy)]
 pub struct TreeGenerator {
     root_dir: PathBuf,
     tree: Vec<String>,
@@ -51,7 +51,7 @@ impl TreeGenerator {
         }
 
         dirVec.append(&mut fileVec);
-        Ok((dirVec))
+        Ok(dirVec)
     }
 
     fn tree_head(&mut self) {
@@ -59,26 +59,35 @@ impl TreeGenerator {
         self.tree.push(dirFile.displayFormat());
         self.tree.push(self.PIPE.clone());
     }
+
     fn tree_body(&self, directory: PathBuf, prefix: String) {
 
-        let entries = self.sort_dir_first(directory);
-        
+        let entries = self.sort_dir_first(directory).unwrap();
+        let entries_count = entries.len();
         
 
-        // for index, entry in enumerate(entries):
-        //     connector = ELBOW if index == entries_count - 1 else TEE;
+        for (index, entry) in entries.iter().enumerate(){
+            let mut connector;
+            if index == entries_count - 1 {
+                connector = self.ELBOW;
+            }else{
+                connector = self.TEE;
+            }
 
-        //     if entry.is_dir() {
-        //         self._add_directory(
-        //             entry, entry, index, entries_count, prefix, prefix, connector
-        //         )
-        //     }else {
-        //         self._add_file(entry, prefix, connector)
-        //     }
+            let metadata = fs::metadata(entry.path()).unwrap();
+
+            if metadata.is_dir() {
+                self.add_directory(
+                    entry.path(), entry.path(), index, entries_count, prefix, prefix, connector
+                )
+            }else {
+                self.add_file(entry.path(), prefix, connector)
+            }
+        }
                 
     }
 
-    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: i32, entries_count: i32, mut prefix: String, prefix2: String, connector: String) {
+    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
         let newFile = protocols::File::new(directory, input::Cli::from_args().created_time.to_string());
         let fileName = newFile.getName();
         self.tree.push(format!("{}{} {}", prefix, connector, fileName));
@@ -92,11 +101,12 @@ impl TreeGenerator {
             directory2,
             prefix
         );
-        self.tree.push(prefix2.trim_right().to_string());
+        self.tree.push(prefix2.trim_end().to_string());
     }
 
-    fn add_file(&mut self, file: protocols::File, prefix: String, connector: String) {
-        let fileName: String = file.getName();
+    fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
+        let newFile = protocols::File::new(file, input::Cli::from_args().created_time.to_string());
+        let fileName: String = newFile.getName();
         self.tree.push(format!("{}{} {}", prefix, connector, fileName));
     }
 }
