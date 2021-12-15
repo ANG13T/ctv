@@ -30,7 +30,7 @@ impl TreeGenerator {
     }
     fn build_tree(&mut self) -> Vec<String>{
         self.tree_head();
-        self.tree_body(self.root_dir.clone(), "".to_string());
+        self.tree_body(self.root_dir.clone(), &"".to_string());
         return self.tree.clone();
     }
 
@@ -60,7 +60,7 @@ impl TreeGenerator {
         self.tree.push(self.PIPE.clone());
     }
 
-    fn tree_body(&self, directory: PathBuf, prefix: String) {
+    fn tree_body(&mut self, directory: PathBuf, prefix: &String) {
 
         let entries = self.sort_dir_first(directory).unwrap();
         let entries_count = entries.len();
@@ -78,10 +78,10 @@ impl TreeGenerator {
 
             if metadata.is_dir() {
                 self.add_directory(
-                    entry.path(), entry.path(), index, entries_count, prefix, prefix, connector.to_string()
+                    entry.path(), entry.path(), index, entries_count, prefix.to_string(), prefix.to_string(), connector.to_string()
                 )
             }else {
-                self.add_file(entry.path(), prefix, connector.to_string())
+                self.add_file(entry.path(), prefix.to_string(), connector.to_string())
             }
         }
                 
@@ -99,7 +99,7 @@ impl TreeGenerator {
             
         self.tree_body(
             directory2,
-            prefix
+            &prefix.to_string()
         );
         self.tree.push(prefix2.trim_end().to_string());
     }
