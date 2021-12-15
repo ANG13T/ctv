@@ -35,8 +35,8 @@ impl TreeGenerator {
     }
 
     fn sort_dir_first(&self, directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>>{
-        let mut dirVec: Vec<fs::DirEntry> = Vec::new();
-        let mut fileVec: Vec<fs::DirEntry> = Vec::new(); 
+        let mut dir_vec: Vec<fs::DirEntry> = Vec::new();
+        let mut file_vec: Vec<fs::DirEntry> = Vec::new(); 
         for entry in fs::read_dir(directory)? {
             let entry = entry?;
             let path = entry.path();
@@ -44,19 +44,19 @@ impl TreeGenerator {
             let metadata = fs::metadata(&path)?;
     
             if metadata.is_file(){
-                fileVec.push(entry);
+                file_vec.push(entry);
             }else if metadata.is_dir(){
-                dirVec.push(entry);
+                dir_vec.push(entry);
             }
         }
 
-        dirVec.append(&mut fileVec);
-        Ok(dirVec)
+        dir_vec.append(&mut file_vec);
+        Ok(dir_vec)
     }
 
     fn tree_head(&mut self) {
-        let dirFile = protocols::File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
-        self.tree.push(dirFile.displayFormat());
+        let dir_file = protocols::File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
+        self.tree.push(dir_file.display_format());
         self.tree.push(self.pipe.clone());
     }
 
@@ -67,7 +67,7 @@ impl TreeGenerator {
         
 
         for (index, entry) in entries.iter().enumerate(){
-            let mut connector;
+            let connector;
             if index == entries_count - 1 {
                 connector = &self.elbow;
             }else{
@@ -88,9 +88,9 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
-        let newFile = protocols::File::new(directory, input::Cli::from_args().created_time.to_string());
-        let fileName = newFile.getName();
-        self.tree.push(format!("{}{} {}", prefix, connector, fileName));
+        let new_file = protocols::File::new(directory, input::Cli::from_args().created_time.to_string());
+        let file_name = new_file.getName();
+        self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
             prefix += &self.pipe_prefix;
         }else {
@@ -105,8 +105,8 @@ impl TreeGenerator {
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
-        let newFile = protocols::File::new(file, input::Cli::from_args().created_time.to_string());
-        let fileName: String = newFile.getName();
-        self.tree.push(format!("{}{} {}", prefix, connector, fileName));
+        let new_file = protocols::File::new(file, input::Cli::from_args().created_time.to_string());
+        let file_name: String = new_file.getName();
+        self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }
 }
