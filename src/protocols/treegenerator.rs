@@ -11,22 +11,22 @@ use crate::input;
 pub struct TreeGenerator {
     root_dir: PathBuf,
     tree: Vec<String>,
-    PIPE: String,
-    ELBOW: String, 
-    TEE: String,
-    PIPE_PREFIX: String,
-    SPACE_PREFIX: String
+    pipe: String,
+    elbow: String, 
+    tee: String,
+    pipe_prefix: String,
+    space_prefix: String
 }
 
 impl TreeGenerator {
     fn init(&mut self, root_dir: PathBuf) {
         dotenv().ok();
         self.tree = Vec::new();
-        self.PIPE = env::var("PIPE").unwrap();
-        self.ELBOW = env::var("ELBOW").unwrap();
-        self.TEE = env::var("TEE").unwrap();
-        self.PIPE_PREFIX = env::var("PIPE_PREFIX").unwrap();
-        self.SPACE_PREFIX = env::var("SPACE_PREFIX").unwrap();
+        self.pipe = env::var("PIPE").unwrap();
+        self.elbow = env::var("ELBOW").unwrap();
+        self.tee = env::var("TEE").unwrap();
+        self.pipe_prefix = env::var("PIPE_PREFIX").unwrap();
+        self.space_prefix = env::var("SPACE_PREFIX").unwrap();
     }
     fn build_tree(&mut self) -> Vec<String>{
         self.tree_head();
@@ -57,7 +57,7 @@ impl TreeGenerator {
     fn tree_head(&mut self) {
         let dirFile = protocols::File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
         self.tree.push(dirFile.displayFormat());
-        self.tree.push(self.PIPE.clone());
+        self.tree.push(self.pipe.clone());
     }
 
     fn tree_body(&mut self, directory: PathBuf, prefix: &String) {
@@ -69,9 +69,9 @@ impl TreeGenerator {
         for (index, entry) in entries.iter().enumerate(){
             let mut connector;
             if index == entries_count - 1 {
-                connector = &self.ELBOW;
+                connector = &self.elbow;
             }else{
-                connector = &self.TEE;
+                connector = &self.tee;
             }
 
             let metadata = fs::metadata(entry.path()).unwrap();
@@ -92,9 +92,9 @@ impl TreeGenerator {
         let fileName = newFile.getName();
         self.tree.push(format!("{}{} {}", prefix, connector, fileName));
         if index != entries_count - 1 {
-            prefix += &self.PIPE_PREFIX;
+            prefix += &self.pipe_prefix;
         }else {
-            prefix += &self.SPACE_PREFIX;
+            prefix += &self.space_prefix;
         }
             
         self.tree_body(
