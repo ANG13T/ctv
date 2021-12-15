@@ -7,7 +7,7 @@ use std::error::Error;
 use crate::protocols;
 use crate::input;
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct TreeGenerator {
     root_dir: PathBuf,
     tree: Vec<String>,
@@ -69,19 +69,19 @@ impl TreeGenerator {
         for (index, entry) in entries.iter().enumerate(){
             let mut connector;
             if index == entries_count - 1 {
-                connector = self.ELBOW;
+                connector = &self.ELBOW;
             }else{
-                connector = self.TEE;
+                connector = &self.TEE;
             }
 
             let metadata = fs::metadata(entry.path()).unwrap();
 
             if metadata.is_dir() {
                 self.add_directory(
-                    entry.path(), entry.path(), index, entries_count, prefix, prefix, connector
+                    entry.path(), entry.path(), index, entries_count, prefix, prefix, connector.to_string()
                 )
             }else {
-                self.add_file(entry.path(), prefix, connector)
+                self.add_file(entry.path(), prefix, connector.to_string())
             }
         }
                 
