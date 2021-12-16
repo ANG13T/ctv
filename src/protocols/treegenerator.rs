@@ -28,7 +28,7 @@ impl TreeGenerator {
         self.pipe_prefix = env::var("PIPE_PREFIX").unwrap();
         self.space_prefix = env::var("SPACE_PREFIX").unwrap();
     }
-    fn build_tree(&mut self) -> Vec<String>{
+    pub fn build_tree(&mut self) -> Vec<String>{
         self.tree_head();
         self.tree_body(self.root_dir.clone(), &"".to_string());
         return self.tree.clone();

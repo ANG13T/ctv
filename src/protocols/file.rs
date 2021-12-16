@@ -30,7 +30,7 @@ impl File {
       }
     }
 
-    pub fn displayFormat(&self) -> String {
+    pub fn display_format(&self) -> String {
       let mut res = String::new();
       for (i, v) in self.file_type.iter().enumerate() {
         if i == 0 {

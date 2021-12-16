@@ -1,3 +1,5 @@
+use std::path::{Path, PathBuf};
+use crate::protocols::{TreeGenerator};
 
 #[derive(Clone)]
 pub struct DirTree {
@@ -6,14 +8,14 @@ pub struct DirTree {
 }
 
 impl DirTree { 
-    fn init(root_dir: PathBuf){
+    pub fn init(root_dir: PathBuf){
         self.tree_gen = TreeGenerator::new(root_dir);
     }
 
-    fn gen(self){
+    pub fn gen(self){
         self.tree = self.tree_gen.build_tree();
         for entry in self.tree {
-            println!(entry);
+            println!("{}", entry);
         }
     }
 }
