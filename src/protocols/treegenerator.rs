@@ -92,7 +92,7 @@ impl TreeGenerator {
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
         let new_file = File::new(directory, input::Cli::from_args().created_time.to_string());
-        let file_name = new_file.getName();
+        let file_name = new_file.get_name();
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
             prefix += &self.pipe_prefix;
@@ -109,7 +109,7 @@ impl TreeGenerator {
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
         let new_file = File::new(file, input::Cli::from_args().created_time.to_string());
-        let file_name: String = new_file.getName();
+        let file_name: String = new_file.get_name();
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }
 }

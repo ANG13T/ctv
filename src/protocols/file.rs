@@ -1,8 +1,7 @@
 use crate::services;
-use crate::input;
-use std::{env, fs};
+// use crate::input;
 use crate::protocols::{PathType};
-use structopt::StructOpt;
+// use structopt::StructOpt;
 
 #[derive(Clone)]
 pub struct File {
@@ -50,8 +49,9 @@ impl File {
         res = v.get_text_traits_for_type(&res, &self.path);
         res = format!("{}{}", v.get_color_for_type(), res);
       }
-  
-        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+
+        // TODO: do timing stuff
+        // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
       return format!("{} [{green}{} {yellow}{} {}]",
@@ -61,7 +61,7 @@ impl File {
       );
     }
 
-    pub fn getName(&self) -> String {
+    pub fn get_name(&self) -> String {
       let mut res = String::new();
       for (i, v) in self.file_type.iter().enumerate() {
         if i == 0 {
@@ -137,8 +137,9 @@ impl File {
         res = v.get_text_traits_for_type(&res, &self.path);
         res = format!("{}{}", v.get_color_for_type(), res);
       }
-  
-        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+      
+       // TODO: do timing stuff
+       // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
       return writeln!(f, "{} [{green}{} {yellow}{} {}]",
