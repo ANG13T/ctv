@@ -19,14 +19,16 @@ pub struct TreeGenerator {
 }
 
 impl TreeGenerator {
-    fn init(&mut self, root_dir: PathBuf) {
-        dotenv().ok();
-        self.tree = Vec::new();
-        self.pipe = env::var("PIPE").unwrap();
-        self.elbow = env::var("ELBOW").unwrap();
-        self.tee = env::var("TEE").unwrap();
-        self.pipe_prefix = env::var("PIPE_PREFIX").unwrap();
-        self.space_prefix = env::var("SPACE_PREFIX").unwrap();
+    pub fn init(root_dir: PathBuf) -> Self {
+        Self {
+            tree: Vec::new(),
+            pipe: env::var("PIPE").unwrap(),
+            elbow: env::var("ELBOW").unwrap(),
+            tee: env::var("TEE").unwrap(),
+            pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
+            space_prefix: env::var("SPACE_PREFIX").unwrap(),
+            root_dir: root_dir
+        }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
         self.tree_head();
