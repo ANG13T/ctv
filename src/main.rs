@@ -10,8 +10,8 @@ use std::path::{PathBuf};
 
 fn main() -> Result<(), Box<dyn Error>>{
     let current_dir = env::current_dir()?;
-    protocols::DirTree::init(current_dir);
-    protocols::DirTree::gen();
+    let mut dir_tree = protocols::DirTree::init(current_dir);
+    dir_tree.gen();
     // readdirLoop(current_dir, 2, 2);
     Ok(())
 }
