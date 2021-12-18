@@ -8,8 +8,8 @@ pub struct DirTree {
 }
 
 impl DirTree { 
-    pub fn init(root_dir: PathBuf){
-        self.tree_gen = TreeGenerator::new(root_dir);
+    pub fn init(&self, root_dir: PathBuf){
+        self.tree_gen = TreeGenerator::init(root_dir);
     }
 
     pub fn gen(self){

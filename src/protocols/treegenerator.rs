@@ -4,7 +4,7 @@ use std::{fs, env};
 use structopt::StructOpt;
 use std::path::{PathBuf};
 use std::error::Error;
-use crate::protocols;
+use crate::protocols::{File};
 use crate::input;
 
 #[derive(Clone)]
@@ -20,6 +20,7 @@ pub struct TreeGenerator {
 
 impl TreeGenerator {
     pub fn init(root_dir: PathBuf) -> Self {
+        dotenv().ok();
         Self {
             tree: Vec::new(),
             pipe: env::var("PIPE").unwrap(),
@@ -57,7 +58,7 @@ impl TreeGenerator {
     }
 
     fn tree_head(&mut self) {
-        let dir_file = protocols::File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
+        let dir_file = File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
         self.tree.push(dir_file.display_format());
         self.tree.push(self.pipe.clone());
     }
@@ -90,7 +91,7 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
-        let new_file = protocols::File::new(directory, input::Cli::from_args().created_time.to_string());
+        let new_file = File::new(directory, input::Cli::from_args().created_time.to_string());
         let file_name = new_file.getName();
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
@@ -107,7 +108,7 @@ impl TreeGenerator {
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
-        let new_file = protocols::File::new(file, input::Cli::from_args().created_time.to_string());
+        let new_file = File::new(file, input::Cli::from_args().created_time.to_string());
         let file_name: String = new_file.getName();
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }
