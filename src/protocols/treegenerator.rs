@@ -15,7 +15,9 @@ pub struct TreeGenerator {
     elbow: String, 
     tee: String,
     pipe_prefix: String,
-    space_prefix: String
+    space_prefix: String,
+    show_dir_metadata: String,
+    show_file_metadata: String,
 }
 
 impl TreeGenerator {
@@ -28,7 +30,9 @@ impl TreeGenerator {
             tee: env::var("TEE").unwrap(),
             pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
             space_prefix: env::var("SPACE_PREFIX").unwrap(),
-            root_dir: root_dir
+            root_dir: root_dir,
+            show_dir_metadata: env::var("SHOW_DIR_METADATA").unwrap(),
+            show_file_metadata: env::var("SHOW_FILE_METADATA").unwrap(),
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
@@ -92,7 +96,7 @@ impl TreeGenerator {
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
         let new_file = File::new(directory, input::Cli::from_args().created_time.to_string());
-        let file_name = new_file.get_name();
+        let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
             prefix += &self.pipe_prefix;
@@ -109,7 +113,7 @@ impl TreeGenerator {
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
         let new_file = File::new(file, input::Cli::from_args().created_time.to_string());
-        let file_name: String = new_file.get_name();
+        let file_name: String = if self.show_file_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }
 }
