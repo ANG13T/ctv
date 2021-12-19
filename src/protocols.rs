@@ -4,6 +4,7 @@ pub use self::pathtype::PathType;
 pub use self::treegenerator::TreeGenerator;
 pub use self::dirtree::DirTree;
 pub mod directory;
+pub mod checkenv;
 pub mod file;
 pub mod pathtype;
 pub mod treegenerator;
