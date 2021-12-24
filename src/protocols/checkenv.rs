@@ -6,6 +6,7 @@ pub fn check_env() -> bool {
     let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string()];
     let all_colors = ["BLACK".to_string(), "BLUE".to_string(), "CYAN".to_string(), "GREEN".to_string(), "LIGHTBLACK".to_string(), "LIGHTBLUE".to_string(), "LIGHTCYAN".to_string(), "LIGHTGREEN".to_string(), "LIGHTMAGENTA".to_string(), "LIGHTRED".to_string(), "LIGHTWHITE".to_string(), "LIGHTYELLOW".to_string(), "MAGENTA".to_string(), "RED".to_string(), "WHITE".to_string(), "YELLOW".to_string()];
     let all_styles = ["BOLD".to_string(), "UNDERLINE".to_string(), "DIMMED".to_string(), "ITALIC".to_string(), "BLINK".to_string(), "REVERSE".to_string(), "HIDDEN".to_string(), "STRICKEN".to_string()];
+    let mut used_positions = vec![];
     dotenv().ok();
     for (key, val) in env::vars() {
         if key != "SPACE_PREFIX" && all_var_names.contains(&key) && val.len() == 0 {
@@ -27,6 +28,18 @@ pub fn check_env() -> bool {
             }
         }
 
+        if is_position_path(&key) {
+            let key_int: i32 = key.parse().unwrap();
+            if key_int <= 0 || key_int > 3 {
+                println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be 1, 2, or 3!", val, key);
+                return false;
+            }
+            if used_positions.contains(&key) {
+                println!("ERROR: ENV variable with invalid position. Position {} for variable {} has already been used! Please consider giving it a different position", val, key);
+                return false;
+            }
+            used_positions.push(val);
+        }
 
     }
     true
