@@ -9,7 +9,10 @@
 
 ## Tasks
 - add file # listing
-- get treegenerator class working
 - make test cases for treegenerator
-- check for correct env variables before
+- fix env checker
+- show time for files
+- add customization feature from env
+- add all sorting methods
+- fix treegen
 - manually assign flags and change env variables from CLI
