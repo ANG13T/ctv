@@ -29,7 +29,7 @@ pub fn check_env() -> bool {
         }
 
         if is_position_path(&key) {
-            let key_int: i32 = key.parse().unwrap();
+            let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer in env variable!");
             if key_int <= 0 || key_int > 3 {
                 println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be 1, 2, or 3!", val, key);
                 return false;

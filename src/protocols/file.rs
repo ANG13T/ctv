@@ -70,62 +70,6 @@ impl File {
       );
     }
 
-    fn get_sort_type(sort_t: [bool; 4]) -> DirSortType {
-      for (i, t) in sort_t.iter().enumerate() {
-        if *t {
-          match i {
-            0 => return DirSortType::Name,
-            1 => return DirSortType::Created,
-            2 => return DirSortType::Modified,
-            3 => return DirSortType::Size,
-            _ => (),
-          }
-        }
-      }
-      DirSortType::Not
-    } 
-
-    fn sort_directory_then_path(&mut self) {
-      let new = &self.paths;
-      let mut newer = Vec::new();
-      let mut directories = Vec::new();
-      for (i, f) in new.iter().enumerate() {
-        if f.path.symlink_metadata().unwrap().is_dir() {
-          directories.push(new[i].to_owned());
-        } else {
-          newer.push(new[i].to_owned())
-        }
-      }
-  
-      match get_sort_type([
-        self.args.name,
-        self.args.created,
-        self.args.modified,
-        self.args.size,
-      ]) {
-        DirSortType::Name => {
-          name_sort(&mut directories);
-          name_sort(&mut newer)
-        }
-        DirSortType::Created => {
-          create_sort(&mut directories);
-          create_sort(&mut newer)
-        }
-        DirSortType::Modified => {
-          modified_sort(&mut directories);
-          modified_sort(&mut newer)
-        }
-        DirSortType::Size => {
-          size_sort(&mut directories);
-          size_sort(&mut newer)
-        }
-        DirSortType::Not => (),
-      }
-  
-      directories.append(&mut newer);
-      self.paths = directories;
-    }
-
     pub fn get_name(&self) -> String {
       let mut res = String::new();
       for (i, v) in self.file_type.iter().enumerate() {
