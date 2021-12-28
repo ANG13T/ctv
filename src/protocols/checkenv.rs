@@ -19,6 +19,11 @@ pub fn check_env() -> bool {
                 println!("ERROR: ENV variable with invalid color name. {} for variable {} is not a valid color!", val, key);
                 return false;
             }
+
+            if is_valid_rgb(&val.to_uppercase(), &key) {
+                println!("ERROR: ENV variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key);
+                return false;
+            }
         }
 
         if is_style_path(&key) {
@@ -48,6 +53,22 @@ pub fn check_env() -> bool {
 fn is_color_path(path: &str) -> bool {
     let string_vec: Vec<&str> = path.split("_").collect();
     return string_vec.contains(&"COLOR");
+}
+
+fn is_valid_rgb(color: &str, path: &str) -> bool {
+    let uppercased_no_space: String = color.to_uppercase().replace(" ", "");
+    if &uppercased_no_space[..4] != "RGB(" || &uppercased_no_space[&uppercased_no_space.len()-1..] != ")" {return false};
+    let substring: &str = &uppercased_no_space[4..uppercased_no_space.len()];
+    let split_values: Vec<&str> = substring.split(",").collect();
+    if split_values.len() != 3 { return false };
+    for value in split_values {
+        let rgb_number : i32 = value.parse::<i32>().ok().expect("Invalid RGB number value in env");
+        if rgb_number < 0 || rgb_number > 255 {
+            println!("INVALID RGB number value of {} for {}", rgb_number, path);
+            return false;
+        }
+    }
+    return true;
 }
 
 fn is_style_path(path: &str) -> bool {
