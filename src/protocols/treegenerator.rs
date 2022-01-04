@@ -94,8 +94,7 @@ impl TreeGenerator {
             }else {
                 self.add_file(entry.path(), prefix.to_string(), connector.to_string())
             }
-        }
-                
+        }   
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String) {
@@ -108,11 +107,8 @@ impl TreeGenerator {
             prefix += &self.space_prefix;
         }
             
-        self.tree_body(
-            directory2,
-            &prefix.to_string()
-        );
-        self.tree.push(self.pipe_prefix.to_string()); //"│".to_string() //prefix2.trim_end().to_string()
+        self.tree_body(directory2, &prefix.to_string())
+    
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
