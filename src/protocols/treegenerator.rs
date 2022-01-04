@@ -61,10 +61,14 @@ impl TreeGenerator {
         Ok(dir_vec)
     }
 
+    fn get_dir_item_amount(&self, directory: PathBuf) -> usize {
+        return directory.iter().count();
+    }
+
     fn tree_head(&mut self) {
         let dir_file = File::new(self.root_dir.clone(), input::Cli::from_args().created_time.to_string());
-        self.tree.push(dir_file.display_format());
-        self.tree.push(self.pipe.clone());
+        self.tree.push(dir_file.display_format()); // prints out head dir
+        self.tree.push(self.pipe.clone()); //print pipe under head dir
     }
 
     fn tree_body(&mut self, directory: PathBuf, prefix: &String) {
@@ -75,17 +79,17 @@ impl TreeGenerator {
 
         for (index, entry) in entries.iter().enumerate(){
             let connector;
-            if index == entries_count - 1 {
+            let metadata = fs::metadata(entry.path()).unwrap();
+
+            if index == entries_count - 1 && (!metadata.is_dir() ||  self.get_dir_item_amount(entry.path()) == 0) {
                 connector = &self.elbow;
             }else{
                 connector = &self.tee;
             }
 
-            let metadata = fs::metadata(entry.path()).unwrap();
-
             if metadata.is_dir() {
                 self.add_directory(
-                    entry.path(), entry.path(), index, entries_count, prefix.to_string(), prefix.to_string(), connector.to_string()
+                    entry.path(), entry.path(), index, entries_count, prefix.to_string(), connector.to_string()
                 )
             }else {
                 self.add_file(entry.path(), prefix.to_string(), connector.to_string())
@@ -94,7 +98,7 @@ impl TreeGenerator {
                 
     }
 
-    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, prefix2: String, connector: String) {
+    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String) {
         let new_file = File::new(directory, input::Cli::from_args().created_time.to_string());
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
@@ -108,7 +112,7 @@ impl TreeGenerator {
             directory2,
             &prefix.to_string()
         );
-        self.tree.push(prefix2.trim_end().to_string());
+        self.tree.push(self.pipe_prefix.to_string()); //"│".to_string() //prefix2.trim_end().to_string()
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
