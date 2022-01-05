@@ -28,7 +28,7 @@ pub struct FileStyle {
   file_owner_style: String,
   file_perms_style: String
 }
-
+// TODO: change perms
 impl FileStyle {
   pub fn new(
     size_pos: i32,
@@ -89,6 +89,13 @@ impl File {
         path: file,
         styles: ref_to_file_styles
       }
+    }
+
+    fn get_color_for(typ: &str) {
+      let result = match typ {
+        "FILE_SIZE_COLOR"=> 
+      };
+      return result;
     }
 
     pub fn display_format(&self) -> String {

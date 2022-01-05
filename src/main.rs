@@ -1,4 +1,3 @@
-use std::{env};
 use structopt::StructOpt;
 mod input;
 use std::error::Error;

@@ -1,6 +1,6 @@
 extern crate dotenv;
 use dotenv::dotenv;
-use std::{fs, env};
+use std::{env};
 
 pub fn check_env() -> bool {
     let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string()];
