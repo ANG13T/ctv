@@ -13,7 +13,7 @@ enum DirSortType {
 }
 
 #[derive(Clone)]
-struct FileStyle {
+pub struct FileStyle {
   size_position: i32,
   owner_position: i32,
   perms_position: i32, 
@@ -27,6 +27,39 @@ struct FileStyle {
   file_size_style: String,
   file_owner_style: String,
   file_perms_style: String
+}
+
+impl FileStyle {
+  pub fn new(
+    size_pos: i32,
+    owner_pos: i32,
+    perms_pos: i32, 
+    dir_name_col: String,
+    file_name_col: String,
+    file_size_col: String,
+    file_owner_col: String,
+    file_perms_col: String,
+    dir_name_sty: String,
+    file_name_sty: String,
+    file_size_sty: String,
+    file_owner_sty: String,
+    file_perms_sty: String) -> Self {
+      Self {
+        size_position: size_pos,
+        owner_position: owner_pos,
+        perms_position: perms_pos, 
+        dir_name_color: dir_name_col,
+        file_name_color: file_name_col,
+        file_size_color: file_size_col,
+        file_owner_color: file_owner_col,
+        file_perms_color: file_perms_col,
+        dir_name_style: dir_name_sty,
+        file_name_style: file_name_sty,
+        file_size_style: file_size_sty,
+        file_owner_style: file_owner_sty,
+        file_perms_style: file_perms_sty
+      }
+    }
 }
 
 #[derive(Clone)]
@@ -43,7 +76,8 @@ pub struct File {
 }
 
 impl File {
-    pub fn new(file: std::path::PathBuf, time_format: String) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: String, styles: &FileStyle) -> Self {
+      let ref_to_file_styles: FileStyle = styles.clone();
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
@@ -52,7 +86,8 @@ impl File {
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
-        path: file
+        path: file,
+        styles: ref_to_file_styles
       }
     }
 
