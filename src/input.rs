@@ -21,10 +21,6 @@ pub struct Cli {
   #[structopt(short = "s", long = "size")]
   pub size: bool,
 
-  /// Groups directorys before files
-  #[structopt(short = "g", long = "gdf")]
-  pub gdf: bool,
-
   /// Enables long mode (permissions, size, user, group)
   #[structopt(short = "l", long = "long")]
   pub long: bool,

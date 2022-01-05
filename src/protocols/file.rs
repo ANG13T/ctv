@@ -1,5 +1,6 @@
 use crate::services;
 // use crate::input;
+use crate::decorators;
 use crate::protocols::{PathType};
 // use structopt::StructOpt;
 
@@ -68,6 +69,21 @@ impl File {
         green = termion::color::Fg(termion::color::LightGreen),
         yellow = termion::color::Fg(termion::color::Yellow)
       );
+    }
+
+    pub fn get_styled_text(text: &str, style: &str) -> String{
+      let result = match style{
+        "BOLD"=>decorators::bold(text),
+        "DIMMED"=>decorators::dimmed(text),
+        "ITALIC"=>decorators::italic(text),
+        "UNDERLINE"=> decorators::underline(text),
+        "BLINK"=>decorators::blink(text),
+        "REVERSE"=>decorators::reverse(text),
+        "HIDDEN"=>decorators::hidden(text),
+        "STRICKEN"=>decorators::stricken(text),
+        _=> decorators::bold("INVALID FONT STYLE"),
+        };
+        return result;
     }
 
     pub fn get_name(&self) -> String {
