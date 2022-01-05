@@ -12,6 +12,22 @@ enum DirSortType {
   Not,
 }
 
+#[derive(Clone)]
+struct FileStyle {
+  size_position: i32,
+  owner_position: i32,
+  perms_position: i32, 
+  dir_name_color: String,
+  file_name_color: String,
+  file_size_color: String,
+  file_owner_color: String,
+  file_perms_color: String,
+  dir_name_style: String,
+  file_name_style: String,
+  file_size_style: String,
+  file_owner_style: String,
+  file_perms_style: String
+}
 
 #[derive(Clone)]
 pub struct File {
@@ -22,7 +38,8 @@ pub struct File {
   modified:  String,
   created:   String,
   size:      String,
-  perms:     String
+  perms:     String,
+  styles:    FileStyle
 }
 
 impl File {
