@@ -1,22 +1,22 @@
-pub fn get_color_for_string(value: &str) {
+pub fn colorize_string(value: &str, input: &str) -> String{
     let mod_string = value.to_uppercase().trim();
     let result = match value {
-        "BLACK"=> termion::color::Fg(termion::color::Black),
-        "BLUE"=>  termion::color::Fg(termion::color::Blue),
-        "CYAN"=>  termion::color::Fg(termion::color::Cyan),
-        "GREEN"=> termion::color::Fg(termion::color::Green),
-        "LIGHTBLACK"=> termion::color::Fg(termion::color::LightBlack),
-        "LIGHTBLUE"=>  termion::color::Fg(termion::color::LightBlue),
-        "LIGHTCYAN"=>  termion::color::Fg(termion::color::LightCyan),
-        "LIGHTGREEN"=> termion::color::Fg(termion::color::LightGreen),
-        "LIGHTMAGENTA"=>  termion::color::Fg(termion::color::LightMagenta),
-        "LIGHTRED"=>  termion::color::Fg(termion::color::LightRed),
-        "LIGHTWHITE"=>  termion::color::Fg(termion::color::LightWhite),
-        "LIGHTYELLOW"=>  termion::color::Fg(termion::color::LightYellow),
-        "MAGENTA"=>  termion::color::Fg(termion::color::Magenta),
-        "RED"=>  termion::color::Fg(termion::color::Red),
-        "WHITE"=>  termion::color::Fg(termion::color::White),
-        "YELLOW"=>  termion::color::Fg(termion::color::Yellow)
+        "BLACK"=> format!("{}{}",  termion::color::Fg(termion::color::Black), input),
+        "BLUE"=>  format!("{}{}",  termion::color::Fg(termion::color::Blue), input),
+        "CYAN"=>  format!("{}{}",  termion::color::Fg(termion::color::Cyan), input),
+        "GREEN"=> format!("{}{}",  termion::color::Fg(termion::color::Green), input),
+        "LIGHTBLACK"=> format!("{}{}",  termion::color::Fg(termion::color::LightBlack), input),
+        "LIGHTBLUE"=>  format!("{}{}",  termion::color::Fg(termion::color::LightBlue), input),
+        "LIGHTCYAN"=>  format!("{}{}",  termion::color::Fg(termion::color::LightCyan), input),
+        "LIGHTGREEN"=> format!("{}{}",  termion::color::Fg(termion::color::LightGreen), input),
+        "LIGHTMAGENTA"=>  format!("{}{}",  termion::color::Fg(termion::color::LightMagenta), input),
+        "LIGHTRED"=>  format!("{}{}",  termion::color::Fg(termion::color::LightRed), input),
+        "LIGHTWHITE"=>  format!("{}{}",  termion::color::Fg(termion::color::LightWhite), input),
+        "LIGHTYELLOW"=>  format!("{}{}",  termion::color::Fg(termion::color::LightYellow), input),
+        "MAGENTA"=>  format!("{}{}",  termion::color::Fg(termion::color::Magenta), input),
+        "RED"=>  format!("{}{}",  termion::color::Fg(termion::color::Red), input),
+        "WHITE"=>  format!("{}{}",  termion::color::Fg(termion::color::White), input),
+        "YELLOW"=>  format!("{}{}",  termion::color::Fg(termion::color::Yellow), input)
     };
     return result;
 }

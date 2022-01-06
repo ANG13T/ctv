@@ -1,5 +1,7 @@
 use crate::services;
 // use crate::input;
+use crate::input;
+use structopt::StructOpt;
 use crate::decorators;
 use crate::protocols::{PathType, colormanager};
 // use structopt::StructOpt;
@@ -123,13 +125,14 @@ impl File {
       }
 
         // TODO: do timing stuff
-        // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
-      return format!("{} [{color_one}{} {color_two}{} {}]",
-       res, self.size, self.user, self.perms,
-        color_one = self.get_color_for("FILE_SIZE_COLOR"),
-        color_two = self.get_color_for("FILE_OWNER_COLOR")
+      return format!("{} [{color_one} {color_two} {color_three} {}]",
+       res, self.size, self.user, time, self.perms,
+        file_size = self.get_color_for("FILE_SIZE_COLOR"),
+        color_two = self.get_color_for("FILE_OWNER_COLOR"),
+        color_three = self.get_color_for("FILE_TIME_COLOR")
       );
     }
 
@@ -225,14 +228,15 @@ impl File {
         res = format!("{}{}", v.get_color_for_type(), res);
       }
       
-       // TODO: do timing stuff
-       // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+       // TODO: do timing stuff (env check if mod or created)
+       let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
-      return writeln!(f, "{} [{color_one}{} {color_two}{} {}]",
-       res, self.size, self.user, self.perms,
+      return writeln!(f, "{} [{color_one}{} {color_two}{} {color_three}{} {}]",
+       res, self.size, self.user, time, self.perms,
         color_one = self.get_color_for("FILE_SIZE_COLOR"),
-        color_two = self.get_color_for("FILE_OWNER_COLOR")
+        color_two = self.get_color_for("FILE_OWNER_COLOR"),
+        color_three = self.get_color_for("FILE_TIME_COLOR")
       );
 
     }
