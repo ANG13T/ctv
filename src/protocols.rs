@@ -7,3 +7,4 @@ pub mod file;
 pub mod pathtype;
 pub mod treegenerator;
 pub mod dirtree;
+pub mod colormanager;

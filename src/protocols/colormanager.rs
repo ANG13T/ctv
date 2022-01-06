@@ -17,6 +17,6 @@ pub fn get_color_for_string(value: &str) {
         "RED"=>  termion::color::Fg(termion::color::Red),
         "WHITE"=>  termion::color::Fg(termion::color::White),
         "YELLOW"=>  termion::color::Fg(termion::color::Yellow)
-    }
+    };
     return result;
 }

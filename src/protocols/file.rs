@@ -1,7 +1,7 @@
 use crate::services;
 // use crate::input;
 use crate::decorators;
-use crate::protocols::{PathType};
+use crate::protocols::{PathType, colormanager};
 // use structopt::StructOpt;
 
 enum DirSortType {
@@ -91,9 +91,12 @@ impl File {
       }
     }
 
-    fn get_color_for(typ: &str) {
+    fn get_color_for(&self, typ: &str) {
       let result = match typ {
-        "FILE_SIZE_COLOR"=> 
+        "FILE_OWNER_COLOR"=> colormanager::get_color_for_string(&self.styles.file_owner_color),
+        "FILE_SIZE_COLOR"=> colormanager::get_color_for_string(&self.styles.file_size_color),
+        "DIR_NAME_COLOR"=> colormanager::get_color_for_string(&self.styles.dir_name_color),
+        "FILE_NAME_COLOR"=> colormanager::get_color_for_string(&self.styles.file_name_color)
       };
       return result;
     }
@@ -123,10 +126,10 @@ impl File {
         // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
-      return format!("{} [{green}{} {yellow}{} {}]",
+      return format!("{} [{color_one}{} {color_two}{} {}]",
        res, self.size, self.user, self.perms,
-        green = termion::color::Fg(termion::color::LightGreen),
-        yellow = termion::color::Fg(termion::color::Yellow)
+        color_one = self.get_color_for("FILE_SIZE_COLOR"),
+        color_two = self.get_color_for("FILE_OWNER_COLOR")
       );
     }
 
@@ -226,10 +229,10 @@ impl File {
        // let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
 
   
-      return writeln!(f, "{} [{green}{} {yellow}{} {}]",
+      return writeln!(f, "{} [{color_one}{} {color_two}{} {}]",
        res, self.size, self.user, self.perms,
-        green = termion::color::Fg(termion::color::LightGreen),
-        yellow = termion::color::Fg(termion::color::Yellow)
+        color_one = self.get_color_for("FILE_SIZE_COLOR"),
+        color_two = self.get_color_for("FILE_OWNER_COLOR")
       );
 
     }
