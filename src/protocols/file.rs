@@ -93,12 +93,13 @@ impl File {
       }
     }
 
-    fn get_color_for(&self, typ: &str) {
+    fn get_color_for(&self, typ: &str, input: String) -> String{
       let result = match typ {
-        "FILE_OWNER_COLOR"=> colormanager::get_color_for_string(&self.styles.file_owner_color),
-        "FILE_SIZE_COLOR"=> colormanager::get_color_for_string(&self.styles.file_size_color),
-        "DIR_NAME_COLOR"=> colormanager::get_color_for_string(&self.styles.dir_name_color),
-        "FILE_NAME_COLOR"=> colormanager::get_color_for_string(&self.styles.file_name_color)
+        "FILE_OWNER_COLOR"=> colormanager::colorize_string(&self.styles.file_owner_color, input),
+        "FILE_SIZE_COLOR"=> colormanager::colorize_string(&self.styles.file_size_color, input),
+        "DIR_NAME_COLOR"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
+        "FILE_NAME_COLOR"=> colormanager::colorize_string(&self.styles.file_name_color, input),
+        _=> "".to_string()
       };
       return result;
     }
@@ -125,14 +126,14 @@ impl File {
       }
 
         // TODO: do timing stuff
-        let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+        let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
 
   
-      return format!("{} [{color_one} {color_two} {color_three} {}]",
-       res, self.size, self.user, time, self.perms,
-        file_size = self.get_color_for("FILE_SIZE_COLOR"),
-        color_two = self.get_color_for("FILE_OWNER_COLOR"),
-        color_three = self.get_color_for("FILE_TIME_COLOR")
+      return format!("{} [{file_size} {file_owner} {file_time} {}]",
+       res, self.perms,
+        file_size = self.get_color_for("FILE_SIZE_COLOR", self.size),
+        file_owner = self.get_color_for("FILE_OWNER_COLOR", self.user),
+        file_time = self.get_color_for("FILE_TIME_COLOR", time)
       );
     }
 
@@ -229,14 +230,14 @@ impl File {
       }
       
        // TODO: do timing stuff (env check if mod or created)
-       let time = if input::Cli::from_args().created_time { &self.created } else { &self.modified };
+       let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
 
   
-      return writeln!(f, "{} [{color_one}{} {color_two}{} {color_three}{} {}]",
-       res, self.size, self.user, time, self.perms,
-        color_one = self.get_color_for("FILE_SIZE_COLOR"),
-        color_two = self.get_color_for("FILE_OWNER_COLOR"),
-        color_three = self.get_color_for("FILE_TIME_COLOR")
+      return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
+       res, self.perms,
+        file_size = self.get_color_for("FILE_SIZE_COLOR", self.size),
+        file_owner = self.get_color_for("FILE_OWNER_COLOR", self.user),
+        file_time = self.get_color_for("FILE_TIME_COLOR", time)
       );
 
     }
