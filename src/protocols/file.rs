@@ -54,18 +54,18 @@ impl FileStyle {
         size_position: size_pos,
         owner_position: owner_pos,
         perms_position: perms_pos, 
-        dir_name_color: dir_name_col,
-        file_name_color: file_name_col,
-        file_time_color: file_time_col,
-        file_size_color: file_size_col,
-        file_owner_color: file_owner_col,
-        file_perms_color: file_perms_col,
-        dir_name_style: dir_name_sty,
-        file_name_style: file_name_sty,
-        file_size_style: file_size_sty,
-        file_owner_style: file_owner_sty,
-        file_perms_style: file_perms_sty,
-        file_time_style: file_time_sty
+        dir_name_color: dir_name_col.to_uppercase(),
+        file_name_color: file_name_col.to_uppercase(),
+        file_time_color: file_time_col.to_uppercase(),
+        file_size_color: file_size_col.to_uppercase(),
+        file_owner_color: file_owner_col.to_uppercase(),
+        file_perms_color: file_perms_col.to_uppercase(),
+        dir_name_style: dir_name_sty.to_uppercase(),
+        file_name_style: file_name_sty.to_uppercase(),
+        file_size_style: file_size_sty.to_uppercase(),
+        file_owner_style: file_owner_sty.to_uppercase(),
+        file_perms_style: file_perms_sty.to_uppercase(),
+        file_time_style: file_time_sty.to_uppercase()
       }
     }
 }
@@ -145,6 +145,7 @@ impl File {
     }
 
     pub fn get_styled_text(&self, text: &str, style: &str) -> String{
+      println!("testing {}", text);
       let result = match style{
         "BOLD"=>decorators::bold(text),
         "DIMMED"=>decorators::dimmed(text),
