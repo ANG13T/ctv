@@ -81,17 +81,22 @@ pub struct File {
   created:   String,
   size:      String,
   perms:     String,
-  styles:    FileStyle
+  styles:    FileStyle,
+  is_modified: bool
 }
 
 impl File {
+  // TODO: add diff time options
     pub fn new(file: std::path::PathBuf, time_format: String, styles: &FileStyle) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();
+      let file_modification = fs::metadata(file).unwrap().modified().unwrap();
+      let file_acessed = fs::metadata(file).unwrap().accessed().unwrap();
+      let file_ = fs::metadata(file).unwrap().accessed().unwrap();
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
-        modified:  services::file_times::modified(file.to_path_buf(), time_format.to_owned()),
-        created:   services::file_times::created(file.to_path_buf(), time_format),
+        modified:  file_modification,
+        created:   file.to_path_buf(),
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
@@ -134,6 +139,7 @@ impl File {
 
         // TODO: do timing stuff
         let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
+        println!("time is {} {} {} {}", input::Cli::from_args().created_time, time, self.created.to_string(), self.modified.to_string());
         let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
        let metadata = fs::metadata(&self.path).unwrap();
@@ -156,7 +162,6 @@ impl File {
     }
 
     pub fn get_styled_text(&self, text: &str, style: &str) -> String{
-      println!("testing {}", text);
       let result = match style{
         "BOLD"=>decorators::bold(text),
         "DIMMED"=>decorators::dimmed(text),
@@ -252,6 +257,8 @@ impl File {
        let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
        let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
+
+       println!("time is {} {}", input::Cli::from_args().created_time, time);
   
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){

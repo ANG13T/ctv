@@ -8,12 +8,12 @@
 
 
 ## Tasks
-- add file # listing
 - make test cases for treegenerator
-- fix env checker
+- complete env checker
 - show time for files
 - add customization feature from env
 - add all sorting methods
 - manually assign flags and change env variables from CLI
 - create file type tests display
 - create file extenion display options
+- add created, access, modified options
