@@ -243,9 +243,9 @@ impl File {
   
       return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
        res, self.perms,
-        file_size = self.get_color_for("FILE_SIZE_COLOR", file_size_color_string),
-        file_owner = self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string),
-        file_time = self.get_color_for("FILE_TIME_COLOR", time)
+        file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+        file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+        file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
       );
 
     }
