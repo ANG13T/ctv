@@ -127,12 +127,13 @@ impl File {
 
         // TODO: do timing stuff
         let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
-
+        let file_size_color_string = format!("{}", self.size);
+       let file_owner_color_string = format!("{}", self.user);
   
       return format!("{} [{file_size} {file_owner} {file_time} {}]",
        res, self.perms,
-        file_size = self.get_color_for("FILE_SIZE_COLOR", self.size),
-        file_owner = self.get_color_for("FILE_OWNER_COLOR", self.user),
+        file_size = self.get_color_for("FILE_SIZE_COLOR", file_size_color_string),
+        file_owner = self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string),
         file_time = self.get_color_for("FILE_TIME_COLOR", time)
       );
     }
@@ -231,12 +232,13 @@ impl File {
       
        // TODO: do timing stuff (env check if mod or created)
        let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
-
+       let file_size_color_string = format!("{}", self.size);
+       let file_owner_color_string = format!("{}", self.user);
   
       return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
        res, self.perms,
-        file_size = self.get_color_for("FILE_SIZE_COLOR", self.size),
-        file_owner = self.get_color_for("FILE_OWNER_COLOR", self.user),
+        file_size = self.get_color_for("FILE_SIZE_COLOR", file_size_color_string),
+        file_owner = self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string),
         file_time = self.get_color_for("FILE_TIME_COLOR", time)
       );
 

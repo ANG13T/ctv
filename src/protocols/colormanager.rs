@@ -16,7 +16,8 @@ pub fn colorize_string(value: &str, input: String) -> String{
         "MAGENTA"=>  format!("{}{}",  termion::color::Fg(termion::color::Magenta), input),
         "RED"=>  format!("{}{}",  termion::color::Fg(termion::color::Red), input),
         "WHITE"=>  format!("{}{}",  termion::color::Fg(termion::color::White), input),
-        "YELLOW"=>  format!("{}{}",  termion::color::Fg(termion::color::Yellow), input)
+        "YELLOW"=>  format!("{}{}",  termion::color::Fg(termion::color::Yellow), input),
+        _=> "".to_string()
     };
     return result;
 }
