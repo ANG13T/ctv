@@ -31,6 +31,7 @@ impl TreeGenerator {
             env::var("FILE_PERMS_POSITION").unwrap().parse::<i32>().unwrap(),
             env::var("DIR_NAME_COLOR").unwrap(),
             env::var("FILE_NAME_COLOR").unwrap(),
+            env::var("FILE_TIME_COLOR").unwrap(),
             env::var("FILE_SIZE_COLOR").unwrap(),
             env::var("FILE_OWNER_COLOR").unwrap(),
             env::var("FILE_PERMS_COLOR").unwrap(),
@@ -38,7 +39,8 @@ impl TreeGenerator {
             env::var("FILE_NAME_STYLE").unwrap(),
             env::var("FILE_SIZE_STYLE").unwrap(),
             env::var("FILE_OWNER_STYLE").unwrap(),
-            env::var("FILE_PERMS_STYLE").unwrap()
+            env::var("FILE_PERMS_STYLE").unwrap(),
+            env::var("FILE_TIME_STYLE").unwrap(),
         );
 
         Self {
