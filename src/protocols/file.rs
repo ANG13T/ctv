@@ -1,6 +1,7 @@
 use crate::services;
 // use crate::input;
 use crate::input;
+use std::{fs, env};
 use structopt::StructOpt;
 use crate::decorators;
 use crate::protocols::{PathType, colormanager};
@@ -135,13 +136,23 @@ impl File {
         let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
         let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
-  
-      return format!("{} [{file_size} {file_owner} {file_time} {}]",
-       res, self.perms,
-        file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
-        file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-        file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
-      );
+       let metadata = fs::metadata(&self.path).unwrap();
+       if metadata.is_dir(){
+        let file_count = fs::read_dir(&self.path).unwrap().count();
+        return format!( "{} [{file_size} {file_owner} {file_time} {}] ({} items)",
+        res, self.perms, file_count,
+         file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+         file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+       );
+       }else {
+        return format!("{} [{file_size} {file_owner} {file_time} {}]",
+        res, self.perms,
+          file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+          file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+          file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+        );
+       }
     }
 
     pub fn get_styled_text(&self, text: &str, style: &str) -> String{
@@ -242,12 +253,23 @@ impl File {
        let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
   
-      return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
-       res, self.perms,
-        file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
-        file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-        file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
-      );
+      let metadata = fs::metadata(&self.path).unwrap();
+      if metadata.is_dir(){
+        let file_count = fs::read_dir(&self.path).unwrap().count();
+        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}] ({} items)",
+        res, self.perms, file_count,
+         file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+         file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+       );
+      }else{
+        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
+        res, self.perms,
+         file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+         file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+       );
+      }
 
     }
   }

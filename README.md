@@ -14,5 +14,6 @@
 - show time for files
 - add customization feature from env
 - add all sorting methods
-- fix treegen
 - manually assign flags and change env variables from CLI
+- create file type tests display
+- create file extenion display options
