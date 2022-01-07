@@ -1,5 +1,4 @@
 pub fn colorize_string(value: &str, input: String) -> String{
-    let mod_string = value.to_uppercase().trim();
     let result = match value {
         "BLACK"=> format!("{}{}",  termion::color::Fg(termion::color::Black), input),
         "BLUE"=>  format!("{}{}",  termion::color::Fg(termion::color::Blue), input),

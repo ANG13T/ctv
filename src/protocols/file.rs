@@ -21,6 +21,7 @@ pub struct FileStyle {
   perms_position: i32, 
   dir_name_color: String,
   file_name_color: String,
+  file_time_color: String,
   file_size_color: String,
   file_owner_color: String,
   file_perms_color: String,
@@ -28,7 +29,8 @@ pub struct FileStyle {
   file_name_style: String,
   file_size_style: String,
   file_owner_style: String,
-  file_perms_style: String
+  file_perms_style: String,
+  file_time_style: String,
 }
 // TODO: change perms
 impl FileStyle {
@@ -38,6 +40,7 @@ impl FileStyle {
     perms_pos: i32, 
     dir_name_col: String,
     file_name_col: String,
+    file_time_col: String,
     file_size_col: String,
     file_owner_col: String,
     file_perms_col: String,
@@ -45,13 +48,15 @@ impl FileStyle {
     file_name_sty: String,
     file_size_sty: String,
     file_owner_sty: String,
-    file_perms_sty: String) -> Self {
+    file_perms_sty: String,
+    file_time_sty: String) -> Self {
       Self {
         size_position: size_pos,
         owner_position: owner_pos,
         perms_position: perms_pos, 
         dir_name_color: dir_name_col,
         file_name_color: file_name_col,
+        file_time_color: file_time_col,
         file_size_color: file_size_col,
         file_owner_color: file_owner_col,
         file_perms_color: file_perms_col,
@@ -59,7 +64,8 @@ impl FileStyle {
         file_name_style: file_name_sty,
         file_size_style: file_size_sty,
         file_owner_style: file_owner_sty,
-        file_perms_style: file_perms_sty
+        file_perms_style: file_perms_sty,
+        file_time_style: file_time_sty
       }
     }
 }
@@ -132,13 +138,13 @@ impl File {
   
       return format!("{} [{file_size} {file_owner} {file_time} {}]",
        res, self.perms,
-        file_size = self.get_color_for("FILE_SIZE_COLOR", file_size_color_string),
-        file_owner = self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string),
-        file_time = self.get_color_for("FILE_TIME_COLOR", time)
+        file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
+        file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
+        file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
       );
     }
 
-    pub fn get_styled_text(text: &str, style: &str) -> String{
+    pub fn get_styled_text(&self, text: &str, style: &str) -> String{
       let result = match style{
         "BOLD"=>decorators::bold(text),
         "DIMMED"=>decorators::dimmed(text),
