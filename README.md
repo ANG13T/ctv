@@ -17,3 +17,4 @@
 - create file type tests display
 - create file extenion display options
 - add created, access, modified options
+- set layer limit 

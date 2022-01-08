@@ -136,7 +136,6 @@ impl File {
 
         // TODO: do timing stuff
         let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
-        println!("time is {} {} {} {}", input::Cli::from_args().created_time, time, self.created.to_string(), self.modified.to_string());
         let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
        let metadata = fs::metadata(&self.path).unwrap();
@@ -254,8 +253,6 @@ impl File {
        let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
        let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
-
-       println!("time is {} {}", input::Cli::from_args().created_time, time);
   
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
