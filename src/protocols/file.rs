@@ -86,14 +86,14 @@ pub struct File {
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: String, styles: &FileStyle) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, styles: &FileStyle) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();
       
       Self {
         group:     services::group(file.to_path_buf()),
         user:      services::user(file.to_path_buf()),
-        modified:  services::time::time_modified(file.to_path_buf()),
-        created:   services::time::time_created(file.to_path_buf()),
+        modified:  services::time::time_modified(file.to_path_buf(), time_format),
+        created:   services::time::time_created(file.to_path_buf(), time_format),
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
