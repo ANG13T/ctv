@@ -7,13 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = "0.4.19"
-filetime = "0.2.14"
 humansize = "1.1.1"
 libc = "0.2.95"
 pretty-bytes = "0.2.2"
 structopt = "0.3.21"
 termion = "1.5.6"
+filetime = "0.2"
 users = "0.11.0"
+chrono = "0.4"
 dotenv = "0.14.1"
 walkdir = "2"
