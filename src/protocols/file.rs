@@ -78,6 +78,7 @@ pub struct File {
   group:     String,
   user:      String,
   modified:  String,
+  accessed:  String,
   created:   String,
   size:      String,
   perms:     String,
@@ -95,6 +96,7 @@ impl File {
         user:      services::user(file.to_path_buf()),
         modified:  services::time::time_modified(file.to_path_buf(), time_format),
         created:   services::time::time_created(file.to_path_buf(), time_format),
+        accessed:  services::time::time_acessed(file.to_path_buf(), time_format),
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
@@ -138,7 +140,7 @@ impl File {
       }
 
         // TODO: do timing stuff, edit below time typing
-        let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
+        let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else if self.file_time_type == "MODIFIED" { self.modified.to_string() } else {self.accessed.to_string()};
         let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
        let metadata = fs::metadata(&self.path).unwrap();

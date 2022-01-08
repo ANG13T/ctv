@@ -15,7 +15,8 @@
 - manually assign flags and change env variables from CLI
 - create file type tests display
 - create file extenion display options
-- add created, access, modified options
-- set layer limit 
 - add acess file time 
 - file time format env check
+- make README pretty
+- add search and peek func
+- add positioning and hiding code
