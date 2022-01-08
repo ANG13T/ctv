@@ -89,12 +89,13 @@ pub struct File {
   size:      String,
   perms:     String,
   styles:    FileStyle,
-  file_time_type: String
+  file_time_type: String,
+  show_extension: bool
 }
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
@@ -108,7 +109,8 @@ impl File {
         file_type: PathType::new(&file).unwrap(),
         path: file,
         styles: ref_to_file_styles,
-        file_time_type: time_type.to_string()
+        file_time_type: time_type.to_string(),
+        show_extension: show_ext
       }
     }
 
@@ -259,7 +261,8 @@ impl File {
           res = format!("{}{}", v.get_color_for_type(), res);
           continue;
         }
-        res = v.get_text_traits_for_type(&res, &self.path);
+        if self.
+        res = v.get_text_traits_for_type(&res, &self.path.file_name());
         res = format!("{}{}", v.get_color_for_type(), res);
       }
       
