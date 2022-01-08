@@ -10,7 +10,6 @@
 ## Tasks
 - make test cases for treegenerator
 - complete env checker
-- show time for files
 - add customization feature from env
 - add all sorting methods
 - manually assign flags and change env variables from CLI
@@ -19,3 +18,4 @@
 - add created, access, modified options
 - set layer limit 
 - add acess file time 
+- file time format env check

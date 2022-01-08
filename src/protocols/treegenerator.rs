@@ -21,7 +21,8 @@ pub struct TreeGenerator {
     show_file_metadata: String,
     file_styles: FileStyle,
     time_format: String,
-    time_type: String
+    time_type: String,
+    layer_limit: i32
 }
 
 impl TreeGenerator {
@@ -42,7 +43,7 @@ impl TreeGenerator {
             env::var("FILE_SIZE_STYLE").unwrap(),
             env::var("FILE_OWNER_STYLE").unwrap(),
             env::var("FILE_PERMS_STYLE").unwrap(),
-            env::var("FILE_TIME_STYLE").unwrap()            
+            env::var("FILE_TIME_STYLE").unwrap()
         );
 
         Self {
@@ -58,11 +59,12 @@ impl TreeGenerator {
             file_styles: file_style,
             time_format: env::var("FILE_TIME_FORMAT").unwrap(),
             time_type: env::var("FILE_TIME_TYPE").unwrap(),
+            layer_limit: env::var("TREE_LAYER_LIMIT").unwrap().parse::<i32>().unwrap()
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
         self.tree_head();
-        self.tree_body(self.root_dir.clone(), &"".to_string());
+        self.tree_body(self.root_dir.clone(), &"".to_string(), self.layer_limit);
         return self.tree.clone();
     }
 
@@ -96,7 +98,7 @@ impl TreeGenerator {
         self.tree.push(self.pipe.clone()); //print pipe under head dir
     }
 
-    fn tree_body(&mut self, directory: PathBuf, prefix: &String) {
+    fn tree_body(&mut self, directory: PathBuf, prefix: &String, limit: i32) {
 
         let entries = self.sort_dir_first(directory).unwrap();
         let entries_count = entries.len();
@@ -114,7 +116,7 @@ impl TreeGenerator {
 
             if metadata.is_dir() {
                 self.add_directory(
-                    entry.path(), entry.path(), index, entries_count, prefix.to_string(), connector.to_string()
+                    entry.path(), entry.path(), index, entries_count, prefix.to_string(), connector.to_string(), limit - 1
                 )
             }else {
                 self.add_file(entry.path(), prefix.to_string(), connector.to_string())
@@ -122,7 +124,7 @@ impl TreeGenerator {
         }   
     }
 
-    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String) {
+    fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String, limit: i32) {
         let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
@@ -131,9 +133,10 @@ impl TreeGenerator {
         }else {
             prefix += &self.space_prefix;
         }
-            
-        self.tree_body(directory2, &prefix.to_string())
-    
+        if limit > 0 {
+            self.tree_body(directory2, &prefix.to_string(), limit)
+        }
+        
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
