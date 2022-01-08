@@ -38,12 +38,14 @@ impl TreeGenerator {
             env::var("FILE_SIZE_COLOR").unwrap(),
             env::var("FILE_OWNER_COLOR").unwrap(),
             env::var("FILE_PERMS_COLOR").unwrap(),
+            env::var("FILE_EXTENSION_COLOR").unwrap(),
             env::var("DIR_NAME_STYLE").unwrap(),
             env::var("FILE_NAME_STYLE").unwrap(),
             env::var("FILE_SIZE_STYLE").unwrap(),
             env::var("FILE_OWNER_STYLE").unwrap(),
             env::var("FILE_PERMS_STYLE").unwrap(),
-            env::var("FILE_TIME_STYLE").unwrap()
+            env::var("FILE_TIME_STYLE").unwrap(),
+            env::var("FILE_EXTENSION_STYLE").unwrap(),
         );
 
         Self {

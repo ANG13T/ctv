@@ -119,7 +119,7 @@ impl File {
         "DIR_NAME_COLOR"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
         "FILE_NAME_COLOR"=> colormanager::colorize_string(&self.styles.file_name_color, input),
         "FILE_TIME_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
-        "FILE_EXTENSION_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
+        "FILE_EXTENSION_COLOR"=> colormanager::colorize_string(&self.styles.file_extension_color, input),
         _=> "".to_string()
       };
       return result;
@@ -166,7 +166,7 @@ impl File {
           file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
           file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
           file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style),
-          file_extension = self.get_styled_text(&self.get_color_for("FILE_EXTENSION_COLOR", file_ext), &self.styles.file_time_style)
+          file_extension = self.get_styled_text(&self.get_color_for("FILE_EXTENSION_COLOR", file_ext), &self.styles.file_extension_style)
         );
        }
     }
@@ -267,7 +267,6 @@ impl File {
        let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
        let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
-       println!("hi {}", time);
   
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
@@ -279,11 +278,13 @@ impl File {
          file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
        );
       }else{
-        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}]",
+        let file_ext = services::extension::extension(&self.path);
+        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {file_extension} {}]",
         res, self.perms,
          file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
          file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style),
+         file_extension = self.get_styled_text(&self.get_color_for("FILE_EXTENSION_COLOR", file_ext), &self.styles.file_extension_style)
        );
       }
 
