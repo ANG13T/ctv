@@ -88,7 +88,7 @@ pub struct File {
 impl File {
   // TODO: add diff time options
     pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle) -> Self {
-      let ref_to_file_styles: FileStyle = styles.clone();
+      let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
         group:     services::group(file.to_path_buf()),
@@ -110,6 +110,7 @@ impl File {
         "FILE_SIZE_COLOR"=> colormanager::colorize_string(&self.styles.file_size_color, input),
         "DIR_NAME_COLOR"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
         "FILE_NAME_COLOR"=> colormanager::colorize_string(&self.styles.file_name_color, input),
+        "FILE_TIME_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
         _=> "".to_string()
       };
       return result;
@@ -136,8 +137,8 @@ impl File {
         res = format!("{}{}", v.get_color_for_type(), res);
       }
 
-        // TODO: do timing stuff
-        let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
+        // TODO: do timing stuff, edit below time typing
+        let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
         let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
        let metadata = fs::metadata(&self.path).unwrap();
@@ -252,9 +253,10 @@ impl File {
       }
       
        // TODO: do timing stuff (env check if mod or created)
-       let time: String = if input::Cli::from_args().created_time { self.created.to_string() } else { self.modified.to_string() };
+       let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
        let file_size_color_string = format!("{}", self.size);
        let file_owner_color_string = format!("{}", self.user);
+       println!("hi {}", time);
   
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
