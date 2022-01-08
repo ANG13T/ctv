@@ -1,11 +1,9 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{fs, env};
-use structopt::StructOpt;
 use std::path::{PathBuf};
 use std::error::Error;
 use crate::protocols::{File};
-use crate::input;
 use crate::protocols::file::{FileStyle};
 
 #[derive(Clone)]

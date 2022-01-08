@@ -19,3 +19,6 @@
 - make README pretty
 - add search and peek func
 - add positioning and hiding code
+- do renaming when showing extension
+- make tests for env checker
+- finish up extension config

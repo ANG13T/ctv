@@ -8,6 +8,7 @@ pub fn check_env() -> bool {
     let all_styles = ["BOLD".to_string(), "UNDERLINE".to_string(), "DIMMED".to_string(), "ITALIC".to_string(), "BLINK".to_string(), "REVERSE".to_string(), "HIDDEN".to_string(), "STRICKEN".to_string()];
     let all_time_formats = ["CREATED".to_string(), "MODIFIED".to_string(), "ACCESSED".to_string()];
     let mut used_positions = vec![];
+    let file_detail_num = 5;
     dotenv().ok();
     for (key, val) in env::vars() {
         if key != "SPACE_PREFIX" && all_var_names.contains(&key) && val.len() == 0 {
@@ -43,8 +44,8 @@ pub fn check_env() -> bool {
 
         if is_position_path(&key) {
             let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer in env variable!");
-            if key_int <= 0 || key_int > 3 {
-                println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be 1, 2, or 3!", val, key);
+            if key_int <= 0 || key_int > file_detail_num {
+                println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be 1, 2, 3, 4, or 5!", val, key);
                 return false;
             }
             if used_positions.contains(&key) {
