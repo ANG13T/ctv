@@ -26,12 +26,14 @@ pub struct FileStyle {
   file_size_color: String,
   file_owner_color: String,
   file_perms_color: String,
+  file_extension_color: String,
   dir_name_style: String,
   file_name_style: String,
   file_size_style: String,
   file_owner_style: String,
   file_perms_style: String,
   file_time_style: String,
+  file_extension_style: String
 }
 // TODO: change perms
 impl FileStyle {
@@ -45,12 +47,14 @@ impl FileStyle {
     file_size_col: String,
     file_owner_col: String,
     file_perms_col: String,
+    file_ext_col: String,
     dir_name_sty: String,
     file_name_sty: String,
     file_size_sty: String,
     file_owner_sty: String,
     file_perms_sty: String,
-    file_time_sty: String) -> Self {
+    file_time_sty: String,
+    file_ext_sty: String) -> Self {
       Self {
         size_position: size_pos,
         owner_position: owner_pos,
@@ -61,12 +65,14 @@ impl FileStyle {
         file_size_color: file_size_col.to_uppercase(),
         file_owner_color: file_owner_col.to_uppercase(),
         file_perms_color: file_perms_col.to_uppercase(),
+        file_extension_color: file_ext_col.to_uppercase(),
         dir_name_style: dir_name_sty.to_uppercase(),
         file_name_style: file_name_sty.to_uppercase(),
         file_size_style: file_size_sty.to_uppercase(),
         file_owner_style: file_owner_sty.to_uppercase(),
         file_perms_style: file_perms_sty.to_uppercase(),
-        file_time_style: file_time_sty.to_uppercase()
+        file_time_style: file_time_sty.to_uppercase(),
+        file_extension_style: file_ext_sty.to_uppercase()
       }
     }
 }
@@ -113,6 +119,7 @@ impl File {
         "DIR_NAME_COLOR"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
         "FILE_NAME_COLOR"=> colormanager::colorize_string(&self.styles.file_name_color, input),
         "FILE_TIME_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
+        "FILE_EXTENSION_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
         _=> "".to_string()
       };
       return result;
@@ -153,11 +160,13 @@ impl File {
          file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
        );
        }else {
-        return format!("{} [{file_size} {file_owner} {file_time} {}]",
+         let file_ext = services::extension::extension(&self.path);
+        return format!("{} [{file_size} {file_owner} {file_time} {file_extension} {}]",
         res, self.perms,
           file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
           file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-          file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+          file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style),
+          file_extension = self.get_styled_text(&self.get_color_for("FILE_EXTENSION_COLOR", file_ext), &self.styles.file_time_style)
         );
        }
     }
