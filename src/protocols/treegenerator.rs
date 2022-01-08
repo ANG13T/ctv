@@ -20,7 +20,8 @@ pub struct TreeGenerator {
     show_dir_metadata: String,
     show_file_metadata: String,
     file_styles: FileStyle,
-    time_format: String
+    time_format: String,
+    time_type: String
 }
 
 impl TreeGenerator {
@@ -55,7 +56,8 @@ impl TreeGenerator {
             show_dir_metadata: env::var("SHOW_DIR_METADATA").unwrap(),
             show_file_metadata: env::var("SHOW_FILE_METADATA").unwrap(),
             file_styles: file_style,
-            time_format: env::var("FILE_TIME_FORMAT").unwrap()
+            time_format: env::var("FILE_TIME_FORMAT").unwrap(),
+            time_type: env::var("FILE_TIME_TYPE").unwrap(),
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
@@ -89,7 +91,7 @@ impl TreeGenerator {
     }
 
     fn tree_head(&mut self) {
-        let dir_file = File::new(self.root_dir.clone(), &self.time_format, &self.file_styles);
+        let dir_file = File::new(self.root_dir.clone(), &self.time_format, &self.time_type, &self.file_styles);
         self.tree.push(dir_file.display_format()); // prints out head dir
         self.tree.push(self.pipe.clone()); //print pipe under head dir
     }
@@ -121,7 +123,7 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String) {
-        let new_file = File::new(directory, &self.time_format, &self.file_styles);
+        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
@@ -135,7 +137,7 @@ impl TreeGenerator {
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
-        let new_file = File::new(file, &self.time_format, &self.file_styles);
+        let new_file = File::new(file, &self.time_format, &self.time_type, &self.file_styles);
         let file_name: String = if self.show_file_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }

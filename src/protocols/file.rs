@@ -81,12 +81,13 @@ pub struct File {
   created:   String,
   size:      String,
   perms:     String,
-  styles:    FileStyle
+  styles:    FileStyle,
+  file_time_type: String
 }
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, styles: &FileStyle) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();
       
       Self {
@@ -98,7 +99,8 @@ impl File {
         perms:     services::perms::perms(file.to_path_buf()),
         file_type: PathType::new(&file).unwrap(),
         path: file,
-        styles: ref_to_file_styles
+        styles: ref_to_file_styles,
+        file_time_type: time_type.to_string()
       }
     }
 
