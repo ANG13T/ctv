@@ -261,8 +261,8 @@ impl File {
           res = format!("{}{}", v.get_color_for_type(), res);
           continue;
         }
-        if self.
-        res = v.get_text_traits_for_type(&res, &self.path.file_name());
+        
+        res = v.get_text_traits_for_type(&res, &self.path);
         res = format!("{}{}", v.get_color_for_type(), res);
       }
       
