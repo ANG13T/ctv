@@ -1,6 +1,7 @@
 use std::path::{Path};
 use std::os::unix::fs::FileTypeExt;
 use crate::decorators;
+use crate::protocols::{colormanager};
 
 #[derive(Copy, Clone, Debug)]
 pub enum PathType {
@@ -51,7 +52,7 @@ impl PathType {
   
     pub fn get_color_for_type(&self) -> String {
       match self {
-        Self::Dir     => format!("{}", termion::color::Fg(termion::color::LightBlue)),
+        Self::Dir     => colormanager::colorize_string("", ""),
         Self::Symlink => format!("{}", termion::color::Fg(termion::color::LightMagenta)),
         Self::Path    => format!("{}", termion::color::Fg(termion::color::White)),
         Self::Pipe    => format!("{}", termion::color::Fg(termion::color::Yellow)),
