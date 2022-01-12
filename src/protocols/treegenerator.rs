@@ -3,7 +3,7 @@ use dotenv::dotenv;
 use std::{fs, env};
 use std::path::{PathBuf};
 use std::error::Error;
-use crate::protocols::{File};
+use crate::protocols::{File, EnvManager};
 use crate::protocols::file::{FileStyle};
 
 #[derive(Clone)]
@@ -25,43 +25,43 @@ pub struct TreeGenerator {
 }
 
 impl TreeGenerator {
-    pub fn init(root_dir: PathBuf) -> Self {
+    pub fn init(root_dir: PathBuf, env_manager: EnvManager) -> Self {
         dotenv().ok();
         let file_style: FileStyle = FileStyle::new(
-            env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap(),
-            env::var("FILE_OWNER_POSITION").unwrap().parse::<i32>().unwrap(),
-            env::var("FILE_PERMS_POSITION").unwrap().parse::<i32>().unwrap(),
-            env::var("DIR_NAME_COLOR").unwrap(),
-            env::var("FILE_NAME_COLOR").unwrap(),
-            env::var("FILE_TIME_COLOR").unwrap(),
-            env::var("FILE_SIZE_COLOR").unwrap(),
-            env::var("FILE_OWNER_COLOR").unwrap(),
-            env::var("FILE_PERMS_COLOR").unwrap(),
-            env::var("FILE_EXTENSION_COLOR").unwrap(),
-            env::var("DIR_NAME_STYLE").unwrap(),
-            env::var("FILE_NAME_STYLE").unwrap(),
-            env::var("FILE_SIZE_STYLE").unwrap(),
-            env::var("FILE_OWNER_STYLE").unwrap(),
-            env::var("FILE_PERMS_STYLE").unwrap(),
-            env::var("FILE_TIME_STYLE").unwrap(),
-            env::var("FILE_EXTENSION_STYLE").unwrap()
+            env_manager.file_size_position,
+            env_manager.file_owner_position,
+            env_manager.file_perms_position,
+            env_manager.dir_name_color,
+            env_manager.file_name_color,
+            env_manager.file_time_color,
+            env_manager.file_size_color,
+            env_manager.file_owner_color,
+            env_manager.file_perms_color,
+            env_manager.file_extension_color,
+            env_manager.dir_name_style,
+            env_manager.file_name_style,
+            env_manager.file_size_style,
+            env_manager.file_owner_style,
+            env_manager.file_perms_style,
+            env_manager.file_time_style,
+            env_manager.file_extension_style
         );
 
         Self {
             tree: Vec::new(),
-            pipe: env::var("PIPE").unwrap(),
-            elbow: env::var("ELBOW").unwrap(),
-            tee: env::var("TEE").unwrap(),
-            pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
-            space_prefix: env::var("SPACE_PREFIX").unwrap(),
+            pipe:  env_manager.pipe,
+            elbow:  env_manager.elbow,
+            tee:  env_manager.tee,
+            pipe_prefix:  env_manager.pipe_prefix,
+            space_prefix:  env_manager.space_prefix,
             root_dir: root_dir,
-            show_dir_metadata: env::var("SHOW_DIR_METADATA").unwrap(),
-            show_file_metadata: env::var("SHOW_FILE_METADATA").unwrap(),
+            show_dir_metadata:  env_manager.show_dir_metadata,
+            show_file_metadata: env_manager.show_file_metadata,
             file_styles: file_style,
-            time_format: env::var("FILE_TIME_FORMAT").unwrap(),
-            time_type: env::var("FILE_TIME_TYPE").unwrap(),
-            layer_limit: env::var("TREE_LAYER_LIMIT").unwrap().parse::<i32>().unwrap(),
-            show_extension: env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() != 0
+            time_format: env_manager.file_time_format,
+            time_type: env_manager.file_time_type,
+            layer_limit: env_manager.tree_layer_limit,
+            show_extension: env_manager.file_extension_position != 0
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{

@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>>{
         Err("ENV variables not declared properly")?
     }
     let env_manager = protocols::EnvManager::init();
-    let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir);
+    let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, env_manager);
     dir_tree.gen();
     Ok(())
 }
