@@ -9,4 +9,4 @@ pub mod pathtype;
 pub mod treegenerator;
 pub mod dirtree;
 pub mod colormanager;
-pub mod EnvManager;
+pub mod envmanager;
