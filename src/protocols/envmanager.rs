@@ -36,7 +36,7 @@ pub struct EnvManager {
 }
 
 impl EnvManager {
-    pub fn new() -> Self {
+    pub fn init() -> Self {
         dotenv().ok();
 
         Self {
