@@ -22,3 +22,4 @@
 - make tests for env checker
 - change color styling for perms
 - finish up extension config
+- check for missing env variables
