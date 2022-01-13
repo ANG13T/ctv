@@ -20,3 +20,15 @@ pub fn colorize_string(value: &str, input: String) -> String{
     };
     return result;
 }
+
+
+pub fn colorize_perm(value: &str, color_one: termion::color:Fg, color_two, color_three, color_four) -> String{
+    format!(
+        value.to_string(),
+        color_one,
+        color_two,
+        color_three,
+        color_four
+    )
+}
+

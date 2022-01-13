@@ -2,16 +2,16 @@ use libc::{S_IRGRP, S_IROTH, S_IRUSR, S_IWGRP, S_IWOTH, S_IWUSR, S_IXGRP, S_IXOT
 use std::os::unix::fs::PermissionsExt;
 use crate::protocols;
 
-pub fn perms(file: std::path::PathBuf) -> String {
+pub fn perms(file: std::path::PathBuf, env_manager: protocols::EnvManager) -> String {
   let mode = file.symlink_metadata().unwrap().permissions().mode() as u16;
-  let user = masking(mode, S_IRUSR as u16, S_IWUSR as u16, S_IXUSR as u16);
-  let group = masking(mode, S_IRGRP as u16, S_IWGRP as u16, S_IXGRP as u16);
-  let other = masking(mode, S_IROTH as u16, S_IWOTH as u16, S_IXOTH as u16);
+  let user = masking(mode, S_IRUSR as u16, S_IWUSR as u16, S_IXUSR as u16, env_manager);
+  let group = masking(mode, S_IRGRP as u16, S_IWGRP as u16, S_IXGRP as u16, env_manager);
+  let other = masking(mode, S_IROTH as u16, S_IWOTH as u16, S_IXOTH as u16, env_manager);
   let f = protocols::PathType::new(&file).unwrap()[0].get_letter_for_type();
   [f, user, group, other].join("")
 }
 
-fn masking(mode: u16, read: u16, write: u16, execute: u16) -> String {
+fn masking(mode: u16, read: u16, write: u16, execute: u16, env_manager: protocols::EnvManager) -> String {
   match (mode & read, mode & write, mode & execute) {
     (0, 0, 0) => format!(
       "{}-{}-{}-{}",

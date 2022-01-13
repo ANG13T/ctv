@@ -1,6 +1,4 @@
-extern crate dotenv;
-use dotenv::dotenv;
-use std::{fs, env};
+use std::{fs};
 use std::path::{PathBuf};
 use std::error::Error;
 use crate::protocols::{File, EnvManager};
@@ -26,7 +24,6 @@ pub struct TreeGenerator {
 
 impl TreeGenerator {
     pub fn init(root_dir: PathBuf, env_manager: EnvManager) -> Self {
-        dotenv().ok();
         let file_style: FileStyle = FileStyle::new(
             env_manager.file_size_position,
             env_manager.file_owner_position,

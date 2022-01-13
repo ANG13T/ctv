@@ -17,9 +17,9 @@
 - create file extenion display options
 - make README pretty
 - add search and peek func
-- add positioning and hiding code
-- do renaming when showing extension
 - make tests for env checker
-- change color styling for perms
 - finish up extension config
-- check for missing env variables
+
+- do renaming when showing extension
+- change color styling for perms
+- add positioning and hiding code
