@@ -90,12 +90,13 @@ pub struct File {
   perms:     String,
   styles:    FileStyle,
   file_time_type: String,
-  show_extension: bool
+  show_extension: bool,
+  env_manager: EnvManager
 }
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, env_manager: EnvManager) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
@@ -110,7 +111,8 @@ impl File {
         path: file,
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
-        show_extension: show_ext
+        show_extension: show_ext,
+        env_manager: env_manager
       }
     }
 
@@ -210,6 +212,14 @@ impl File {
       }
       return res;
     }
+  }
+
+  fn get_position_category(index: i32) -> String{
+    if index == -1 {
+      return "".to_string();
+    }
+    
+    if self.env_manager.
   }
 
   impl std::fmt::Display for File {
