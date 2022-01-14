@@ -4,7 +4,7 @@ use crate::input;
 use std::{fs, env};
 use structopt::StructOpt;
 use crate::decorators;
-use crate::protocols::{PathType, colormanager};
+use crate::protocols::{PathType, colormanager, EnvManager};
 // use structopt::StructOpt;
 
 enum DirSortType {

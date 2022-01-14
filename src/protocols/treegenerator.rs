@@ -58,7 +58,8 @@ impl TreeGenerator {
             time_format: env_manager.file_time_format,
             time_type: env_manager.file_time_type,
             layer_limit: env_manager.tree_layer_limit,
-            show_extension: env_manager.file_extension_position != 0
+            show_extension: env_manager.file_extension_position != 0,
+            
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
