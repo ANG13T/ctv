@@ -214,12 +214,13 @@ impl File {
     }
   }
 
-  fn get_position_category(index: i32) -> String{
-    if index == -1 {
-      return "".to_string();
-    }
+  fn get_position_category(&self, index: i32) -> String{
     
-    if self.env_manager.
+    if self.env_manager.file_size_position == index {
+      return "FILE_SIZE_POSITION".to_string();
+    }
+
+    return "".to_string();
   }
 
   impl std::fmt::Display for File {
