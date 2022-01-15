@@ -19,8 +19,7 @@ pub struct TreeGenerator {
     time_format: String,
     time_type: String,
     layer_limit: i32,
-    show_extension: bool,
-    env_manager: EnvManager
+    show_extension: bool
 }
 
 impl TreeGenerator {
@@ -59,8 +58,7 @@ impl TreeGenerator {
             time_format: env_manager.file_time_format,
             time_type: env_manager.file_time_type,
             layer_limit: env_manager.tree_layer_limit,
-            show_extension: env_manager.file_extension_position != 0,
-            env_manager: env_manager
+            show_extension: env_manager.file_extension_position != 0
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
@@ -126,7 +124,7 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String, limit: i32) {
-        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, self.env_manager);
+        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {

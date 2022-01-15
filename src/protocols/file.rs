@@ -91,12 +91,20 @@ pub struct File {
   styles:    FileStyle,
   file_time_type: String,
   show_extension: bool,
-  env_manager: EnvManager
+  display_positions: perms_positions
+}
+
+struct perms_positions {
+  file_size_position: i32,
+  file_owner_position: i32,
+  file_perms_position: i32,
+  file_time_position: i32,
+  file_extension_position: i32
 }
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, env_manager: EnvManager) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
@@ -111,8 +119,7 @@ impl File {
         path: file,
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
-        show_extension: show_ext,
-        env_manager: env_manager
+        show_extension: show_ext
       }
     }
 
@@ -212,16 +219,33 @@ impl File {
       }
       return res;
     }
-  }
 
-  fn get_position_category(&self, index: i32) -> String{
+    pub fn get_position_category(&self, index: i32) -> String{
     
-    if self.env_manager.file_size_position == index {
-      return "FILE_SIZE_POSITION".to_string();
-    }
+      if self.env_manager.file_size_position == index {
+        return "FILE_SIZE_POSITION".to_string();
+      }
 
-    return "".to_string();
+      if self.env_manager.file_owner_position == index {
+        return "FILE_OWNER_POSITION".to_string();
+      }
+
+      if self.env_manager.file_perms_position == index {
+        return "FILE_PERMS_POSITION".to_string();
+      }
+
+      if self.env_manager.file_time_position == index {
+        return "FILE_TIME_POSITION".to_string();
+      }
+
+      if self.env_manager.file_extension_position == index {
+        return "FILE_EXTENSION_POSITION".to_string();
+      }
+  
+      return "".to_string();
+    }
   }
+
 
   impl std::fmt::Display for File {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
