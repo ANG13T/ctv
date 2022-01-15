@@ -2,7 +2,7 @@ use std::{fs};
 use std::path::{PathBuf};
 use std::error::Error;
 use crate::protocols::{File, EnvManager};
-use crate::protocols::file::{FileStyle};
+use crate::protocols::file::{FileStyle, DisplayPositions};
 
 #[derive(Clone)]
 pub struct TreeGenerator {
@@ -24,10 +24,8 @@ pub struct TreeGenerator {
 
 impl TreeGenerator {
     pub fn init(root_dir: PathBuf, env_manager: EnvManager) -> Self {
+
         let file_style: FileStyle = FileStyle::new(
-            env_manager.file_size_position,
-            env_manager.file_owner_position,
-            env_manager.file_perms_position,
             env_manager.dir_name_color,
             env_manager.file_name_color,
             env_manager.file_time_color,
@@ -124,7 +122,7 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String, limit: i32) {
-        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension);
+        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, display_positions);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {

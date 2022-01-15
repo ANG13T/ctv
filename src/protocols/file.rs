@@ -17,9 +17,7 @@ enum DirSortType {
 
 #[derive(Clone)]
 pub struct FileStyle {
-  size_position: i32,
-  owner_position: i32,
-  perms_position: i32, 
+  positions: DisplayPositions,
   dir_name_color: String,
   file_name_color: String,
   file_time_color: String,
@@ -38,9 +36,7 @@ pub struct FileStyle {
 // TODO: change perms
 impl FileStyle {
   pub fn new(
-    size_pos: i32,
-    owner_pos: i32,
-    perms_pos: i32, 
+    display_pos: DisplayPositions,
     dir_name_col: String,
     file_name_col: String,
     file_time_col: String,
@@ -56,9 +52,7 @@ impl FileStyle {
     file_time_sty: String,
     file_ext_sty: String) -> Self {
       Self {
-        size_position: size_pos,
-        owner_position: owner_pos,
-        perms_position: perms_pos, 
+        positions: display_pos, 
         dir_name_color: dir_name_col.to_uppercase(),
         file_name_color: file_name_col.to_uppercase(),
         file_time_color: file_time_col.to_uppercase(),
@@ -95,12 +89,24 @@ pub struct File {
 }
 
 #[derive(Clone)]
-struct DisplayPositions {
+pub struct DisplayPositions {
   file_size_position: i32,
   file_owner_position: i32,
   file_perms_position: i32,
   file_time_position: i32,
   file_extension_position: i32
+}
+
+impl DisplayPositions {
+  pub fn new(file_size_pos: i32, file_owner_pos: i32, file_perms_pos: i32, file_time_pos: i32, file_extension_pos: i32) -> Self{
+    Self {
+      file_extension_position: file_extension_pos,
+      file_time_position: file_time_pos,
+      file_perms_position: file_perms_pos, 
+      file_owner_position: file_owner_pos,
+      file_size_position: file_size_pos
+    }
+  }
 }
 
 impl File {
