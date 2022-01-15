@@ -24,8 +24,9 @@ pub struct TreeGenerator {
 
 impl TreeGenerator {
     pub fn init(root_dir: PathBuf, env_manager: EnvManager) -> Self {
-
+        let positions: DisplayPositions = DisplayPositions::new(env_manager.file_size_position, env_manager.file_owner_position, env_manager.file_perms_position, env_manager.file_time_position, env_manager.file_extension_position);
         let file_style: FileStyle = FileStyle::new(
+            positions,
             env_manager.dir_name_color,
             env_manager.file_name_color,
             env_manager.file_time_color,
@@ -90,7 +91,7 @@ impl TreeGenerator {
     }
 
     fn tree_head(&mut self) {
-        let dir_file = File::new(self.root_dir.clone(), &self.time_format, &self.time_type, &self.file_styles, self.show_extension, self.env_manager);
+        let dir_file = File::new(self.root_dir.clone(), &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         self.tree.push(dir_file.display_format()); // prints out head dir
         self.tree.push(self.pipe.clone()); //print pipe under head dir
     }
@@ -122,7 +123,7 @@ impl TreeGenerator {
     }
 
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String, limit: i32) {
-        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, display_positions);
+        let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
         if index != entries_count - 1 {
@@ -137,7 +138,7 @@ impl TreeGenerator {
     }
 
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
-        let new_file = File::new(file, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, self.env_manager);
+        let new_file = File::new(file, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         let file_name: String = if self.show_file_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }

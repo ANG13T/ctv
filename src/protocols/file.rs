@@ -17,7 +17,7 @@ enum DirSortType {
 
 #[derive(Clone)]
 pub struct FileStyle {
-  positions: DisplayPositions,
+  pub positions: DisplayPositions,
   dir_name_color: String,
   file_name_color: String,
   file_time_color: String,
@@ -111,7 +111,7 @@ impl DisplayPositions {
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: DisplayPositions) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: &DisplayPositions) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
