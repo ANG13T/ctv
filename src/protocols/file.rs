@@ -112,7 +112,8 @@ impl DisplayPositions {
 impl File {
   // TODO: add diff time options
     pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: &DisplayPositions) -> Self {
-      let ref_to_file_styles: FileStyle = styles.clone();      
+      let ref_to_file_styles: FileStyle = styles.clone();    
+      let ref_to_display_position: DisplayPositions = display_pos.clone();      
       
       Self {
         group:     services::group(file.to_path_buf()),
@@ -127,7 +128,7 @@ impl File {
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
         show_extension: show_ext,
-        display_positions: display_pos
+        display_positions: ref_to_display_position
       }
     }
 
