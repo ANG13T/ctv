@@ -91,10 +91,11 @@ pub struct File {
   styles:    FileStyle,
   file_time_type: String,
   show_extension: bool,
-  display_positions: perms_positions
+  display_positions: DisplayPositions
 }
 
-struct perms_positions {
+#[derive(Clone)]
+struct DisplayPositions {
   file_size_position: i32,
   file_owner_position: i32,
   file_perms_position: i32,
@@ -104,7 +105,7 @@ struct perms_positions {
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: DisplayPositions) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();      
       
       Self {
@@ -119,7 +120,8 @@ impl File {
         path: file,
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
-        show_extension: show_ext
+        show_extension: show_ext,
+        display_positions: display_pos
       }
     }
 
@@ -222,23 +224,23 @@ impl File {
 
     pub fn get_position_category(&self, index: i32) -> String{
     
-      if self.env_manager.file_size_position == index {
+      if self.display_positions.file_size_position == index {
         return "FILE_SIZE_POSITION".to_string();
       }
 
-      if self.env_manager.file_owner_position == index {
+      if self.display_positions.file_owner_position == index {
         return "FILE_OWNER_POSITION".to_string();
       }
 
-      if self.env_manager.file_perms_position == index {
+      if self.display_positions.file_perms_position == index {
         return "FILE_PERMS_POSITION".to_string();
       }
 
-      if self.env_manager.file_time_position == index {
+      if self.display_positions.file_time_position == index {
         return "FILE_TIME_POSITION".to_string();
       }
 
-      if self.env_manager.file_extension_position == index {
+      if self.display_positions.file_extension_position == index {
         return "FILE_EXTENSION_POSITION".to_string();
       }
   
