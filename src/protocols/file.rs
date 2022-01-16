@@ -318,11 +318,12 @@ impl File {
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
         let file_count = fs::read_dir(&self.path).unwrap().count();
-        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {}] ({} items)",
-        res, self.perms, file_count,
-         file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
-         file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style)
+        return writeln!(f, "{} [{element_one} {element_two} {element_three} {element_four}] ({} items)",
+        res, file_count,
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), file_size_color_string), &self.styles.file_size_style),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), file_owner_color_string), &self.styles.file_owner_style),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), time), &self.styles.file_time_style),
+         element_four = self.perms
        );
       }else{
         let file_ext = services::extension::extension(&self.path);
