@@ -267,6 +267,17 @@ impl File {
         _=>"".to_string()
       }
     }
+
+    pub fn get_style_for_position(&self, position: &str) -> String {
+      return match position {
+        "FILE_SIZE_POSITION" => self.styles.file_size_style.clone(),
+        "FILE_OWNER_POSITION" => self.styles.file_owner_style.clone(),
+        "FILE_PERMS_POSITION" => self.styles.file_perms_style.clone(),
+        "FILE_TIME_POSITION" => self.styles.file_time_style.clone(),
+        "FILE_EXTENSION_POSITION" => self.styles.file_extension_style.clone(),
+        _=>"".to_string()
+      }
+    }
   }
 
 
@@ -334,9 +345,9 @@ impl File {
         let file_count = fs::read_dir(&self.path).unwrap().count();
         return writeln!(f, "{} [{element_one} {element_two} {element_three} {element_four}] ({} items)",
         res, file_count,
-         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), file_size_color_string), &self.styles.file_size_style),
-         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), file_owner_color_string), &self.styles.file_owner_style),
-         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), time), &self.styles.file_time_style),
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1))),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2))),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3))),
          element_four = self.perms
        );
       }else{
