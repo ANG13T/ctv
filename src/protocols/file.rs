@@ -253,6 +253,20 @@ impl File {
   
       return "".to_string();
     }
+
+    pub fn get_result_for_position(&self, position: &str) -> String{
+      return match position {
+        "FILE_SIZE_POSITION" => format!("{}", self.size),
+        "FILE_OWNER_POSITION" => format!("{}", self.user),
+        "FILE_PERMS_POSITION" => format!("{}", self.perms),
+        "FILE_TIME_POSITION" => {
+          let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
+          return time
+        },
+        "FILE_EXTENSION_POSITION" => services::extension::extension(&self.path),
+        _=>"".to_string()
+      }
+    }
   }
 
 
