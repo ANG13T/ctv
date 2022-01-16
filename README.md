@@ -20,6 +20,5 @@
 - make tests for env checker
 - finish up extension config
 
-- do renaming when showing extension
 - change color styling for perms
 - add positioning and hiding code

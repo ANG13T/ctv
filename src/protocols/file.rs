@@ -254,6 +254,7 @@ impl File {
       return "".to_string();
     }
 
+    // TODO: do timing stuff (env check if mod or created or accessed)
     pub fn get_result_for_position(&self, position: &str) -> String{
       return match position {
         "FILE_SIZE_POSITION" => format!("{}", self.size),
@@ -334,11 +335,6 @@ impl File {
         res = v.get_text_traits_for_type(&res, &self.path);
         res = format!("{}{}", v.get_color_for_type(), res);
       }
-      
-       // TODO: do timing stuff (env check if mod or created)
-       let time: String = if self.file_time_type == "CREATED" { self.created.to_string() } else { self.modified.to_string() };
-       let file_size_color_string = format!("{}", self.size);
-       let file_owner_color_string = format!("{}", self.user);
   
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
@@ -351,13 +347,13 @@ impl File {
          element_four = self.perms
        );
       }else{
-        let file_ext = services::extension::extension(&self.path);
-        return writeln!(f, "{} [{file_size} {file_owner} {file_time} {file_extension} {}]",
-        res, self.perms,
-         file_size = self.get_styled_text(&self.get_color_for("FILE_SIZE_COLOR", file_size_color_string), &self.styles.file_size_style),
-         file_owner = self.get_styled_text(&self.get_color_for("FILE_OWNER_COLOR", file_owner_color_string), &self.styles.file_owner_style),
-         file_time = self.get_styled_text(&self.get_color_for("FILE_TIME_COLOR", time), &self.styles.file_time_style),
-         file_extension = self.get_styled_text(&self.get_color_for("FILE_EXTENSION_COLOR", file_ext), &self.styles.file_extension_style)
+        return writeln!(f, "{} [{element_one} {element_two} {element_three} {element_four} {element_five}]",
+        res, 
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1))),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2))),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3))),
+         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4))),
+         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)))
        );
       }
 
