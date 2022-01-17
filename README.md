@@ -11,9 +11,7 @@
 - make test cases for treegenerator
 - make tests for env checker
 - create file type tests display
-
-- complete env checker
-- fix dir file detail end pad
+- fix 
 - add all sorting methods
 - manually assign flags and change env variables from CLI
 - add search and peek func

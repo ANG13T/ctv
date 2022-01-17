@@ -33,6 +33,7 @@ pub struct FileStyle {
   file_time_style: String,
   file_extension_style: String,
   num_positions: i32,
+  dir_num_positions: i32,
   pub dir_color: String,
   pub symlink_color: String,
   pub path_color: String,
@@ -64,6 +65,7 @@ impl FileStyle {
     file_time_sty: String,
     file_ext_sty: String,
     file_num_pos: i32,
+    dir_num_pos: i32,
     dir_col: String,
     symlink_col: String,
     path_col: String,
@@ -92,6 +94,7 @@ impl FileStyle {
         file_time_style: file_time_sty.to_uppercase(),
         file_extension_style: file_ext_sty.to_uppercase(),
         num_positions: file_num_pos,
+        dir_num_positions: dir_num_pos,
         dir_color: dir_col,
         symlink_color: symlink_col,
         path_color: path_col,
@@ -206,12 +209,13 @@ impl File {
        let metadata = fs::metadata(&self.path).unwrap();
        if metadata.is_dir(){
         let file_count = fs::read_dir(&self.path).unwrap().count();
-        return format!( "{} [{element_one}{element_two}{element_three}{element_four}] ({} items)",
+        return format!( "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
-        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
-        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
-        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
-        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions),
+        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
+        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.dir_num_positions),
+        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.dir_num_positions),
+        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.dir_num_positions),
+        element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
        );
        }else {
         return format!("{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
@@ -378,12 +382,13 @@ impl File {
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
         let file_count = fs::read_dir(&self.path).unwrap().count();
-        return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}] ({} items)",
+        return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
-         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
-         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
-         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
-         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions)
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.dir_num_positions),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.dir_num_positions),
+         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.dir_num_positions),
+         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
        );
       }else{
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",

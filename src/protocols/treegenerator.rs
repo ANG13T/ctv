@@ -42,6 +42,7 @@ impl TreeGenerator {
             env_manager.file_time_style,
             env_manager.file_extension_style,
             env_manager.num_positions,
+            env_manager.dir_num_positions,
             env_manager.dir_color,
             env_manager.symlink_color,
             env_manager.path_color,

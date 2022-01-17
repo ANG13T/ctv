@@ -34,6 +34,7 @@ pub struct EnvManager {
     pub pipe_prefix: String,
     pub space_prefix: String,
     pub num_positions: i32,
+    pub dir_num_positions: i32,
     pub dir_color: String,
     pub symlink_color: String,
     pub path_color: String,
@@ -44,7 +45,7 @@ pub struct EnvManager {
     pub read_color: String,
     pub write_color: String,
     pub execute_color: String,
-    pub dash_color: String,
+    pub dash_color: String
 }
 
 impl EnvManager {
@@ -57,6 +58,11 @@ impl EnvManager {
         if env::var("FILE_PERMS_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
         if env::var("FILE_TIME_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
         if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+
+        let mut dir_num_pos : i32 = original;
+        if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() != -1 {
+            dir_num_pos -= 1;
+        }
 
         Self {
             file_size_position: env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap(),
@@ -89,6 +95,7 @@ impl EnvManager {
             pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
             space_prefix: env::var("SPACE_PREFIX").unwrap(),
             num_positions: original,
+            dir_num_positions: dir_num_pos,
             dir_color: env::var("DIR_COLOR").unwrap(),
             symlink_color: env::var("SYMLINK_COLOR").unwrap(),
             path_color: env::var("PATH_COLOR").unwrap(),
