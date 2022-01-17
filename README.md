@@ -21,6 +21,10 @@
 
 
 - change color styling for perms
-- add positioning and hiding code
+- make tree spacing code
+
+
+- positioning hiding code
+- add color coding customization (ie. file, folder, socket, etc)
 
 - make README pretty

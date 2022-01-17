@@ -44,8 +44,8 @@ pub fn check_env() -> bool {
 
         if is_position_path(&key) {
             let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer in env variable!");
-            if key_int <= 0 || key_int > file_detail_num {
-                println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be 1, 2, 3, 4, or 5!", val, key);
+            if (key_int <= 0 && key_int != -1) || key_int > file_detail_num {
+                println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be -1, 1, 2, 3, 4, or 5!", val, key);
                 return false;
             }
             if used_positions.contains(&key) {
