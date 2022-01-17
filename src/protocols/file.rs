@@ -39,7 +39,11 @@ pub struct FileStyle {
   pub pipe_color: String,
   pub chard_color: String,
   pub blockd_color: String,
-  pub socket_color: String
+  pub socket_color: String,
+  pub read_color: String,
+  pub write_color: String,
+  pub execute_color: String,
+  pub dash_color: String
 }
 // TODO: change perms
 impl FileStyle {
@@ -66,7 +70,11 @@ impl FileStyle {
     pipe_col: String,
     chard_col: String,
     blockd_col: String,
-    socket_col: String) -> Self {
+    socket_col: String,
+    read_col: String,
+    write_col: String,
+    execute_col: String,
+    dash_col: String) -> Self {
       Self {
         positions: display_pos, 
         dir_name_color: dir_name_col.to_uppercase(),
@@ -90,7 +98,11 @@ impl FileStyle {
         pipe_color: pipe_col,
         chard_color: chard_col,
         blockd_color: blockd_col,
-        socket_color: socket_col
+        socket_color: socket_col,
+        read_color: read_col,
+        write_color: write_col,
+        execute_color: execute_col,
+        dash_color: dash_col
       }
     }
 }

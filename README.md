@@ -19,10 +19,7 @@
 - manually assign flags and change env variables from CLI
 - add search and peek func
 
-
 - change color styling for perms
 - make tree spacing code
-
-- add color coding customization (ie. file, folder, socket, etc)
 
 - make README pretty

@@ -48,7 +48,11 @@ impl TreeGenerator {
             env_manager.pipe_color,
             env_manager.chard_color,
             env_manager.blockd_color,
-            env_manager.socket_color
+            env_manager.socket_color,
+            env_manager.read_color,
+            env_manager.write_color,
+            env_manager.execute_color,
+            env_manager.dash_color
         );
 
         Self {

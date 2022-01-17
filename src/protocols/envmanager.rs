@@ -40,7 +40,11 @@ pub struct EnvManager {
     pub pipe_color: String,
     pub chard_color: String,
     pub blockd_color: String,
-    pub socket_color: String
+    pub socket_color: String,
+    pub read_color: String,
+    pub write_color: String,
+    pub execute_color: String,
+    pub dash_color: String,
 }
 
 impl EnvManager {
@@ -91,7 +95,11 @@ impl EnvManager {
             pipe_color: env::var("PIPE_COLOR").unwrap(),
             chard_color: env::var("CHARD_COLOR").unwrap(),            
             blockd_color: env::var("BLOCKD_COLOR").unwrap(),
-            socket_color: env::var("SOCKET_COLOR").unwrap()
+            socket_color: env::var("SOCKET_COLOR").unwrap(),
+            read_color: env::var("READ_COLOR").unwrap(),
+            write_color: env::var("WRITE_COLOR").unwrap(),            
+            execute_color: env::var("EXECUTE_COLOR").unwrap(),
+            dash_color: env::var("DASH_COLOR").unwrap()
         }
     }
 }
