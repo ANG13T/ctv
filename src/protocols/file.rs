@@ -31,7 +31,8 @@ pub struct FileStyle {
   file_owner_style: String,
   file_perms_style: String,
   file_time_style: String,
-  file_extension_style: String
+  file_extension_style: String,
+  num_positions: i32
 }
 // TODO: change perms
 impl FileStyle {
@@ -50,7 +51,8 @@ impl FileStyle {
     file_owner_sty: String,
     file_perms_sty: String,
     file_time_sty: String,
-    file_ext_sty: String) -> Self {
+    file_ext_sty: String,
+    file_num_pos: i32) -> Self {
       Self {
         positions: display_pos, 
         dir_name_color: dir_name_col.to_uppercase(),
@@ -66,7 +68,8 @@ impl FileStyle {
         file_owner_style: file_owner_sty.to_uppercase(),
         file_perms_style: file_perms_sty.to_uppercase(),
         file_time_style: file_time_sty.to_uppercase(),
-        file_extension_style: file_ext_sty.to_uppercase()
+        file_extension_style: file_ext_sty.to_uppercase(),
+        num_positions: file_num_pos
       }
     }
 }
@@ -171,19 +174,19 @@ impl File {
         let file_count = fs::read_dir(&self.path).unwrap().count();
         return format!( "{} [{element_one}{element_two}{element_three}{element_four}] ({} items)",
         res, file_count,
-        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), false),
-        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), false),
-        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), true),
+        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
+        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
+        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
         element_four = self.perms
        );
        }else {
         return format!("{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
         res, 
-        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), false),
-        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), false),
-        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), false),
-        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), false),
-        element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), true)
+        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
+        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
+        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
+        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions),
+        element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 == self.styles.num_positions)
         );
        }
     }
@@ -343,19 +346,19 @@ impl File {
         let file_count = fs::read_dir(&self.path).unwrap().count();
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}] ({} items)",
         res, file_count,
-         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), false),
-         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), false),
-         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), true),
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
          element_four = self.perms
        );
       }else{
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
         res, 
-         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), false),
-         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), false),
-         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), false),
-         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), false),
-         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), true)
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
+         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions),
+         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 == self.styles.num_positions)
        );
       }
 

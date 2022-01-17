@@ -40,7 +40,8 @@ impl TreeGenerator {
             env_manager.file_owner_style,
             env_manager.file_perms_style,
             env_manager.file_time_style,
-            env_manager.file_extension_style
+            env_manager.file_extension_style,
+            env_manager.num_positions
         );
 
         Self {

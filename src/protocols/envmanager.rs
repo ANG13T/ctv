@@ -33,11 +33,19 @@ pub struct EnvManager {
     pub tee: String,
     pub pipe_prefix: String,
     pub space_prefix: String,
+    pub num_positions: i32
 }
 
 impl EnvManager {
     pub fn init() -> Self {
         dotenv().ok();
+
+        let mut original : i32 = 5;
+        if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+        if env::var("FILE_OWNER_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+        if env::var("FILE_PERMS_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+        if env::var("FILE_TIME_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+        if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
 
         Self {
             file_size_position: env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap(),
@@ -69,6 +77,7 @@ impl EnvManager {
             tee: env::var("TEE").unwrap(),
             pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
             space_prefix: env::var("SPACE_PREFIX").unwrap(),
+            num_positions: original
         }
     }
 }
