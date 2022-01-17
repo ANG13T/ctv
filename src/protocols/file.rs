@@ -149,7 +149,7 @@ impl File {
         perms:     services::perms::perms(file.to_path_buf(), ref_to_file_styles),
         file_type: PathType::new(&file).unwrap(),
         path: file,
-        styles: ref_to_file_styles,
+        styles: styles.clone(),
         file_time_type: time_type.to_string(),
         show_extension: show_ext,
         display_positions: ref_to_display_position
@@ -183,11 +183,11 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(self.styles), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
           continue;
         }
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(self.styles), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
       }
 
        let metadata = fs::metadata(&self.path).unwrap();
@@ -245,11 +245,11 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(self.styles), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
           continue;
         }
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(self.styles), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
       }
       return res;
     }
@@ -315,7 +315,7 @@ impl File {
         if i == 0 {
           res = format!(
             "{}{}",
-            v.get_color_for_type(self.styles),
+            v.get_color_for_type(self.styles.clone()),
             v.get_text_traits_for_type(
               &self.path.
                 components()
@@ -330,7 +330,7 @@ impl File {
         } else {
           res = format!(
             "{}{}",
-            v.get_color_for_type(self.styles),
+            v.get_color_for_type(self.styles.clone()),
             v.get_text_traits_for_type(&res, &self.path)
           );
         }
@@ -354,12 +354,12 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(self.styles), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
           continue;
         }
         
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(self.styles), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
       }
   
       let metadata = fs::metadata(&self.path).unwrap();
