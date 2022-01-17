@@ -57,7 +57,20 @@ pub fn check_env() -> bool {
 
         if &key == "FILE_TIME_TYPE" {
             if !all_time_formats.contains(&val.to_uppercase()){
-                println!("ERROR: ENV variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED, MODIFIED, or ACCESSED", val, key);
+                println!("ERROR: ENV variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key);
+                return false;
+            }
+        }
+
+        if &key == "SPACING" {
+            let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
+            if key_int <= 0 {
+                println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than 0", val, key);
+                return false;
+            }
+
+            if key_int > 7 {
+                println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be less than 7", val, key);
                 return false;
             }
         }
