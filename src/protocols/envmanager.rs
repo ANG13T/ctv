@@ -45,7 +45,8 @@ pub struct EnvManager {
     pub read_color: String,
     pub write_color: String,
     pub execute_color: String,
-    pub dash_color: String
+    pub dash_color: String,
+    pub spacing: i32
 }
 
 impl EnvManager {
@@ -106,7 +107,8 @@ impl EnvManager {
             read_color: env::var("READ_COLOR").unwrap(),
             write_color: env::var("WRITE_COLOR").unwrap(),            
             execute_color: env::var("EXECUTE_COLOR").unwrap(),
-            dash_color: env::var("DASH_COLOR").unwrap()
+            dash_color: env::var("DASH_COLOR").unwrap(),
+            spacing: env::var("SPACING").unwrap().parse::<i32>().unwrap()
         }
     }
 }

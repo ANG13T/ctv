@@ -19,7 +19,8 @@ pub struct TreeGenerator {
     time_format: String,
     time_type: String,
     layer_limit: i32,
-    show_extension: bool
+    show_extension: bool,
+    spacing: i32
 }
 
 impl TreeGenerator {
@@ -70,7 +71,8 @@ impl TreeGenerator {
             time_format: env_manager.file_time_format,
             time_type: env_manager.file_time_type,
             layer_limit: env_manager.tree_layer_limit,
-            show_extension: env_manager.file_extension_position != 0
+            show_extension: env_manager.file_extension_position != 0,
+            spacing: env_manager.spacing
         }   
     }
     pub fn build_tree(&mut self) -> Vec<String>{
@@ -134,10 +136,17 @@ impl TreeGenerator {
         }   
     }
 
+    fn add_spacing(&mut self, mut prefix: String) {
+        for n in 0..self.spacing {
+            self.tree.push(format!("{}{}", prefix, self.pipe_prefix))
+        }
+    }
+
     fn add_directory(&mut self, directory: PathBuf, directory2: PathBuf, index: usize, entries_count: usize, mut prefix: String, connector: String, limit: i32) {
         let new_file = File::new(directory, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         let file_name = if self.show_dir_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
-        self.tree.push(format!("{}{} {}", prefix, connector, file_name));
+        self.add_spacing(prefix.clone());
+        self.tree.push(format!("{}{} {}", prefix.clone(), connector, file_name));
         if index != entries_count - 1 {
             prefix += &self.pipe_prefix;
         }else {
@@ -152,6 +161,7 @@ impl TreeGenerator {
     fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
         let new_file = File::new(file, &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         let file_name: String = if self.show_file_metadata == "TRUE" {new_file.display_format()} else {new_file.get_name()};
+        self.add_spacing(prefix.clone());
         self.tree.push(format!("{}{} {}", prefix, connector, file_name));
     }
 }
