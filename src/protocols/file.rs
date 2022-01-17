@@ -169,6 +169,7 @@ impl File {
     }
 
     fn get_color_for(&self, typ: &str, input: String) -> String{
+      if typ == "FILE_PERMS_POSITION" {return input;}
       let result = match typ {
         "FILE_OWNER_POSITION"=> colormanager::colorize_string(&self.styles.file_owner_color, input),
         "FILE_SIZE_POSITION"=> colormanager::colorize_string(&self.styles.file_size_color, input),

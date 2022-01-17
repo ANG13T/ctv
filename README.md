@@ -18,8 +18,6 @@
 - add all sorting methods
 - manually assign flags and change env variables from CLI
 - add search and peek func
-
-- change color styling for perms
 - make tree spacing code
 
 - make README pretty
