@@ -2,6 +2,7 @@ use std::path::{Path};
 use std::os::unix::fs::FileTypeExt;
 use crate::decorators;
 use crate::protocols::{colormanager};
+use crate::protocols::file::{FileStyle};
 
 #[derive(Copy, Clone, Debug)]
 pub enum PathType {
@@ -11,7 +12,7 @@ pub enum PathType {
   Pipe,
   CharD,
   BlockD,
-  Socket,
+  Socket
 }
 
 impl PathType {
@@ -24,7 +25,6 @@ impl PathType {
       if file.symlink_metadata()?.file_type().is_block_device() {return_val.push(Self::BlockD)}
       if file.symlink_metadata()?.file_type().is_socket() {return_val.push(Self::Socket)}
       if return_val.is_empty() {return_val.push(Self::Path)}
-  
       Ok(return_val)
     }
   
@@ -49,18 +49,16 @@ impl PathType {
         _             => self.create_letter("."),
       }
     }
-  
 
-    // TODO: change this
-    pub fn get_color_for_type(&self) -> String {
+    pub fn get_color_for_type(&self, path_styles: FileStyle) -> String {
       match self {
-        Self::Dir     => colormanager::colorize_string("BLUE", "".to_string()),
-        Self::Symlink => format!("{}", termion::color::Fg(termion::color::LightMagenta)),
-        Self::Path    => format!("{}", termion::color::Fg(termion::color::White)),
-        Self::Pipe    => format!("{}", termion::color::Fg(termion::color::Yellow)),
-        Self::CharD   => format!("{}{}", termion::color::Bg(termion::color::Yellow), termion::color::Fg(termion::color::LightBlue)),
-        Self::BlockD  => format!("{}", termion::color::Fg(termion::color::LightGreen)),
-        Self::Socket  => format!("{}", termion::color::Fg(termion::color::LightRed)),
+        Self::Dir     => colormanager::colorize_string(&path_styles.dir_color, "".to_string()),
+        Self::Symlink => colormanager::colorize_string(&path_styles.symlink_color, "".to_string()),
+        Self::Path    => colormanager::colorize_string(&path_styles.path_color, "".to_string()),
+        Self::Pipe    => colormanager::colorize_string(&path_styles.pipe_color, "".to_string()),
+        Self::CharD   => colormanager::colorize_string(&path_styles.chard_color, "".to_string()),
+        Self::BlockD  => colormanager::colorize_string(&path_styles.blockd_color, "".to_string()),
+        Self::Socket  => colormanager::colorize_string(&path_styles.socket_color, "".to_string()),
       }
     }
   

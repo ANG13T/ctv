@@ -38,8 +38,7 @@ pub struct EnvManager {
     pub symlink_color: String,
     pub path_color: String,
     pub pipe_color: String,
-    pub chard_1_color: String,
-    pub chard_2_color: String,
+    pub chard_color: String,
     pub blockd_color: String,
     pub socket_color: String
 }
@@ -90,8 +89,7 @@ impl EnvManager {
             symlink_color: env::var("SYMLINK_COLOR").unwrap(),
             path_color: env::var("PATH_COLOR").unwrap(),
             pipe_color: env::var("PIPE_COLOR").unwrap(),
-            chard_1_color: env::var("CHARD_COLOR_1").unwrap(),
-            chard_2_color: env::var("CHARD_COLOR_2").unwrap(),
+            chard_color: env::var("CHARD_COLOR").unwrap(),            
             blockd_color: env::var("BLOCKD_COLOR").unwrap(),
             socket_color: env::var("SOCKET_COLOR").unwrap()
         }

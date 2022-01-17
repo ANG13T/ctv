@@ -32,7 +32,14 @@ pub struct FileStyle {
   file_perms_style: String,
   file_time_style: String,
   file_extension_style: String,
-  num_positions: i32
+  num_positions: i32,
+  pub dir_color: String,
+  pub symlink_color: String,
+  pub path_color: String,
+  pub pipe_color: String,
+  pub chard_color: String,
+  pub blockd_color: String,
+  pub socket_color: String
 }
 // TODO: change perms
 impl FileStyle {
@@ -126,7 +133,7 @@ impl File {
         accessed:  services::time::time_acessed(file.to_path_buf(), time_format),
         size:      services::size::size(file.to_path_buf()),
         perms:     services::perms::perms(file.to_path_buf()),
-        file_type: PathType::new(&file).unwrap(),
+        file_type: PathType::new(&file, ref_to_file_styles).unwrap(),
         path: file,
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
