@@ -8,11 +8,9 @@
 
 
 ## Tasks
-- make tests for env checker
-- create file type tests display
-
 - add all sorting methods
-- manually assign flags and change env variables from CLI
+- manually assign flags
+- change env variables from CLI
 - add search and peek func
 
 - make README pretty

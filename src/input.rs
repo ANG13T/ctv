@@ -5,27 +5,31 @@ pub struct Cli {
   #[structopt(parse(from_os_str), default_value = ".")]
   pub dir: std::path::PathBuf,
 
-  /// Sorts files by name
+  /// Sorting by name
   #[structopt(short = "n", long = "name")]
   pub name: bool,
 
-  /// Sorts files by the date created
+  /// Sorting by created date
   #[structopt(short = "c", long = "created")]
   pub created: bool,
 
-  /// Sorts files by the date modified
+  /// Sorting by modified date
   #[structopt(short = "m", long = "modified")]
   pub modified: bool,
 
-  /// Sorts files by file size
+  /// Sorting by size
   #[structopt(short = "s", long = "size")]
   pub size: bool,
 
-  /// Enables long mode (permissions, size, user, group)
-  #[structopt(short = "l", long = "long")]
-  pub long: bool,
+  /// Uses short format (only name)
+  #[structopt(short = "s", long = "short")]
+  pub short: bool,
 
-  /// Formats the time output 
+  /// Sets layer limit
+  #[structopt(short = "l", long = "layer")]
+  pub layer: i32,
+
+  /// Uses specific time format
   #[structopt(long = "time-format", default_value = "%e %b %H.%M")]
   pub time_format: String,
 

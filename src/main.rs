@@ -15,6 +15,10 @@ fn main() -> Result<(), Box<dyn Error>>{
     Ok(())
 }
 
+fn modify_env_with_flags(){
+    
+}
+
 
 #[cfg(test)]
 mod test_suite;
