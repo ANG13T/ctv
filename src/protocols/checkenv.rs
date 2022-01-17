@@ -64,8 +64,8 @@ pub fn check_env() -> bool {
 
         if &key == "SPACING" {
             let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
-            if key_int <= 0 {
-                println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than 0", val, key);
+            if key_int < 0 {
+                println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than or equal to 0", val, key);
                 return false;
             }
 

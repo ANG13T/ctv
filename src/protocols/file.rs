@@ -112,19 +112,19 @@ impl FileStyle {
 
 #[derive(Clone)]
 pub struct File {
-  path:      std::path::PathBuf,
-  file_type: Vec<PathType>,
-  group:     String,
-  user:      String,
-  modified:  String,
-  accessed:  String,
-  created:   String,
-  size:      String,
-  perms:     String,
-  styles:    FileStyle,
-  file_time_type: String,
-  show_extension: bool,
-  display_positions: DisplayPositions
+  pub path:      std::path::PathBuf,
+  pub file_type: Vec<PathType>,
+  pub group:     String,
+  pub user:      String,
+  pub modified:  String,
+  pub accessed:  String,
+  pub created:   String,
+  pub size:      String,
+  pub perms:     String,
+  pub styles:    FileStyle,
+  pub file_time_type: String,
+  pub show_extension: bool,
+  pub display_positions: DisplayPositions
 }
 
 #[derive(Clone)]
