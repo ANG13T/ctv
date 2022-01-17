@@ -134,12 +134,12 @@ impl File {
 
     fn get_color_for(&self, typ: &str, input: String) -> String{
       let result = match typ {
-        "FILE_OWNER_COLOR"=> colormanager::colorize_string(&self.styles.file_owner_color, input),
-        "FILE_SIZE_COLOR"=> colormanager::colorize_string(&self.styles.file_size_color, input),
-        "DIR_NAME_COLOR"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
-        "FILE_NAME_COLOR"=> colormanager::colorize_string(&self.styles.file_name_color, input),
-        "FILE_TIME_COLOR"=> colormanager::colorize_string(&self.styles.file_time_color, input),
-        "FILE_EXTENSION_COLOR"=> colormanager::colorize_string(&self.styles.file_extension_color, input),
+        "FILE_OWNER_POSITION"=> colormanager::colorize_string(&self.styles.file_owner_color, input),
+        "FILE_SIZE_POSITION"=> colormanager::colorize_string(&self.styles.file_size_color, input),
+        "DIR_NAME_POSITION"=> colormanager::colorize_string(&self.styles.dir_name_color, input),
+        "FILE_NAME_POSITION"=> colormanager::colorize_string(&self.styles.file_name_color, input),
+        "FILE_TIME_POSITION"=> colormanager::colorize_string(&self.styles.file_time_color, input),
+        "FILE_EXTENSION_POSITION"=> colormanager::colorize_string(&self.styles.file_extension_color, input),
         _=> "".to_string()
       };
       return result;
@@ -177,7 +177,6 @@ impl File {
         element_four = self.perms
        );
        }else {
-         let file_ext = services::extension::extension(&self.path);
         return format!("{} [{element_one} {element_two} {element_three} {element_four} {element_five}]",
         res, 
         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1))),
@@ -254,7 +253,7 @@ impl File {
 
     // TODO: do timing stuff (env check if mod or created or accessed)
     pub fn get_result_for_position(&self, position: &str) -> String{
-      return match position {
+      let res = match position {
         "FILE_SIZE_POSITION" => format!("{}", self.size),
         "FILE_OWNER_POSITION" => format!("{}", self.user),
         "FILE_PERMS_POSITION" => format!("{}", self.perms),
@@ -264,7 +263,8 @@ impl File {
         },
         "FILE_EXTENSION_POSITION" => services::extension::extension(&self.path),
         _=>"".to_string()
-      }
+      };
+      return res;
     }
 
     pub fn get_style_for_position(&self, position: &str) -> String {

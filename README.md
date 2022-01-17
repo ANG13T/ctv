@@ -9,16 +9,18 @@
 
 ## Tasks
 - make test cases for treegenerator
+- make tests for env checker
+- create file type tests display
+
 - complete env checker
+
 - add customization feature from env
 - add all sorting methods
 - manually assign flags and change env variables from CLI
-- create file type tests display
-- create file extenion display options
-- make README pretty
 - add search and peek func
-- make tests for env checker
-- finish up extension config
+
 
 - change color styling for perms
 - add positioning and hiding code
+
+- make README pretty
