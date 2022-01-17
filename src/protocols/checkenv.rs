@@ -35,6 +35,26 @@ pub fn check_env() -> bool {
             }
         }
 
+        if is_metadata_path(&key) {
+            if &val.to_uppercase() != "TRUE" &&  &val.to_uppercase() != "FALSE" {
+                println!("ERROR: ENV variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key);
+                return false;
+            }
+        }
+
+        if is_limit_path(&key) {
+            let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
+            if key_int <= 0 {
+                println!("ERROR: ENV variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be greater than 0", val, key);
+                return false;
+            }
+
+            if key_int > 7 {
+                println!("ERROR: ENV variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be less than 8", val, key);
+                return false;
+            }
+        }
+
         if &key == "FILE_TIME_TYPE" {
             if !all_time_formats.contains(&val.to_uppercase()){
                 println!("ERROR: ENV variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED, MODIFIED, or ACCESSED", val, key);
@@ -64,6 +84,11 @@ fn is_color_path(path: &str) -> bool {
     return string_vec.contains(&"COLOR");
 }
 
+fn is_metadata_path(path: &str) -> bool {
+    let string_vec: Vec<&str> = path.split("_").collect();
+    return string_vec.contains(&"METADATA");
+}
+
 fn is_valid_rgb(color: &str, path: &str) -> bool {
     let uppercased_no_space: String = color.to_uppercase().replace(" ", "");
     if &uppercased_no_space[..4] != "RGB(" || &uppercased_no_space[&uppercased_no_space.len()-1..] != ")" {return false};
@@ -88,4 +113,9 @@ fn is_style_path(path: &str) -> bool {
 fn is_position_path(path: &str) -> bool {
     let string_vec: Vec<&str> = path.split("_").collect();
     return string_vec.contains(&"POSITION");
+}
+
+fn is_limit_path(path: &str) -> bool {
+    let string_vec: Vec<&str> = path.split("_").collect();
+    return string_vec.contains(&"LIMIT");
 }

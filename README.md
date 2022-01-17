@@ -13,8 +13,7 @@
 - create file type tests display
 
 - complete env checker
-
-- add customization feature from env
+- fix dir file detail end pad
 - add all sorting methods
 - manually assign flags and change env variables from CLI
 - add search and peek func

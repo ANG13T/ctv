@@ -105,7 +105,6 @@ impl TreeGenerator {
     fn tree_head(&mut self) {
         let dir_file = File::new(self.root_dir.clone(), &self.time_format, &self.time_type, &self.file_styles, self.show_extension, &self.file_styles.positions);
         self.tree.push(dir_file.display_format()); // prints out head dir
-        self.tree.push(self.pipe.clone()); //print pipe under head dir
     }
 
     fn tree_body(&mut self, directory: PathBuf, prefix: &String, limit: i32) {
