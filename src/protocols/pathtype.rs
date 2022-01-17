@@ -54,7 +54,7 @@ impl PathType {
     // TODO: change this
     pub fn get_color_for_type(&self) -> String {
       match self {
-        Self::Dir     => colormanager::colorize_string("", "BLUE".to_string()),
+        Self::Dir     => colormanager::colorize_string("BLUE", "".to_string()),
         Self::Symlink => format!("{}", termion::color::Fg(termion::color::LightMagenta)),
         Self::Path    => format!("{}", termion::color::Fg(termion::color::White)),
         Self::Pipe    => format!("{}", termion::color::Fg(termion::color::Yellow)),

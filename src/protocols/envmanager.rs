@@ -33,7 +33,15 @@ pub struct EnvManager {
     pub tee: String,
     pub pipe_prefix: String,
     pub space_prefix: String,
-    pub num_positions: i32
+    pub num_positions: i32,
+    pub dir_color: String,
+    pub symlink_color: String,
+    pub path_color: String,
+    pub pipe_color: String,
+    pub chard_1_color: String,
+    pub chard_2_color: String,
+    pub blockd_color: String,
+    pub socket_color: String
 }
 
 impl EnvManager {
@@ -77,7 +85,15 @@ impl EnvManager {
             tee: env::var("TEE").unwrap(),
             pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
             space_prefix: env::var("SPACE_PREFIX").unwrap(),
-            num_positions: original
+            num_positions: original,
+            dir_color: env::var("DIR_COLOR").unwrap(),
+            symlink_color: env::var("SYMLINK_COLOR").unwrap(),
+            path_color: env::var("PATH_COLOR").unwrap(),
+            pipe_color: env::var("PIPE_COLOR").unwrap(),
+            chard_1_color: env::var("CHARD_COLOR_1").unwrap(),
+            chard_2_color: env::var("CHARD_COLOR_2").unwrap(),
+            blockd_color: env::var("BLOCKD_COLOR").unwrap(),
+            socket_color: env::var("SOCKET_COLOR").unwrap()
         }
     }
 }
