@@ -210,7 +210,7 @@ impl File {
         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
-        element_four = self.perms
+        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions),
        );
        }else {
         return format!("{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
@@ -382,7 +382,7 @@ impl File {
          element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
          element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.num_positions),
          element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.num_positions),
-         element_four = self.perms
+         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.num_positions)
        );
       }else{
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
