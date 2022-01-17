@@ -59,7 +59,14 @@ impl FileStyle {
     file_perms_sty: String,
     file_time_sty: String,
     file_ext_sty: String,
-    file_num_pos: i32) -> Self {
+    file_num_pos: i32,
+    dir_col: String,
+    symlink_col: String,
+    path_col: String,
+    pipe_col: String,
+    chard_col: String,
+    blockd_col: String,
+    socket_col: String) -> Self {
       Self {
         positions: display_pos, 
         dir_name_color: dir_name_col.to_uppercase(),
@@ -76,7 +83,14 @@ impl FileStyle {
         file_perms_style: file_perms_sty.to_uppercase(),
         file_time_style: file_time_sty.to_uppercase(),
         file_extension_style: file_ext_sty.to_uppercase(),
-        num_positions: file_num_pos
+        num_positions: file_num_pos,
+        dir_color: dir_col,
+        symlink_color: symlink_col,
+        path_color: path_col,
+        pipe_color: pipe_col,
+        chard_color: chard_col,
+        blockd_color: blockd_col,
+        socket_color: socket_col
       }
     }
 }
@@ -132,8 +146,8 @@ impl File {
         created:   services::time::time_created(file.to_path_buf(), time_format),
         accessed:  services::time::time_acessed(file.to_path_buf(), time_format),
         size:      services::size::size(file.to_path_buf()),
-        perms:     services::perms::perms(file.to_path_buf()),
-        file_type: PathType::new(&file, ref_to_file_styles).unwrap(),
+        perms:     services::perms::perms(file.to_path_buf(), ref_to_file_styles),
+        file_type: PathType::new(&file).unwrap(),
         path: file,
         styles: ref_to_file_styles,
         file_time_type: time_type.to_string(),
@@ -169,11 +183,11 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles), res);
           continue;
         }
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles), res);
       }
 
        let metadata = fs::metadata(&self.path).unwrap();
@@ -231,11 +245,11 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles), res);
           continue;
         }
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles), res);
       }
       return res;
     }
@@ -301,7 +315,7 @@ impl File {
         if i == 0 {
           res = format!(
             "{}{}",
-            v.get_color_for_type(),
+            v.get_color_for_type(self.styles),
             v.get_text_traits_for_type(
               &self.path.
                 components()
@@ -316,7 +330,7 @@ impl File {
         } else {
           res = format!(
             "{}{}",
-            v.get_color_for_type(),
+            v.get_color_for_type(self.styles),
             v.get_text_traits_for_type(&res, &self.path)
           );
         }
@@ -340,12 +354,12 @@ impl File {
               .to_string(),
             &self.path
           );
-          res = format!("{}{}", v.get_color_for_type(), res);
+          res = format!("{}{}", v.get_color_for_type(self.styles), res);
           continue;
         }
         
         res = v.get_text_traits_for_type(&res, &self.path);
-        res = format!("{}{}", v.get_color_for_type(), res);
+        res = format!("{}{}", v.get_color_for_type(self.styles), res);
       }
   
       let metadata = fs::metadata(&self.path).unwrap();

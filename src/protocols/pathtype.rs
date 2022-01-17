@@ -28,25 +28,25 @@ impl PathType {
       Ok(return_val)
     }
   
-    fn create_letter(&self, letter: &str) -> String {
+    fn create_letter(&self, letter: &str, file_style: FileStyle) -> String {
       format!(
         "{}{}{}{}",
-        self.get_color_for_type(),
+        self.get_color_for_type(file_style),
         letter,
         termion::color::Fg(termion::color::Reset),
         termion::color::Bg(termion::color::Reset)
       )
     }
   
-    pub fn get_letter_for_type(&self) -> String {
+    pub fn get_letter_for_type(&self, file_style: FileStyle) -> String {
       match self {
-        Self::Dir     => self.create_letter("d"),
-        Self::Symlink => self.create_letter("l"),
-        Self::Pipe    => self.create_letter("|"),
-        Self::CharD   => self.create_letter("c"),
-        Self::BlockD  => self.create_letter("b"),
-        Self::Socket  => self.create_letter("s"),
-        _             => self.create_letter("."),
+        Self::Dir     => self.create_letter("d", file_style),
+        Self::Symlink => self.create_letter("l", file_style),
+        Self::Pipe    => self.create_letter("|", file_style),
+        Self::CharD   => self.create_letter("c", file_style),
+        Self::BlockD  => self.create_letter("b", file_style),
+        Self::Socket  => self.create_letter("s", file_style),
+        _             => self.create_letter(".", file_style),
       }
     }
 
