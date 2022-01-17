@@ -8,7 +8,6 @@
 
 
 ## Tasks
-- make test cases for treegenerator
 - make tests for env checker
 - create file type tests display
 
