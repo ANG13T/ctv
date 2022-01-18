@@ -13,10 +13,6 @@ pub struct Cli {
   #[structopt(short = "l", long = "layer", default_value = "3")]
   pub layer: String,
 
-  /// Uses specific time format
-  #[structopt(long = "time-format", default_value = "%e %b %H.%M")]
-  pub time_format: String,
-
   /// Set ENV Variable via CLI
   #[structopt(long = "set-env", default_value = "")]
   pub set_env: String,
@@ -30,7 +26,11 @@ pub struct Cli {
   pub show_env: bool,
 }
 
-// TODO: add sorting
+// TODO: add sorting and specific time format
+
+  // /// Uses specific time format
+  // #[structopt(long = "time-format", default_value = "%e %b %H.%M")]
+  // pub time_format: String,
 
 // /// Sorting by name
 // #[structopt(short = "n", long = "name")]

@@ -32,8 +32,12 @@ fn modify_env_with_flags() -> bool {
         return true;
     }
 
-    if layer != "" && check_valid_set_env(make_concat_env("LAYER".to_string(), layer.to_string())){
+    if layer != "" && check_valid_set_env(make_concat_env("TREE_LAYER_LIMIT".to_string(), layer.to_string())){
         set_env_var(&make_concat_env("TREE_LAYER_LIMIT".to_string(), layer.to_string()));
+    }
+
+    if input::Cli::from_args().created_time {
+        set_env_var(&make_concat_env("FILE_TIME_TYPE".to_string(), "CREATED".to_string()));
     }
     return false;
 }

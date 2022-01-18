@@ -9,7 +9,7 @@
 
 ## Tasks
 
-- manually assign flags
+- finish short
 - make README pretty
 
 
