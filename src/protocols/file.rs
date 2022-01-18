@@ -242,6 +242,7 @@ impl File {
         "REVERSE"=>decorators::reverse(text),
         "HIDDEN"=>decorators::hidden(text),
         "STRICKEN"=>decorators::stricken(text),
+        "NORMAL"=>text.to_string(),
         _=> decorators::bold("INVALID FONT STYLE"),
         };
         if !is_end {
