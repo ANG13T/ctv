@@ -8,9 +8,11 @@
 
 
 ## Tasks
-- add all sorting methods
+
 - manually assign flags
 - change env variables from CLI
-- add search and peek func
-
 - make README pretty
+
+
+- add all sorting methods
+- add search and peek func
