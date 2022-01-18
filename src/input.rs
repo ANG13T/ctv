@@ -5,22 +5,6 @@ pub struct Cli {
   #[structopt(parse(from_os_str), default_value = ".")]
   pub dir: std::path::PathBuf,
 
-  /// Sorting by name
-  #[structopt(short = "n", long = "name")]
-  pub name: bool,
-
-  /// Sorting by created date
-  #[structopt(short = "c", long = "created")]
-  pub created: bool,
-
-  /// Sorting by modified date
-  #[structopt(short = "m", long = "modified")]
-  pub modified: bool,
-
-  /// Sorting by size
-  #[structopt(short = "s", long = "size")]
-  pub size: bool,
-
   /// Uses short format (only name)
   #[structopt(short = "h", long = "short")]
   pub short: bool,
@@ -42,6 +26,24 @@ pub struct Cli {
   pub created_time: bool,
 
   /// Show all ENV variables
-  #[structopt(short = "env")]
+  #[structopt(short = "env", long="env")]
   pub show_env: bool,
 }
+
+// TODO: add sorting
+
+// /// Sorting by name
+// #[structopt(short = "n", long = "name")]
+// pub name: bool,
+
+// /// Sorting by created date
+// #[structopt(short = "c", long = "created")]
+// pub created: bool,
+
+// /// Sorting by modified date
+// #[structopt(short = "m", long = "modified")]
+// pub modified: bool,
+
+// /// Sorting by size
+// #[structopt(short = "s", long = "size")]
+// pub size: bool,

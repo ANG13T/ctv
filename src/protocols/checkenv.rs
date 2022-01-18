@@ -14,6 +14,15 @@ pub fn check_env() -> bool {
     true
 }
 
+pub fn print_env(){
+    let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string(), "SPACING".to_string(), "TREE_LAYER_LIMIT".to_string(), "FILE_TIME_TYPE".to_string(), "FILE_TIME_FORMAT".to_string(), "FILE_EXTENSION_STYLE".to_string(), "FILE_PERMS_STYLE".to_string(), "FILE_OWNER_STYLE".to_string(), "FILE_SIZE_STYLE".to_string(), "FILE_TIME_STYLE".to_string(), "FILE_NAME_STYLE".to_string(), "DIR_NAME_STYLE".to_string(), "DASH_COLOR".to_string(),  "EXECUTE_COLOR".to_string(),  "WRITE_COLOR".to_string(), "READ_COLOR".to_string(), "SOCKET_COLOR".to_string(), "BLOCKD_COLOR".to_string(), "CHARD_COLOR".to_string(), "PIPE_COLOR".to_string(), "PATH_COLOR".to_string(), "SYMLINK_COLOR".to_string(), "DIR_COLOR".to_string(), "FILE_EXTENSION_COLOR".to_string(), "FILE_PERMS_COLOR".to_string(), "FILE_OWNER_COLOR".to_string(), "FILE_SIZE_COLOR".to_string(),"FILE_TIME_COLOR".to_string(), "FILE_NAME_COLOR".to_string(), "DIR_NAME_COLOR".to_string(), "FILE_EXTENSION_POSITION".to_string(), "FILE_TIME_POSITION".to_string(), "FILE_PERMS_POSITION".to_string(), "FILE_OWNER_POSITION".to_string(), "FILE_SIZE_POSITIONs".to_string()];
+    for (key, val) in env::vars() {
+        if all_var_names.contains(&key){
+            println!("{} = {}", key, val);
+        }
+    }
+}
+
 pub fn get_used_positions() -> Vec<String> {
     let mut used_positions = vec![];
     for (key, val) in env::vars() {

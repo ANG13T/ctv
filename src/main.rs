@@ -10,19 +10,27 @@ fn main() -> Result<(), Box<dyn Error>>{
     if !protocols::checkenv::check_env() {
         Err("ENV variables not declared properly")?
     }
-    modify_env_with_flags();
+    let modify_result = modify_env_with_flags();
     let env_manager = protocols::EnvManager::init();
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, env_manager);
-    dir_tree.gen();
+    if !modify_result {
+        dir_tree.gen();
+    }
     Ok(())
 }
 
-fn modify_env_with_flags() {
+fn modify_env_with_flags() -> bool {
     let set_env: &str = &input::Cli::from_args().set_env.clone();
-    println!("modify!! {}", set_env);
     if set_env != "" && check_valid_set_env(set_env.to_string()){
         set_env_var(&set_env);
+        return false;
     }
+
+    if input::Cli::from_args().show_env {
+        protocols::checkenv::print_env();
+        return true;
+    }
+    return false;
 }
 
 
@@ -30,6 +38,7 @@ fn set_env_var(env_string: &str){
     let string_vec: Vec<&str> = env_string.split("=").collect();
     env::set_var(string_vec[0].to_uppercase(), string_vec[1].to_uppercase());
 }
+
 
 fn check_valid_set_env(env_input: String) -> bool{
     let used_positions: Vec<String> = protocols::checkenv::get_used_positions();

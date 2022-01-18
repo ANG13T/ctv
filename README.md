@@ -10,7 +10,6 @@
 ## Tasks
 
 - manually assign flags
-- change env variables from CLI
 - make README pretty
 
 
