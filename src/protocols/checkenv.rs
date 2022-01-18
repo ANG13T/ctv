@@ -7,14 +7,24 @@ pub fn check_env() -> bool {
     dotenv().ok();
     for (key, val) in env::vars() {
         if !check_env_var(&key, &val, &used_positions) {return false;}
-        if is_position_path(&key) {
+        if is_position_path(&key) && val != "-1" {
             used_positions.push(val);
         }
     }
     true
 }
 
-fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool{
+pub fn get_used_positions() -> Vec<String> {
+    let mut used_positions = vec![];
+    for (key, val) in env::vars() {
+        if is_position_path(&key) && val != "-1"{
+            used_positions.push(val);
+        }
+    }
+    return used_positions;
+}
+
+pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool{
     let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string()];
     let all_colors = ["BLACK".to_string(), "BLUE".to_string(), "CYAN".to_string(), "GREEN".to_string(), "LIGHTBLACK".to_string(), "LIGHTBLUE".to_string(), "LIGHTCYAN".to_string(), "LIGHTGREEN".to_string(), "LIGHTMAGENTA".to_string(), "LIGHTRED".to_string(), "LIGHTWHITE".to_string(), "LIGHTYELLOW".to_string(), "MAGENTA".to_string(), "RED".to_string(), "WHITE".to_string(), "YELLOW".to_string()];
     let all_styles = ["BOLD".to_string(), "UNDERLINE".to_string(), "DIMMED".to_string(), "ITALIC".to_string(), "BLINK".to_string(), "REVERSE".to_string(), "HIDDEN".to_string(), "STRICKEN".to_string()];
