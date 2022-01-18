@@ -39,6 +39,11 @@ fn modify_env_with_flags() -> bool {
     if input::Cli::from_args().created_time {
         set_env_var(&make_concat_env("FILE_TIME_TYPE".to_string(), "CREATED".to_string()));
     }
+
+    if input::Cli::from_args().short {
+        set_env_var(&make_concat_env("SHOW_SHORT".to_string(), "TRUE".to_string()));
+    }
+
     return false;
 }
 

@@ -8,8 +8,6 @@
 
 
 ## Tasks
-
-- finish short
 - make README pretty
 
 
