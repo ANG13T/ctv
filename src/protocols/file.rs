@@ -209,6 +209,7 @@ impl File {
        let metadata = fs::metadata(&self.path).unwrap();
        if metadata.is_dir(){
         let file_count = fs::read_dir(&self.path).unwrap().count();
+        if self.show_short {return format!("{}", res);}
         return format!( "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
@@ -218,6 +219,7 @@ impl File {
         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
        );
        }else {
+        if self.show_short {return format!("{}", res);}
         return format!("{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
         res, 
         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),
@@ -382,6 +384,7 @@ impl File {
       let metadata = fs::metadata(&self.path).unwrap();
       if metadata.is_dir(){
         let file_count = fs::read_dir(&self.path).unwrap().count();
+        if self.show_short {return writeln!(f, "{}", res);}
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
          element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
@@ -391,6 +394,7 @@ impl File {
          element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
        );
       }else{
+        if self.show_short {return writeln!(f, "{}", res);}
         return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
         res, 
          element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.num_positions),

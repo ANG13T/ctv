@@ -91,6 +91,13 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
         }
     }
 
+    if key == "SHOW_SHORT" {
+        if val.to_uppercase() != "TRUE" && val.to_uppercase() != "FALSE"{
+            println!("ERROR: ENV variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key);
+            return false;
+        }
+    }
+
     if key == "SPACING" {
         let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
         if key_int < 0 {
