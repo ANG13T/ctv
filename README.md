@@ -14,6 +14,7 @@ A highly configurable tree view visualizer CLI tool written in Rust!
 
 ## Installation
 ``` bash
+cargo install ctv
 ```
 
 ## Using ctv
@@ -23,3 +24,4 @@ ctv <flags> <directory_path>
 ## Flag Options
 
 ## Customization
+The .env contained within ctv allows you to customize the apperance of your tree display!
