@@ -10,4 +10,4 @@ email, or any other method with the owners of this repository before making a ch
    variables, features, helpful examples, etc.
 3. You may merge the Pull Request in once you have the sign-off of @angelina-tsuboi
 
-If you need any help of clarification, please reach out to [mailto](angelina.t1832@gmail.com)
+If you need any help of clarification, please reach out to [angelina.t1832@gmail.com](mailto:angelina.t1832@gmail.com)
