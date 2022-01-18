@@ -32,7 +32,7 @@ fn test_file_perms() {
   let path = env::current_dir().unwrap();
   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
   let test_file_style : FileStyle = FileStyle::new(test_file_display_pos, "LIGHTRED".to_string(), "LIGHTRED".to_string(), "LIGHTRED".to_string(), "MAGENTA".to_string(), "MAGENTA".to_string(), "BLUE".to_string(), "YELLOW".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), get_num_pos()[0], get_num_pos()[1], "BLUE".to_string(), "LIGHTMAGENTA".to_string(), "WHITE".to_string(), "YELLOW".to_string(), "YELLOW".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTBLACK".to_string());
-  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions);
+  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions, false);
   println!("{}", test_file.perms);
   assert_eq!(
     test_file.perms,
@@ -45,7 +45,7 @@ fn test_file_size() {
   let path = env::current_dir().unwrap();
   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
   let test_file_style : FileStyle = FileStyle::new(test_file_display_pos, "LIGHTRED".to_string(), "LIGHTRED".to_string(), "LIGHTRED".to_string(), "MAGENTA".to_string(), "MAGENTA".to_string(), "BLUE".to_string(), "YELLOW".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), get_num_pos()[0], get_num_pos()[1], "BLUE".to_string(), "LIGHTMAGENTA".to_string(), "WHITE".to_string(), "YELLOW".to_string(), "YELLOW".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTBLACK".to_string());
-  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions);
+  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions, false);
   assert_eq!(
     test_file.size,
     "320 B"
@@ -59,7 +59,7 @@ fn test_file_user() {
   let path = env::current_dir().unwrap();
   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
   let test_file_style : FileStyle = FileStyle::new(test_file_display_pos, "LIGHTRED".to_string(), "LIGHTRED".to_string(), "LIGHTRED".to_string(), "MAGENTA".to_string(), "MAGENTA".to_string(), "BLUE".to_string(), "YELLOW".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), get_num_pos()[0], get_num_pos()[1], "BLUE".to_string(), "LIGHTMAGENTA".to_string(), "WHITE".to_string(), "YELLOW".to_string(), "YELLOW".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTBLACK".to_string());
-  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions);
+  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions, false);
   assert_eq!(
     test_file.user,
     user_name
@@ -71,7 +71,7 @@ fn test_file_modified() {
   let path = env::current_dir().unwrap();
   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
   let test_file_style : FileStyle = FileStyle::new(test_file_display_pos, "LIGHTRED".to_string(), "LIGHTRED".to_string(), "LIGHTRED".to_string(), "MAGENTA".to_string(), "MAGENTA".to_string(), "BLUE".to_string(), "YELLOW".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), get_num_pos()[0], get_num_pos()[1], "BLUE".to_string(), "LIGHTMAGENTA".to_string(), "WHITE".to_string(), "YELLOW".to_string(), "YELLOW".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTBLACK".to_string());
-  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions);
+  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions, false);
   assert_eq!(
     test_file.modified,
     "2022-01-08"
@@ -83,7 +83,7 @@ fn test_file_created() {
   let path = env::current_dir().unwrap();
   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
   let test_file_style : FileStyle = FileStyle::new(test_file_display_pos, "LIGHTRED".to_string(), "LIGHTRED".to_string(), "LIGHTRED".to_string(), "MAGENTA".to_string(), "MAGENTA".to_string(), "BLUE".to_string(), "YELLOW".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), "BOLD".to_string(), "BOLD".to_string(), "ITALIC".to_string(), get_num_pos()[0], get_num_pos()[1], "BLUE".to_string(), "LIGHTMAGENTA".to_string(), "WHITE".to_string(), "YELLOW".to_string(), "YELLOW".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTRED".to_string(), "LIGHTGREEN".to_string(), "LIGHTBLACK".to_string());
-  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions);
+  let test_file : File = File::new(path.clone(), "%Y-%m-%d", "CREATED", &test_file_style, true, &test_file_style.positions, false);
   assert_eq!(
     test_file.created,
     "2021-11-03"

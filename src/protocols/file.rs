@@ -122,7 +122,8 @@ pub struct File {
   pub styles:    FileStyle,
   pub file_time_type: String,
   pub show_extension: bool,
-  pub display_positions: DisplayPositions
+  pub display_positions: DisplayPositions,
+  pub show_short: bool
 }
 
 #[derive(Clone)]
@@ -148,7 +149,7 @@ impl DisplayPositions {
 
 impl File {
   // TODO: add diff time options
-    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: &DisplayPositions) -> Self {
+    pub fn new(file: std::path::PathBuf, time_format: &str, time_type: &str, styles: &FileStyle, show_ext: bool, display_pos: &DisplayPositions, show_short: bool) -> Self {
       let ref_to_file_styles: FileStyle = styles.clone();    
       let ref_to_display_position: DisplayPositions = display_pos.clone();      
       
@@ -165,7 +166,8 @@ impl File {
         styles: styles.clone(),
         file_time_type: time_type.to_string(),
         show_extension: show_ext,
-        display_positions: ref_to_display_position
+        display_positions: ref_to_display_position,
+        show_short: show_short
       }
     }
 

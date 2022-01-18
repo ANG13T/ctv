@@ -46,7 +46,8 @@ pub struct EnvManager {
     pub write_color: String,
     pub execute_color: String,
     pub dash_color: String,
-    pub spacing: i32
+    pub spacing: i32,
+    pub show_short: bool
 }
 
 impl EnvManager {
@@ -63,6 +64,11 @@ impl EnvManager {
         let mut dir_num_pos : i32 = original;
         if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() != -1 {
             dir_num_pos -= 1;
+        }
+
+        let mut show_result = true;
+        if env::var("SHOW_SHORT").unwrap() == "FALSE" {
+            show_result = false;
         }
 
         Self {
@@ -108,7 +114,8 @@ impl EnvManager {
             write_color: env::var("WRITE_COLOR").unwrap(),            
             execute_color: env::var("EXECUTE_COLOR").unwrap(),
             dash_color: env::var("DASH_COLOR").unwrap(),
-            spacing: env::var("SPACING").unwrap().parse::<i32>().unwrap()
+            spacing: env::var("SPACING").unwrap().parse::<i32>().unwrap(),
+            show_short: show_result
         }
     }
 }
