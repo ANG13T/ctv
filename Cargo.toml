@@ -1,7 +1,14 @@
 [package]
 name = "ctv"
+license = "MIT"
 version = "0.1.0"
 authors = ["Angelina Tsuboi <angelina.t1832@gmail.com>"]
+description = "A highly configurable tree file view visualizer CLI tool"
+readme = "README.md"
+homepage = "https://github.com/angelina-tsuboi/ctv"
+repository = "https://github.com/angelina-tsuboi/ctv"
+keywords = ["cli", "treeview", "tree", "visualizer", "file"]
+categories = ["command-line-utilities"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
