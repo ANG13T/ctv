@@ -22,18 +22,26 @@ pub struct Cli {
   pub size: bool,
 
   /// Uses short format (only name)
-  #[structopt(short = "s", long = "short")]
+  #[structopt(short = "h", long = "short")]
   pub short: bool,
 
   /// Sets layer limit
-  #[structopt(short = "l", long = "layer")]
-  pub layer: i32,
+  #[structopt(short = "l", long = "layer", default_value = "3")]
+  pub layer: String,
 
   /// Uses specific time format
   #[structopt(long = "time-format", default_value = "%e %b %H.%M")]
   pub time_format: String,
 
+  /// Set ENV Variable via CLI
+  #[structopt(long = "set-env", default_value = "")]
+  pub set_env: String,
+
   /// Shows the file created time instead of the file modified time
   #[structopt(short = "i", long = "ct")]
   pub created_time: bool,
+
+  /// Show all ENV variables
+  #[structopt(short = "env")]
+  pub show_env: bool,
 }

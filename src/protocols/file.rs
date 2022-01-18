@@ -1,11 +1,9 @@
 use crate::services;
 // use crate::input;
 use crate::input;
-use std::{fs, env};
-use structopt::StructOpt;
+use std::{fs};
 use crate::decorators;
-use crate::protocols::{PathType, colormanager, EnvManager};
-// use structopt::StructOpt;
+use crate::protocols::{PathType, colormanager};
 
 enum DirSortType {
   Name,
