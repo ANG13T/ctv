@@ -100,7 +100,7 @@ impl EnvManager {
             elbow: env::var("ELBOW").unwrap(),
             tee: env::var("TEE").unwrap(),
             pipe_prefix: env::var("PIPE_PREFIX").unwrap(),
-            space_prefix: env::var("SPACE_PREFIX").unwrap(),
+            space_prefix: " ".to_string(),
             num_positions: original,
             dir_num_positions: dir_num_pos,
             dir_color: env::var("DIR_COLOR").unwrap(),
