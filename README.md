@@ -6,10 +6,3 @@
 - Customize the apperance of your tree view
 - Alter file info display
 
-
-## Tasks
-- make README pretty
-
-
-- add all sorting methods
-- add search and peek func
