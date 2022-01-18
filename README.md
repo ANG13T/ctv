@@ -7,8 +7,19 @@ A highly configurable tree view visualizer CLI tool written in Rust!
 
 ## What does ctv do?
 
-- Visualize your file hiearchy
-- Customize the apperance of your tree view
+- Visualize your file hiearchy in a tree view
+- Customize the apperance of your tree
 - Display custom file information (permissions, time, user, etc)
 - Personalize tree color and text styling
 
+## Installation
+``` bash
+```
+
+## Using ctv
+``` bash
+ctv <flags> <directory_path>
+```
+## Flag Options
+
+## Customization
