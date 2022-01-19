@@ -40,10 +40,10 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     let all_time_formats = ["CREATED".to_string(), "MODIFIED".to_string(), "ACCESSED".to_string()];
     let file_detail_num = 5;
 
-    // if key != "SPACE_PREFIX" && all_var_names.contains(&key.to_string()) && val.len() == 0 {
-    //     println!("ERROR: Invalid ENV variable with key {}. ENV variable must have a value", key);
-    //     return false;
-    // }
+    if key != "SPACE_PREFIX" && all_var_names.contains(&key.to_string()) && val.len() == 0 {
+        println!("ERROR: Invalid ENV variable with key {}. ENV variable must have a value", key);
+        return false;
+    }
 
     if is_color_path(&key) {
         if !all_colors.contains(&val.to_uppercase()){

@@ -10,6 +10,8 @@ repository = "https://github.com/angelina-tsuboi/ctv"
 keywords = ["cli", "treeview", "tree", "visualizer", "file"]
 categories = ["command-line-utilities"]
 edition = "2018"
+license-file = "license.txt"
+include = ["/src", ".env", "README.md", "contributing.md", "Cargo.toml"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
