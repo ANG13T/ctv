@@ -7,7 +7,7 @@ mod services;
 use std::env;
 
 fn main() -> Result<(), Box<dyn Error>>{
-    if !protocols::checkenv::check_env() {
+    if !protocols::checkconfig::check_env() {
         Err("ENV variables not declared properly")?
     }
     let modify_result = modify_env_with_flags();
@@ -28,7 +28,7 @@ fn modify_env_with_flags() -> bool {
     }
 
     if input::Cli::from_args().show_env {
-        protocols::checkenv::print_env();
+        protocols::checkconfig::print_env();
         return true;
     }
 
@@ -59,13 +59,13 @@ fn set_env_var(env_string: &str){
 
 
 fn check_valid_set_env(env_input: String) -> bool{
-    let used_positions: Vec<String> = protocols::checkenv::get_used_positions();
+    let used_positions: Vec<String> = protocols::checkconfig::get_used_positions();
     let string_vec: Vec<&str> = env_input.split("=").collect();
     if string_vec.len() != 2{
         println!("ERROR: invalid flag variable for --set-env");
         return false;
     }
-    return protocols::checkenv::check_env_var(string_vec[0], string_vec[1], &used_positions);
+    return protocols::checkconfig::check_env_var(string_vec[0], string_vec[1], &used_positions);
 }
 
 
