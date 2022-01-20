@@ -27,6 +27,6 @@ dotenv = "0.14.1"
 config = "0.11"
 tokio = { version = "0.2", features = ["macros", "rt-threaded"] }
 warp = "0.2"
-config = "0.10"
-serde = {version = "1.0", features = ["derive"] }
-lazy_static = "1.4"
+serde = { version = "1.0.104", features = ["derive"] }
+confy = "0.4"
+directories = "4.0.1"

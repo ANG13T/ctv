@@ -1,13 +1,12 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
-use config::{Config, ConfigError, Environment, File};
+use confy;
 use std::collections::HashMap;
+use directories::ProjectDirs;
+use serde::{Serialize, Deserialize};
 
-const CONFIG_FILE_PATH: &str = "../../config.toml";
-const CONFIG_FILE_PREFIX: &str = "../../config";
-
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Default, Debug, Deserialize, Serialize, Clone)]
 pub struct EnvManager {
     pub file_size_position: i32,
     pub file_owner_position: i32,
@@ -55,25 +54,21 @@ pub struct EnvManager {
     pub show_short: bool
 }
 
+
+fn get_results() -> Result<(), confy::ConfyError>{
+    println!("hello");
+    let cfg = confy::load("ctv")?;
+    // let new_cf = cfg.clone();
+    // dbg!(cfg);
+    println!("config is: {}", 2);
+    Ok(())
+}
+
 impl EnvManager {
     pub fn init() -> Self {
         dotenv().ok();
-
-        let settings = Config::builder()
-        // Add in `./Settings.toml`
-        .add_source(config::File::with_name("config"))
-        // Add in settings from the environment (with a prefix of APP)
-        // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
-        .add_source(config::Environment::with_prefix("APP"))
-        .build()
-        .unwrap();
-
-        println!(
-            "{:?}",
-            settings
-                .try_deserialize::<HashMap<String, String>>()
-                .unwrap()
-        );
+        get_results();
+        
 
         let mut original : i32 = 5;
         if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
