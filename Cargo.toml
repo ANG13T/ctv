@@ -28,5 +28,5 @@ config = "0.11"
 tokio = { version = "0.2", features = ["macros", "rt-threaded"] }
 warp = "0.2"
 serde = { version = "1.0.104", features = ["derive"] }
-confy = "0.4"
 directories = "4.0.1"
+toml = "0.5.8"
