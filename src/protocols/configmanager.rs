@@ -1,9 +1,10 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
-use load_dotenv::load_dotenv;
+extern crate confy;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct EnvManager {
     pub file_size_position: i32,
     pub file_owner_position: i32,
@@ -51,11 +52,69 @@ pub struct EnvManager {
     pub show_short: bool
 }
 
+impl Default for EnvManager {
+    fn default() -> Self {
+        EnvManager {
+            file_size_position: 1,
+             file_owner_position: 2,
+             file_perms_position: 3,
+             file_time_position: 4,
+             file_extension_position: -1,
+             dir_name_color: "LIGHTREDDDDDDD".to_string(),
+             file_name_color: "LIGHTRED".to_string(),
+             file_time_color: "LIGHTCYAN".to_string(),
+             file_size_color: "BLUE".to_string(),
+             file_owner_color: "MAGENTA".to_string(),
+             file_perms_color: "BLUE".to_string(),
+             file_extension_color: "YELLOW".to_string(),
+             dir_name_style: "LIGHTCYAN".to_string(),
+             file_name_style: "NORMAL".to_string(),
+             file_time_style: "BOLD".to_string(),
+             file_size_style: "BOLD".to_string(),
+             file_owner_style: "NORMAL".to_string(),
+             file_perms_style: "BOLD".to_string(),
+             file_extension_style: "ITALIC".to_string(),
+             file_time_format: "%m-%d-%Y::%H:%M:%S".to_string(),
+             file_time_type: "CREATED".to_string(),
+             tree_layer_limit: 3,
+             show_file_metadata: "TRUE".to_string(),
+             show_dir_metadata: "TRUE".to_string(),
+             pipe: "│".to_string(),
+             elbow: "└──".to_string(),
+             tee: "├──".to_string(),
+             pipe_prefix: "│".to_string(),
+             space_prefix: " ".to_string(),
+             num_positions: 4,
+             dir_num_positions: 4,
+             dir_color: "BLUE".to_string(),
+             symlink_color: "LIGHTMAGENTA".to_string(),
+             path_color: "WHITE".to_string(),
+             pipe_color: "YELLOW".to_string(),
+             chard_color: "YELLOW".to_string(),
+             blockd_color: "LIGHTGREEN".to_string(),
+             socket_color: "LIGHTRED".to_string(),
+             read_color: "LIGHTGREEN".to_string(),
+             write_color: "LIGHTRED".to_string(),
+             execute_color: "LIGHTGREEN".to_string(),
+             dash_color: "LIGHTBLACK".to_string(),
+             spacing: 0,
+             show_short: false
+        }
+    }
+}
+
+fn get_stuff() -> Result<(), std::io::Error> {
+    let cfg: EnvManager = confy::load("ctv")?;
+    println!("{:#?}", cfg);
+    Ok(())
+}
 
 impl EnvManager {
     pub fn init() -> Self {
         dotenv().ok();
-        load_dotenv!();
+
+        get_stuff();
+       
 
         let mut original : i32 = 5;
         if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
