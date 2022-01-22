@@ -47,7 +47,7 @@ ctv --set-env "DIR_COLOR=WHITE"
 ## Customization
 The .env contained within ctv allows you to customize the apperance of your tree display!
 
-#### Configurable ENV variables
+#### Default Configurable ENV variables
 ```
 FILE_SIZE_POSITION="1"
 FILE_OWNER_POSITION="2"
@@ -91,4 +91,39 @@ PIPE_PREFIX=│
 SPACE_PREFIX= 
 SHOW_FILE_METADATA="TRUE"
 SHOW_DIR_METADATA="TRUE"
+```
+
+### Font Color and Styling Options
+
+#### Available Colors
+```bash
+    BLACK
+    BLUE
+    CYAN
+    GREEN
+    LIGHTBLACK
+    LIGHTBLUE
+    LIGHTCYAN
+    LIGHTGREEN
+    LIGHTMAGENTA
+    LIGHTRED
+    LIGHTWHITE
+    LIGHTYELLOW
+    MAGENTA
+    RED
+    WHITE
+    YELLOW
+```
+
+#### Available Font Styles
+```bash
+    BOLD
+    DIMMED
+    ITALIC
+    UNDERLINE
+    BLINK
+    REVERSE
+    HIDDEN
+    STRICKEN
+    NORMAL
 ```

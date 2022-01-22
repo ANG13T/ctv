@@ -1,6 +1,7 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
+use dirs::{home_dir};
 
 #[derive(Debug)]
 pub struct EnvManager {
@@ -53,9 +54,11 @@ pub struct EnvManager {
 impl EnvManager {
     pub fn init() -> Self {
 
-        let env_path = std::env::current_dir().unwrap().join(".env");
+        let env_path = std::env::current_exe().unwrap().join(".env");
         let config_path = dotenv::from_path(env_path.as_path());
-        println!("done, {:?}", env_path);
+        let mut home_path = home_dir().unwrap();
+        home_path.push(".cargo/registry");
+        println!("done, {:?}", home_path);
         config_path.ok();       
 
         let mut original : i32 = 5;
