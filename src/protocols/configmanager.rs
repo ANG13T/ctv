@@ -2,6 +2,7 @@ extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
 use dirs::{home_dir};
+use std::collections::HashMap;
 
 #[derive(Debug)]
 pub struct EnvManager {
@@ -51,15 +52,18 @@ pub struct EnvManager {
     pub show_short: bool
 }
 
+fn try_env_config() {
+    if let Ok(env) = dotenv::dotenv_iter() {
+        for (k,v) in env.flatten() {
+            println!("cargo:rustc-env={}={}", k, v);
+        }
+    }
+}
+
 impl EnvManager {
     pub fn init() -> Self {
-        const VERSION: &str = env!("CARGO_PKG_VERSION");
-        let mut home_path = home_dir().unwrap();
-        let path_format = format!(".cargo/registry/src/github.com-1ecc6299db9ec823/ctv-{}/.env", VERSION);
-        home_path.push(path_format);
-        println!("done, {:?}", home_path);
-        let config_path = dotenv::from_path(home_path);
-        config_path.ok();       
+        try_env_config();
+        dotenv().ok();       
 
         let mut original : i32 = 5;
         if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
