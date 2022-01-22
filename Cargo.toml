@@ -1,7 +1,7 @@
 [package]
 name = "ctv"
 license = "MIT"
-version = "0.1.9"
+version = "0.2.1"
 authors = ["Angelina Tsuboi <angelina.t1832@gmail.com>"]
 description = "A highly configurable tree file view visualizer CLI tool"
 readme = "README.md"
@@ -25,4 +25,7 @@ users = "0.11.0"
 chrono = "0.4"
 dotenv = "0.14.1"
 config = "0.11"
+directories = "3.0.2"
+serde = { version = "1.0.127", features = ["derive"] }
+toml = "0.5.8"
 dirs = "4.0.0"

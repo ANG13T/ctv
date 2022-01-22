@@ -1,10 +1,15 @@
 extern crate dotenv;
 use dotenv::dotenv;
-use std::{env};
-use dirs::{home_dir};
-use std::collections::HashMap;
+use std::{env, fs};
+use directories::ProjectDirs;
+use serde::Deserialize;
+#[derive(Deserialize, Debug)]
+struct Config {
+    name: String,
+    port: Option<u16>,
+}
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct EnvManager {
     pub file_size_position: i32,
     pub file_owner_position: i32,
@@ -53,17 +58,39 @@ pub struct EnvManager {
 }
 
 fn try_env_config() {
-    if let Ok(env) = dotenv::dotenv_iter() {
-        for (k,v) in env.flatten() {
-            println!("cargo:rustc-env={}={}", k, v);
-        }
+    if let Some(proj_dirs) = ProjectDirs::from(
+        "dev",
+        "ctv",
+        "ctv",
+    ) {
+        let config_dir = proj_dirs.config_dir();
+
+        let config_file = fs::read_to_string(
+            config_dir.join("config.toml"),
+        );
+
+        println!("f {}", config_dir.display());
+
+        let config: Config = match config_file {
+            Ok(file) => toml::from_str(&file).unwrap(),
+            Err(_) => Config {
+                name: "Chris Biscardi".to_string(),
+                port: Some(4000),
+            },
+        };
+
+        dbg!(config);
+
+        // Linux:   /home/alice/.config/barapp
+        // Windows: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App
+        // macOS:   /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
     }
 }
 
 impl EnvManager {
     pub fn init() -> Self {
-        try_env_config();
-        dotenv().ok();       
+        dotenv().ok();     
+        try_env_config();  
 
         let mut original : i32 = 5;
         if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
