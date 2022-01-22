@@ -2,7 +2,7 @@
 
 A highly configurable tree view visualizer CLI tool written in Rust!
 
-<img src="https://github.com/angelina-tsuboi/ctv/blob/main/media/ctv_preview.png" width="750" title="CTV Preview Image">
+<img src="./media/ctv_preview.png" width="750" title="CTV Preview Image">
 
 
 ## What does ctv do?
