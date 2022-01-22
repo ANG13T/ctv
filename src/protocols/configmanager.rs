@@ -53,12 +53,12 @@ pub struct EnvManager {
 
 impl EnvManager {
     pub fn init() -> Self {
-
-        let env_path = std::env::current_exe().unwrap().join(".env");
-        let config_path = dotenv::from_path(env_path.as_path());
+        const VERSION: &str = env!("CARGO_PKG_VERSION");
         let mut home_path = home_dir().unwrap();
-        home_path.push(".cargo/registry");
+        let path_format = format!(".cargo/registry/src/github.com-1ecc6299db9ec823/ctv-{}/.env", VERSION);
+        home_path.push(path_format);
         println!("done, {:?}", home_path);
+        let config_path = dotenv::from_path(home_path);
         config_path.ok();       
 
         let mut original : i32 = 5;
