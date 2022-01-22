@@ -53,10 +53,10 @@ pub struct EnvManager {
 impl EnvManager {
     pub fn init() -> Self {
 
-        let env_path = std::env::current_exe().unwrap().join(".env");
-        let _config_path = dotenv::from_path(env_path.as_path());
+        let env_path = std::env::current_dir().unwrap().join(".env");
+        let config_path = dotenv::from_path(env_path.as_path());
         println!("done, {:?}", env_path);
-        dotenv().ok();       
+        config_path.ok();       
 
         let mut original : i32 = 5;
         if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
