@@ -1,15 +1,15 @@
 use structopt::StructOpt;
 #[derive(StructOpt)]
 pub struct Cli {
-  /// Give me a directory
+  /// Pass in a directory
   #[structopt(parse(from_os_str), default_value = ".")]
   pub dir: std::path::PathBuf,
 
-  /// Uses short format (only name)
+  /// Uses short format 
   #[structopt(short = "h", long = "short")]
   pub short: bool,
 
-  /// Sets layer limit
+  /// Sets the tree layer limit
   #[structopt(short = "l", long = "layer", default_value = "3")]
   pub layer: String,
 

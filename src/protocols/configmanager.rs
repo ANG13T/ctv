@@ -1,7 +1,6 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
-extern crate confy;
 
 #[derive(Debug)]
 pub struct EnvManager {
@@ -56,6 +55,7 @@ impl EnvManager {
 
         let env_path = std::env::current_exe().unwrap().join(".env");
         let _config_path = dotenv::from_path(env_path.as_path());
+        println!("done, {:?}", env_path);
         dotenv().ok();       
 
         let mut original : i32 = 5;
