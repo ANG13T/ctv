@@ -1,17 +1,7 @@
 use crate::services;
-// use crate::input;
-use crate::input;
 use std::{fs};
 use crate::decorators;
 use crate::protocols::{PathType, colormanager};
-
-enum DirSortType {
-  Name,
-  Created,
-  Modified,
-  Size,
-  Not,
-}
 
 #[derive(Clone)]
 pub struct FileStyle {

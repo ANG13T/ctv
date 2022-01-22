@@ -138,8 +138,8 @@ impl TreeGenerator {
         }   
     }
 
-    fn add_spacing(&mut self, mut prefix: String) {
-        for n in 0..self.spacing {
+    fn add_spacing(&mut self, prefix: String) {
+        for _n in 0..self.spacing {
             self.tree.push(format!("{}{}", prefix, self.pipe_prefix))
         }
     }
