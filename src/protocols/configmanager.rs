@@ -180,21 +180,21 @@ impl ConfigManager {
         println!("cof is {:?}", config_file);
 
         let mut original : i32 = 5;
-        // if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
-        // if env::var("FILE_OWNER_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
-        // if env::var("FILE_PERMS_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
-        // if env::var("FILE_TIME_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
-        // if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
+        if config_file.file_size_position.parse::<i32>().unwrap() == -1 {original -= 1};
+        if config_file.file_owner_position.parse::<i32>().unwrap() == -1 {original -= 1};
+        if config_file.file_perms_position.parse::<i32>().unwrap() == -1 {original -= 1};
+        if config_file.file_time_position.parse::<i32>().unwrap() == -1 {original -= 1};
+        if config_file.file_extension_position.parse::<i32>().unwrap() == -1 {original -= 1};
 
         let mut dir_num_pos : i32 = original;
-        // if env::var("FILE_EXTENSION_POSITION").unwrap().parse::<i32>().unwrap() != -1 {
-        //     dir_num_pos -= 1;
-        // }
+        if config_file.file_extension_position.parse::<i32>().unwrap() != -1 {
+            dir_num_pos -= 1;
+        }
 
         let mut show_result = true;
-        // if env::var("SHOW_SHORT").unwrap() == "FALSE" {
-        //     show_result = false;
-        // }
+        if config_file.show_short.to_uppercase() == "FALSE" {
+            show_result = false;
+        }
 
         Self {
             file_size_position: config_file.file_size_position.parse::<i32>().unwrap(),
