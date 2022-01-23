@@ -1,16 +1,57 @@
-extern crate dotenv;
-use dotenv::dotenv;
 use std::{env, fs};
 use directories::ProjectDirs;
 use serde::Deserialize;
-#[derive(Deserialize, Debug)]
-struct Config {
-    name: String,
-    port: Option<u16>,
-}
 
 #[derive(Deserialize, Debug)]
-pub struct EnvManager {
+pub struct ConfigInput {
+    pub file_size_position: String,
+    pub file_owner_position: String,
+    pub file_perms_position: String,
+    pub file_time_position: String,
+    pub file_extension_position: String,
+    pub dir_name_color: String,
+    pub file_name_color: String,
+    pub file_time_color: String,
+    pub file_size_color: String,
+    pub file_owner_color: String,
+    pub file_perms_color: String,
+    pub file_extension_color: String,
+    pub dir_name_style: String,
+    pub file_name_style: String,
+    pub file_time_style: String,
+    pub file_size_style: String,
+    pub file_owner_style: String,
+    pub file_perms_style: String,
+    pub file_extension_style: String,
+    pub file_time_format: String,
+    pub file_time_type: String,
+    pub tree_layer_limit: String,
+    pub show_file_metadata: String,
+    pub show_dir_metadata: String,
+    pub pipe: String,
+    pub elbow: String,
+    pub tee: String,
+    pub pipe_prefix: String,
+    pub space_prefix: String,
+    pub num_positions: String,
+    pub dir_num_positions: String,
+    pub dir_color: String,
+    pub symlink_color: String,
+    pub path_color: String,
+    pub pipe_color: String,
+    pub chard_color: String,
+    pub blockd_color: String,
+    pub socket_color: String,
+    pub read_color: String,
+    pub write_color: String,
+    pub execute_color: String,
+    pub dash_color: String,
+    pub spacing: String,
+    pub show_short: String
+}
+
+#[derive(Debug)]
+pub struct ConfigManager {
     pub file_size_position: i32,
     pub file_owner_position: i32,
     pub file_perms_position: i32,
@@ -71,25 +112,64 @@ fn try_env_config() {
 
         println!("f {}", config_dir.display());
 
-        let config: Config = match config_file {
+        let config: EnvManager = match config_file {
             Ok(file) => toml::from_str(&file).unwrap(),
-            Err(_) => Config {
-                name: "Chris Biscardi".to_string(),
-                port: Some(4000),
-            },
+            Err(_) => {
+                let config_message = format!("Config file not created. Please visit https://github.com/angelina-tsuboi/ctv/blob/main/README.md to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", config_dir.display());
+                println!("{}", config_message);
+            EnvManager {
+                file_size_position: 1,
+                file_owner_position: 2,
+                file_perms_position: 3,
+                file_time_position: 4,
+                file_extension_position: -1,
+                dir_name_color: "LIGHTRED".to_string(),
+                file_name_color: "LIGHTRED".to_string(),
+                file_time_color: "LIGHTCYAN".to_string(),
+                file_size_color: "BLUE".to_string(),
+                file_owner_color: "LIGHTMAGENTA".to_string(),
+                file_perms_color: "BLUE".to_string(),
+                file_extension_color: "YELLOW".to_string(),
+                dir_name_style: "LIGHTCYAN".to_string(),
+                file_name_style: "NORMAL".to_string(),
+                file_time_style: "BOLD".to_string(),
+                file_size_style: "BOLD".to_string(),
+                file_owner_style: "NORMAL".to_string(),
+                file_perms_style: "BOLD".to_string(),
+                file_extension_style: "ITALIC".to_string(),
+                file_time_format: "%m-%d-%Y::%H:%M:%S".to_string(),
+                file_time_type: "CREATED".to_string(),
+                tree_layer_limit: 3,
+                show_file_metadata: "TRUE".to_string(),
+                show_dir_metadata: "TRUE".to_string(),
+                pipe: "│".to_string(),
+                elbow: "└──".to_string(),
+                tee: "├──".to_string(),
+                pipe_prefix: "│".to_string(),
+                space_prefix: " ".to_string(),
+                num_positions: 4,
+                dir_num_positions: 4,
+                dir_color: "BLUE".to_string(),
+                symlink_color: "LIGHTMAGENTA".to_string(),
+                path_color: "WHITE".to_string(),
+                pipe_color: "YELLOW".to_string(),
+                chard_color: "YELLOW".to_string(),
+                blockd_color: "LIGHTGREEN".to_string(),
+                socket_color: "LIGHTRED".to_string(),
+                read_color: "LIGHTGREEN".to_string(),
+                write_color: "LIGHTRED".to_string(),
+                execute_color: "LIGHTGREEN".to_string(),
+                dash_color: "LIGHTBLACK".to_string(),
+                spacing: 0,
+                show_short: false
+            }
+        },
         };
-
-        dbg!(config);
-
-        // Linux:   /home/alice/.config/barapp
-        // Windows: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App
-        // macOS:   /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
     }
 }
 
 impl EnvManager {
-    pub fn init() -> Self {
-        dotenv().ok();     
+    pub fn init() -> Self {  
         try_env_config();  
 
         let mut original : i32 = 5;
