@@ -11,7 +11,7 @@ fn main() -> Result<(), Box<dyn Error>>{
         Err("ENV variables not declared properly")?
     }
     let modify_result = modify_env_with_flags();
-    let env_manager = protocols::EnvManager::init();
+    let env_manager = protocols::ConfigManager::init();
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, env_manager);
     if !modify_result {
         dir_tree.gen();

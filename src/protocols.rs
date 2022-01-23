@@ -2,7 +2,7 @@ pub use self::file::File;
 pub use self::pathtype::PathType;
 pub use self::treegenerator::TreeGenerator;
 pub use self::dirtree::DirTree;
-pub use self::configmanager::EnvManager;
+pub use self::configmanager::ConfigManager;
 pub mod checkconfig;
 pub mod file;
 pub mod pathtype;

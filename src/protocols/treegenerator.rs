@@ -1,7 +1,7 @@
 use std::{fs};
 use std::path::{PathBuf};
 use std::error::Error;
-use crate::protocols::{File, EnvManager};
+use crate::protocols::{File, ConfigManager};
 use crate::protocols::file::{FileStyle, DisplayPositions};
 
 #[derive(Clone)]
@@ -25,7 +25,7 @@ pub struct TreeGenerator {
 }
 
 impl TreeGenerator {
-    pub fn init(root_dir: PathBuf, env_manager: EnvManager) -> Self {
+    pub fn init(root_dir: PathBuf, env_manager: ConfigManager) -> Self {
         let positions: DisplayPositions = DisplayPositions::new(env_manager.file_size_position, env_manager.file_owner_position, env_manager.file_perms_position, env_manager.file_time_position, env_manager.file_extension_position);
         let file_style: FileStyle = FileStyle::new(
             positions,
