@@ -164,10 +164,10 @@ fn configure_variables() -> ConfigInput {
             let config_message = format!("Config file not created. Please visit https://github.com/angelina-tsuboi/ctv/blob/main/README.md to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", config_dir.display());
             println!("{}", config_message);
             default_config
-        }
+            }
+        };
 
         return config;
-        };
     }
 
     default_config
@@ -175,9 +175,9 @@ fn configure_variables() -> ConfigInput {
 
 impl ConfigManager {
     pub fn init() -> Self {  
-        let config = configure_variables();  
+        let config_file : ConfigInput = configure_variables();  
 
-        println("cof is {}", config);
+        println!("cof is {:?}", config_file);
 
         let mut original : i32 = 5;
         // if env::var("FILE_SIZE_POSITION").unwrap().parse::<i32>().unwrap() == -1 {original -= 1};
@@ -196,52 +196,50 @@ impl ConfigManager {
         //     show_result = false;
         // }
 
-        let config_file : ConfigInput;
-
         Self {
             file_size_position: config_file.file_size_position.parse::<i32>().unwrap(),
             file_owner_position: config_file.file_owner_position.parse::<i32>().unwrap(),
-            file_perms_position: env::var("FILE_PERMS_POSITION").parse::<i32>().unwrap(),
-            file_time_position: env::var("FILE_TIME_POSITION").parse::<i32>().unwrap(),
-            file_extension_position: env::var("FILE_EXTENSION_POSITION").parse::<i32>().unwrap(),
-            dir_name_color: env::var("DIR_NAME_COLOR"),
-            file_name_color: env::var("FILE_NAME_COLOR"),
-            file_time_color: env::var("FILE_TIME_COLOR"),
-            file_size_color: env::var("FILE_SIZE_COLOR"),
-            file_owner_color: env::var("FILE_OWNER_COLOR"),
-            file_perms_color: env::var("FILE_PERMS_COLOR"),
-            file_extension_color: env::var("FILE_EXTENSION_COLOR"),
-            dir_name_style: env::var("DIR_NAME_STYLE"),
-            file_name_style: env::var("FILE_NAME_STYLE"),
-            file_time_style: env::var("FILE_TIME_STYLE"),
-            file_size_style: env::var("FILE_SIZE_STYLE"),
-            file_owner_style: env::var("FILE_OWNER_STYLE"),
-            file_perms_style: env::var("FILE_PERMS_STYLE"),
-            file_extension_style: env::var("FILE_EXTENSION_STYLE"),
-            file_time_format: env::var("FILE_TIME_FORMAT"),
-            file_time_type: env::var("FILE_TIME_TYPE"),
-            tree_layer_limit: env::var("TREE_LAYER_LIMIT").parse::<i32>().unwrap(),
-            show_file_metadata: env::var("SHOW_FILE_METADATA"),
-            show_dir_metadata: env::var("SHOW_DIR_METADATA"),
-            pipe: env::var("PIPE"),
-            elbow: env::var("ELBOW"),
-            tee: env::var("TEE"),
-            pipe_prefix: env::var("PIPE_PREFIX"),
-            space_prefix: env::var("SPACE_PREFIX"),
+            file_perms_position: config_file.file_perms_position.parse::<i32>().unwrap(),
+            file_time_position: config_file.file_time_position.parse::<i32>().unwrap(),
+            file_extension_position: config_file.file_extension_position.parse::<i32>().unwrap(),
+            dir_name_color: config_file.dir_name_color,
+            file_name_color: config_file.file_name_color,
+            file_time_color: config_file.file_time_color,
+            file_size_color: config_file.file_size_color,
+            file_owner_color: config_file.file_owner_color,
+            file_perms_color: config_file.file_perms_color,
+            file_extension_color: config_file.file_extension_color,
+            dir_name_style: config_file.dir_name_style,
+            file_name_style: config_file.file_name_style,
+            file_time_style: config_file.file_time_style,
+            file_size_style: config_file.file_size_style,
+            file_owner_style: config_file.file_owner_style,
+            file_perms_style: config_file.file_perms_style,
+            file_extension_style: config_file.file_extension_style,
+            file_time_format: config_file.file_time_format,
+            file_time_type: config_file.file_time_type,
+            tree_layer_limit: config_file.tree_layer_limit.parse::<i32>().unwrap(),
+            show_file_metadata: config_file.show_file_metadata,
+            show_dir_metadata: config_file.show_dir_metadata,
+            pipe: config_file.pipe,
+            elbow: config_file.elbow,
+            tee: config_file.tee,
+            pipe_prefix: config_file.pipe_prefix,
+            space_prefix: config_file.space_prefix,
             num_positions: original,
             dir_num_positions: dir_num_pos,
-            dir_color: env::var("DIR_COLOR"),
-            symlink_color: env::var("SYMLINK_COLOR"),
-            path_color: env::var("PATH_COLOR"),
-            pipe_color: env::var("PIPE_COLOR"),
-            chard_color: env::var("CHARD_COLOR"),            
-            blockd_color: env::var("BLOCKD_COLOR"),
-            socket_color: env::var("SOCKET_COLOR"),
-            read_color: env::var("READ_COLOR"),
-            write_color: env::var("WRITE_COLOR"),            
-            execute_color: env::var("EXECUTE_COLOR"),
-            dash_color: env::var("DASH_COLOR"),
-            spacing: env::var("SPACING").parse::<i32>().unwrap(),
+            dir_color: config_file.dir_color,
+            symlink_color: config_file.symlink_color,
+            path_color: config_file.path_color,
+            pipe_color: config_file.pipe_color,
+            chard_color: config_file.chard_color,            
+            blockd_color: config_file.blockd_color,
+            socket_color: config_file.socket_color,
+            read_color: config_file.read_color,
+            write_color: config_file.write_color,            
+            execute_color: config_file.execute_color,
+            dash_color: config_file.dash_color,
+            spacing: config_file.spacing.parse::<i32>().unwrap(),
             show_short: show_result
         }
     }
