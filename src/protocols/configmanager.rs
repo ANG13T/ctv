@@ -33,8 +33,6 @@ pub struct ConfigInput {
     pub tee: String,
     pub pipe_prefix: String,
     pub space_prefix: String,
-    pub num_positions: String,
-    pub dir_num_positions: String,
     pub dir_color: String,
     pub symlink_color: String,
     pub path_color: String,
@@ -129,8 +127,6 @@ fn configure_variables() -> ConfigInput {
         tee: "├──".to_string(),
         pipe_prefix: "│".to_string(),
         space_prefix: " ".to_string(),
-        num_positions: "4".to_string(),
-        dir_num_positions: "4".to_string(),
         dir_color: "BLUE".to_string(),
         symlink_color: "LIGHTMAGENTA".to_string(),
         path_color: "WHITE".to_string(),
@@ -176,8 +172,6 @@ fn configure_variables() -> ConfigInput {
 impl ConfigManager {
     pub fn init() -> Self {  
         let config_file : ConfigInput = configure_variables();  
-
-        println!("cof is {:?}", config_file);
 
         let mut original : i32 = 5;
         if config_file.file_size_position.parse::<i32>().unwrap() == -1 {original -= 1};
