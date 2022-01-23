@@ -1,9 +1,11 @@
 extern crate dotenv;
 use dotenv::dotenv;
 use std::{env};
+use crate::protocols::configmanager::{ConfigManager};
 
-pub fn check_env() -> bool {
+pub fn check_config(config_input: &ConfigManager) -> bool {
     let mut used_positions = vec![];
+    let new_config : ConfigManager = config_input.clone();
     dotenv().ok();
     for (key, val) in env::vars() {
         if !check_env_var(&key, &val, &used_positions) {return false;}

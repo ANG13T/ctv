@@ -8,9 +8,10 @@ pub struct DirTree {
 }
 
 impl DirTree { 
-    pub fn init(root_dir: PathBuf, env_manager: ConfigManager) -> Self{
+    pub fn init(root_dir: PathBuf, env_manager: &ConfigManager) -> Self{
+        let new_config : ConfigManager = env_manager.clone();
         Self {
-            tree_gen: TreeGenerator::init(root_dir, env_manager),
+            tree_gen: TreeGenerator::init(root_dir, new_config),
             tree: Vec::new()
         }
     }

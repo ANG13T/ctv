@@ -48,7 +48,7 @@ pub struct ConfigInput {
     pub show_short: String
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ConfigManager {
     pub file_size_position: i32,
     pub file_owner_position: i32,
@@ -96,7 +96,7 @@ pub struct ConfigManager {
     pub show_short: bool
 }
 
-fn configure_variables() -> ConfigInput {
+pub fn configure_variables() -> ConfigInput {
     let default_config : ConfigInput = ConfigInput {
         file_size_position: "1".to_string(),
         file_owner_position: "2".to_string(),
