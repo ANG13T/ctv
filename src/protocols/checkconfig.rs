@@ -22,14 +22,14 @@ pub fn check_config(config_manager: &ConfigManager, config_input: &ConfigInput) 
     for config_var in config_vars {
         if !check_env_var(&config_var.property, &config_var.value, &used_positions) {return false;}
         if is_position_path(&config_var.property) && config_var.value != "-1" {
-            used_positions.push(val);
+            used_positions.push(&config_var.value);
         }
     }
     true
 }
 
-fn to_config_view_array(config_input: &ConfigInput) -> vec<ConfigView>{
-    let config_array = [
+fn to_config_view_array(config_input: &ConfigInput) -> Vec<ConfigView>{
+    let config_array : Vec<ConfigView> = [
         ConfigView::new("file_size_position", &config_input.file_size_position),
         ConfigView::new("file_owner_position", &config_input.file_owner_position),
         ConfigView::new("file_perms_position", &config_input.file_perms_position),
