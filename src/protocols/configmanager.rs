@@ -2,7 +2,7 @@ use std::{fs};
 use directories::ProjectDirs;
 use serde::{Deserialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigInput {
     pub file_size_position: String,
     pub file_owner_position: String,
