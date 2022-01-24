@@ -96,6 +96,16 @@ pub struct ConfigManager {
     pub show_short: bool
 }
 
+
+impl std::fmt::Display for ConfigManager {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        let mut res = String::new();
+        let value = "hello";
+        res = format!("{}", value);
+        write!(f, "{}", res)
+    }
+}
+
 pub fn configure_variables() -> ConfigInput {
     let default_config : ConfigInput = ConfigInput {
         file_size_position: "1".to_string(),

@@ -12,7 +12,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     if !protocols::checkconfig::check_config(&check_config) {
         Err("ENV variables not declared properly")?
     }
-    let modify_result = modify_env_with_flags();
+    let modify_result = modify_env_with_flags(&check_config);
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, &check_config);
     if !modify_result {
         dir_tree.gen();
@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     Ok(())
 }
 
-fn modify_env_with_flags() -> bool {
+fn modify_env_with_flags(config_input: &protocols::ConfigManager) -> bool {
     let set_env: &str = &input::Cli::from_args().set_env.clone();
     let layer: &str = &input::Cli::from_args().layer.clone();
     if set_env != "" && check_valid_set_env(set_env.to_string()){
@@ -29,7 +29,7 @@ fn modify_env_with_flags() -> bool {
     }
 
     if input::Cli::from_args().show_env {
-        protocols::checkconfig::print_env();
+        protocols::checkconfig::print_config(config_input);
         return true;
     }
 
