@@ -7,9 +7,10 @@ mod services;
 use std::env;
 
 fn main() -> Result<(), Box<dyn Error>>{
-    let mut check_config = protocols::ConfigManager::init();
+    let config_input = protocols::configmanager::configure_variables();  
+    let mut check_config = protocols::ConfigManager::init(config_input);
 
-    if !protocols::checkconfig::check_config(&check_config) {
+    if !protocols::checkconfig::check_config(&check_config, &config_input) {
         Err("ENV variables not declared properly")?
     }
     check_config = modify_env_with_flags(&check_config);

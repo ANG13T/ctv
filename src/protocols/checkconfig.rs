@@ -2,7 +2,7 @@ extern crate dotenv;
 use dotenv::dotenv;
 use crate::protocols::{colormanager};
 use std::{env};
-use crate::protocols::configmanager::{ConfigManager};
+use crate::protocols::configmanager::{ConfigManager, ConfigInput};
 
 struct ConfigView {
     property: String,
@@ -18,9 +18,9 @@ impl ConfigView {
     }
 }
 
-pub fn check_config(config_input: &ConfigManager) -> bool {
+pub fn check_config(config_manager: &ConfigManager, config_input: &ConfigInput) -> bool {
     let mut used_positions = vec![];
-    let new_config : ConfigManager = config_input.clone();
+    let new_config : ConfigManager = config_manager.clone();
     let config_vars = to_config_view_array(config_input);
     for config_var in config_vars {
         if !check_env_var(&config_var.property, &config_var.value, &used_positions) {return false;}
@@ -31,53 +31,51 @@ pub fn check_config(config_input: &ConfigManager) -> bool {
     true
 }
 
-fn to_config_view_array(config_input: &ConfigManager) {
+fn to_config_view_array(config_input: &ConfigInput) -> vec<ConfigView>{
     let config_array = [
-        ConfigView::new("file_size_position", config_input.file_size_position),
-        ConfigView::new("file_owner_position", config_input.file_owner_position),
-        ConfigView::new("file_perms_position", config_input.file_perms_position),
-        ConfigView::new("file_time_position:", config_input.file_time_position),
-        ConfigView::new("file_extension_position", config_input.file_extension_position),
-        ConfigView::new("dir_name_color", config_input.dir_name_color),
-        ConfigView::new("file_name_color", config_input.file_name_color),
-        ConfigView::new("file_time_color", config_input.file_time_color),
-        ConfigView::new("file_size_color", config_input.file_size_color),
-        ConfigView::new("file_owner_color", config_input.file_owner_color),
-        ConfigView::new("file_perms_color", config_input.file_perms_color),
-        ConfigView::new("file_extension_color", config_input.file_extension_color),
-        ConfigView::new("dir_name_style", config_input.dir_name_style),
-        ConfigView::new("file_name_style", config_input.file_name_style),
-        ConfigView::new("file_time_style", config_input.file_time_style),
-        ConfigView::new("file_size_style", config_input.file_size_style),
-        ConfigView::new("file_owner_style", config_input.file_owner_style),
-        ConfigView::new("file_perms_style", config_input.file_perms_style),
-        ConfigView::new("file_extension_style", config_input.file_extension_style),
-        ConfigView::new("file_time_format", config_input.file_time_format),
-        ConfigView::new("file_time_type", config_input.file_time_type),
-        ConfigView::new("tree_layer_limit", config_input.tree_layer_limit),
-        ConfigView::new("show_file_metadata", config_input.show_file_metadata),
-        ConfigView::new("show_dir_metadata", config_input.show_dir_metadata),
-        ConfigView::new("pipe", config_input.pipe),
-        ConfigView::new("elbow", config_input.elbow),
-        ConfigView::new("tee", config_input.tee),
-        ConfigView::new("pipe_prefix", config_input.pipe_prefix),
-        ConfigView::new("space_prefix", config_input.space_prefix),
-        ConfigView::new("num_positions", config_input.num_positions),
-        ConfigView::new("dir_num_positions", config_input.dir_num_positions),
-        ConfigView::new("dir_color", config_input.dir_color),
-        ConfigView::new("symlink_color", config_input.symlink_color),
-        ConfigView::new("path_color", config_input.path_color),
-        ConfigView::new("pipe_color", config_input.pipe_color),
-        ConfigView::new("chard_color", config_input.chard_color),
-        ConfigView::new("blockd_color", config_input.blockd_color),
-        ConfigView::new("socket_color", config_input.socket_color),
-        ConfigView::new("read_color", config_input.read_color),
-        ConfigView::new("write_color", config_input.write_color),
-        ConfigView::new("execute_color", config_input.execute_color),
-        ConfigView::new("dash_color", config_input.dash_color),
-        ConfigView::new("spacing", config_input.spacing),
-        ConfigView::new("show_short", config_input.show_short)
-    ]
+        ConfigView::new("file_size_position", &config_input.file_size_position),
+        ConfigView::new("file_owner_position", &config_input.file_owner_position),
+        ConfigView::new("file_perms_position", &config_input.file_perms_position),
+        ConfigView::new("file_time_position:", &config_input.file_time_position),
+        ConfigView::new("file_extension_position", &config_input.file_extension_position),
+        ConfigView::new("dir_name_color", &config_input.dir_name_color),
+        ConfigView::new("file_name_color", &config_input.file_name_color),
+        ConfigView::new("file_time_color", &config_input.file_time_color),
+        ConfigView::new("file_size_color", &config_input.file_size_color),
+        ConfigView::new("file_owner_color", &config_input.file_owner_color),
+        ConfigView::new("file_perms_color", &config_input.file_perms_color),
+        ConfigView::new("file_extension_color", &config_input.file_extension_color),
+        ConfigView::new("dir_name_style", &config_input.dir_name_style),
+        ConfigView::new("file_name_style", &config_input.file_name_style),
+        ConfigView::new("file_time_style", &config_input.file_time_style),
+        ConfigView::new("file_size_style", &config_input.file_size_style),
+        ConfigView::new("file_owner_style", &config_input.file_owner_style),
+        ConfigView::new("file_perms_style", &config_input.file_perms_style),
+        ConfigView::new("file_extension_style", &config_input.file_extension_style),
+        ConfigView::new("file_time_format", &config_input.file_time_format),
+        ConfigView::new("file_time_type", &config_input.file_time_type),
+        ConfigView::new("tree_layer_limit", &config_input.tree_layer_limit),
+        ConfigView::new("show_file_metadata", &config_input.show_file_metadata),
+        ConfigView::new("show_dir_metadata", &config_input.show_dir_metadata),
+        ConfigView::new("pipe", &config_input.pipe),
+        ConfigView::new("elbow", &config_input.elbow),
+        ConfigView::new("tee", &config_input.tee),
+        ConfigView::new("pipe_prefix", &config_input.pipe_prefix),
+        ConfigView::new("space_prefix", &config_input.space_prefix),
+        ConfigView::new("dir_color", &config_input.dir_color),
+        ConfigView::new("symlink_color", &config_input.symlink_color),
+        ConfigView::new("path_color", &config_input.path_color),
+        ConfigView::new("pipe_color", &config_input.pipe_color),
+        ConfigView::new("chard_color", &config_input.chard_color),
+        ConfigView::new("blockd_color", &config_input.blockd_color),
+        ConfigView::new("socket_color", &config_input.socket_color),
+        ConfigView::new("read_color", &config_input.read_color),
+        ConfigView::new("write_color", &config_input.write_color),
+        ConfigView::new("execute_color", &config_input.execute_color),
+        ConfigView::new("dash_color", &config_input.dash_color),
+        ConfigView::new("spacing", &config_input.spacing),
+        ConfigView::new("show_short", &config_input.show_short)
+    ];
     return config_array;
 }
 

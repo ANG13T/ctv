@@ -171,9 +171,7 @@ pub fn configure_variables() -> ConfigInput {
 }
 
 impl ConfigManager {
-    pub fn init() -> Self {  
-        let config_file : ConfigInput = configure_variables();  
-
+    pub fn init(config_file : ConfigInput) -> Self {  
         let mut original : i32 = 5;
         if config_file.file_size_position.parse::<i32>().unwrap() == -1 {original -= 1};
         if config_file.file_owner_position.parse::<i32>().unwrap() == -1 {original -= 1};
