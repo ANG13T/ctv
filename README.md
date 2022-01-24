@@ -28,21 +28,6 @@ ctv <flags> <directory_path>
     -c, --config       Show all config variables
     -V, --version    Prints version information
     -l, --layer <layer>        Sets tree layer limit
-    --set-env <set-env>    Set custom ENV Variable via CLI
-
-## Setting ENV variable via CLI
-```bash
- --set-env <set-env> 
-```
-### Set ENV Command Format
-```bash
---set-env "<env-name>=<env-value>"
-```
-
-### Example
-```
-ctv --set-env "DIR_COLOR=WHITE"
-```
 
 ## Customization
 The config.toml file located within the ctv project directory (dev.ctv.ctv) allows you to customize the apperance of your tree display!

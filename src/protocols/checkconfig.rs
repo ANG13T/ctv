@@ -1,5 +1,6 @@
 extern crate dotenv;
 use dotenv::dotenv;
+use crate::protocols::{colormanager};
 use std::{env};
 use crate::protocols::configmanager::{ConfigManager};
 
@@ -17,7 +18,7 @@ pub fn check_config(config_input: &ConfigManager) -> bool {
 }
 
 pub fn print_config(config_input: &ConfigManager){
-    println!("{:#?}", config_input);
+    println!("{}", colormanager::colorize_string("LIGHTBLUE", format!("{:#?}", config_input)));
 }
 
 pub fn get_used_positions() -> Vec<String> {
