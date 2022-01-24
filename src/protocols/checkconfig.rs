@@ -17,7 +17,7 @@ pub fn check_config(config_input: &ConfigManager) -> bool {
 }
 
 pub fn print_config(config_input: &ConfigManager){
-    println!("{}", config_input);
+    println!("{:#?}", config_input);
 }
 
 pub fn get_used_positions() -> Vec<String> {

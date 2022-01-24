@@ -21,8 +21,8 @@ pub struct Cli {
   #[structopt(short = "i", long = "ct")]
   pub created_time: bool,
 
-  /// Show all ENV variables
-  #[structopt(short = "env", long="env")]
+  /// Show all config variables
+  #[structopt(short = "c", long="config")]
   pub show_env: bool,
 }
 

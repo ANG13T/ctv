@@ -1,6 +1,6 @@
 use std::{env, fs};
 use directories::ProjectDirs;
-use serde::Deserialize;
+use serde::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 pub struct ConfigInput {
@@ -99,9 +99,13 @@ pub struct ConfigManager {
 
 impl std::fmt::Display for ConfigManager {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        let more_self : ConfigManager = self.clone();
         let mut res = String::new();
         let value = "hello";
-        res = format!("{}", value);
+        res = format!("{:?}", self);
+
+       
+
         write!(f, "{}", res)
     }
 }

@@ -25,7 +25,7 @@ ctv <flags> <directory_path>
     -i, --ct         Shows the file created time instead of the file modified time
         --help       Prints help information
     -h, --short      Uses short format
-    -e, --env        Show all ENV variables
+    -c, --config       Show all config variables
     -V, --version    Prints version information
     -l, --layer <layer>        Sets tree layer limit
     --set-env <set-env>    Set custom ENV Variable via CLI
@@ -45,7 +45,8 @@ ctv --set-env "DIR_COLOR=WHITE"
 ```
 
 ## Customization
-The .env contained within ctv allows you to customize the apperance of your tree display!
+The config.toml file located within the ctv project directory (dev.ctv.ctv) allows you to customize the apperance of your tree display!
+The dev.ctv.ctv directory and config.toml file must be manually created to start configuring your tree view! 
 
 #### Default Configurable config.toml variables
 ```
