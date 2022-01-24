@@ -1,7 +1,4 @@
-extern crate dotenv;
-use dotenv::dotenv;
 use crate::protocols::{colormanager};
-use std::{env};
 use crate::protocols::configmanager::{ConfigManager, ConfigInput};
 
 struct ConfigView {
@@ -85,9 +82,10 @@ pub fn print_config(config_input: &ConfigManager){
 
 pub fn get_used_positions() -> Vec<String> {
     let mut used_positions = vec![];
-    for (key, val) in env::vars() {
-        if is_position_path(&key) && val != "-1"{
-            used_positions.push(val);
+    let config_vars = to_config_view_array(config_input);
+    for config_var in config_vars {
+        if is_position_path(&config_var.property) && config_var.value != "-1"{
+            used_positions.push(config_var.value);
         }
     }
     return used_positions;
