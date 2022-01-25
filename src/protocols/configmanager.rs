@@ -1,6 +1,8 @@
 use std::{fs};
 use directories::ProjectDirs;
 use serde::{Deserialize};
+use crate::protocols::{colormanager};
+use crate::decorators;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct ConfigInput {
@@ -111,7 +113,7 @@ pub fn configure_variables() -> ConfigInput {
         file_owner_color: "LIGHTMAGENTA".to_string(),
         file_perms_color: "BLUE".to_string(),
         file_extension_color: "YELLOW".to_string(),
-        dir_name_style: "LIGHTCYAN".to_string(),
+        dir_name_style: "NORMAL".to_string(),
         file_name_style: "NORMAL".to_string(),
         file_time_style: "BOLD".to_string(),
         file_size_style: "BOLD".to_string(),
@@ -158,7 +160,7 @@ pub fn configure_variables() -> ConfigInput {
         let config: ConfigInput = match config_file {
             Ok(file) => toml::from_str(&file).unwrap(),
             Err(_) => {
-            let config_message = format!("Config file not created. Please visit https://github.com/angelina-tsuboi/ctv/blob/main/README.md to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", config_dir.display());
+            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit https://github.com/angelina-tsuboi/ctv/blob/main/README.md to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", config_dir.display())));
             println!("{}", config_message);
             default_config
             }

@@ -26,12 +26,22 @@ ctv <flags> <directory_path>
         --help       Prints help information
     -h, --short      Uses short format
     -c, --config       Show all config variables
+    -s, --set-var       Set config variable via CLI
     -V, --version    Prints version information
     -l, --layer <layer>        Sets tree layer limit
 
 ## Customization
 The config.toml file located within the ctv project directory (dev.ctv.ctv) allows you to customize the apperance of your tree display!
 The dev.ctv.ctv directory and config.toml file must be manually created to start configuring your tree view! 
+
+### Set Up Customization
+                                                                     
+#### Step 1: Run CTV
+```bash
+ctv
+```
+
+#### Step 2: Copy the Path Printed from the top of the CTV command
 
 #### Default Configurable config.toml variables
 ```

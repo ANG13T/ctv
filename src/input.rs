@@ -13,8 +13,8 @@ pub struct Cli {
   #[structopt(short = "l", long = "layer", default_value = "3")]
   pub layer: String,
 
-  /// Set Config Variable via CLI
-  #[structopt(long = "set-var", default_value = "")]
+  /// Set config variable via CLI
+  #[structopt(short = "s", long = "set-var", default_value = "")]
   pub set_var: String,
 
   /// Shows the file created time instead of the file modified time
