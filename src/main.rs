@@ -13,7 +13,6 @@ fn main() -> Result<(), Box<dyn Error>>{
 
     if set_var != "" && check_valid_set_var(set_var.to_string(), config_input.clone()){
         config_input = set_config_var(&set_var, config_input.clone());
-        println!("is valid set {:#?}", config_input);
     }
 
     let mut check_config = protocols::ConfigManager::init(config_input.clone());
@@ -28,8 +27,6 @@ fn main() -> Result<(), Box<dyn Error>>{
     }
 
     check_config = modify_config_with_flags(&check_config, config_input);
-
-    println!("is valid set2 {:#?}", &check_config);
 
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, &check_config);
     dir_tree.gen();
