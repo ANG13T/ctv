@@ -18,13 +18,13 @@ fn main() -> Result<(), Box<dyn Error>>{
         return Ok(());
     }
 
-    check_config = modify_config_with_flags(&check_config);
+    check_config = modify_config_with_flags(&check_config, &config_input);
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, &check_config);
     dir_tree.gen();
     Ok(())
 }
 
-fn modify_config_with_flags(config_input: &protocols::ConfigManager) -> protocols::ConfigManager {
+fn modify_config_with_flags(config_input: &protocols::ConfigManager, conf: ConfigInput) -> protocols::ConfigManager {
     let set_var: &str = &input::Cli::from_args().set_var.clone();
     let layer: &str = &input::Cli::from_args().layer.clone();
     let mut new_config : protocols::ConfigManager = config_input.clone();
@@ -34,7 +34,7 @@ fn modify_config_with_flags(config_input: &protocols::ConfigManager) -> protocol
         new_config.tree_layer_limit = layer.parse::<i32>().unwrap();
     }
 
-    if set_var != "" && check_valid_set_var(set_var.to_string()){
+    if set_var != "" && check_valid_set_var(set_var.to_string(), conf){
         set_config_var(&set_var);
         return false;
     }
@@ -102,59 +102,59 @@ fn set_config_var(env_string: &str, initial_config: protocols::ConfigInput) -> p
         "show_short"
     ];
     let string_vec: Vec<&str> = env_string.split("=").collect();
-    let ind_1 = config_array.iter().position(|&r| r == string_vec[0].to_lowercase()).unwrap();
-    let ind_2 = config_array.iter().position(|&r| r == string_vec[1].to_lowercase()).unwrap().to_uppercase();
+    let lower_var = string_vec[0].to_lowercase();
+    let ind_1 = config_array.iter().position(|&r| r == lower_var).unwrap();
+    let ind_2 = config_array[config_array.iter().position(|&r| r == string_vec[1].to_lowercase())].unwrap().to_uppercase();
     
-    match string_vec[0].to_lowercase() {
-        "file_size_position" => resultant.file_size_position = ind_2, 
-        "file_owner_position" => resultant.file_owner_position = ind_2, 
-        "file_perms_position" => resultant.file_perms_position = ind_2, 
-        "file_time_position" => resultant.file_time_position = ind_2,  
-        "file_extension_position" => resultant.file_extension_position = ind_2,  
-        "dir_name_color" => resultant.dir_name_color = ind_2,  
-        "file_name_color" => resultant.file_name_color = ind_2,  
-        "file_time_color" => resultant.file_time_color = ind_2,  
-        "file_size_color" => resultant.file_size_color = ind_2,  
-        "file_owner_color" => resultant.file_owner_color = ind_2,  
-        "file_perms_color" => resultant.file_perms_color = ind_2,  
-        "file_extension_color" => resultant.file_extension_color = ind_2,  
-        "dir_name_style" => resultant.dir_name_style = ind_2,    
-        "file_name_style" => resultant.file_name_style = ind_2,   
-        "file_time_style" => resultant.file_time_style = ind_2,   
-        "file_size_style" => resultant.file_size_style = ind_2,   
-        "file_owner_style" => resultant.file_owner_style = ind_2,  
-        "file_perms_style" => resultant.file_perms_style = ind_2,  
-        "file_extension_style" => resultant.file_extension_style = ind_2,  
-        "file_time_format" => resultant.file_time_format = ind_2,  
-        "file_time_type" => resultant.file_time_type = ind_2,   
-        "tree_layer_limit" => resultant.tree_layer_limit = ind_2,  
-        "show_file_metadata" => resultant.show_file_metadata = ind_2,  
-        "show_dir_metadata" => resultant.show_dir_metadata = ind_2,  
-        "pipe" => resultant.pipe = ind_2,   
-        "elbow" => resultant.elbow = ind_2,  
-        "tee" => resultant.tee = ind_2,  
-        "pipe_prefix" => resultant.pipe_prefix = ind_2,  
-        "space_prefix" => resultant.space_prefix = ind_2,  
-        "dir_color" => resultant.dir_color = ind_2,   
-        "symlink_color" => resultant.symlink_color = ind_2,  
-        "path_color" => resultant.path_color = ind_2,   
-        "pipe_color" => resultant.pipe_color = ind_2,   
-        "chard_color" => resultant.chard_color = ind_2,  
-        "blockd_color" => resultant.blockd_color = ind_2,  
-        "socket_color" => resultant.socket_color = ind_2,   
-        "read_color" => resultant.read_color = ind_2,   
-        "write_color" => resultant.write_color = ind_2,  
-        "execute_color" => resultant.execute_color = ind_2,  
-        "dash_color" => resultant.dash_color = ind_2,   
-        "spacing" => resultant.spacing = ind_2,  
-        "show_short" => resultant.show_short = ind_2
-    };
+   
+    if lower_var == "file_size_position" { resultant.file_size_position = ind_2 } 
+    if lower_var == "file_owner_position" { resultant.file_owner_position = ind_2 }
+    if lower_var == "file_perms_position" { resultant.file_perms_position = ind_2 } 
+    if lower_var == "file_time_position" { resultant.file_time_position = ind_2 }  
+    if lower_var == "file_extension_position" { resultant.file_extension_position = ind_2 }  
+    if lower_var == "dir_name_color" { resultant.dir_name_color = ind_2 }  
+    if lower_var == "file_name_color" { resultant.file_name_color = ind_2 }  
+    if lower_var == "file_time_color" { resultant.file_time_color = ind_2 }  
+    if lower_var == "file_size_color" { resultant.file_size_color = ind_2 }  
+    if lower_var == "file_owner_color" { resultant.file_owner_color = ind_2 }  
+    if lower_var == "file_perms_color" { resultant.file_perms_color = ind_2 }  
+    if lower_var == "file_extension_color" { resultant.file_extension_color = ind_2 }  
+    if lower_var == "dir_name_style" { resultant.dir_name_style = ind_2 }    
+    if lower_var == "file_name_style" { resultant.file_name_style = ind_2 }   
+    if lower_var == "file_time_style" { resultant.file_time_style = ind_2 }   
+    if lower_var == "file_size_style" { resultant.file_size_style = ind_2 }   
+    if lower_var == "file_owner_style" { resultant.file_owner_style = ind_2 }  
+    if lower_var == "file_perms_style" { resultant.file_perms_style = ind_2 }  
+    if lower_var == "file_extension_style" { resultant.file_extension_style = ind_2 }  
+    if lower_var == "file_time_format" { resultant.file_time_format = ind_2 }  
+    if lower_var == "file_time_type" { resultant.file_time_type = ind_2 }   
+    if lower_var == "tree_layer_limit" { resultant.tree_layer_limit = ind_2 }  
+    if lower_var == "show_file_metadata" { resultant.show_file_metadata = ind_2 }  
+    if lower_var == "show_dir_metadata" { resultant.show_dir_metadata = ind_2 }  
+    if lower_var == "pipe" { resultant.pipe = ind_2 }   
+    if lower_var == "elbow" { resultant.elbow = ind_2 }  
+    if lower_var == "tee" { resultant.tee = ind_2 }  
+    if lower_var == "pipe_prefix" { resultant.pipe_prefix = ind_2 }  
+    if lower_var == "space_prefix" { resultant.space_prefix = ind_2 }  
+    if lower_var == "dir_color" { resultant.dir_color = ind_2 }   
+    if lower_var == "symlink_color" { resultant.symlink_color = ind_2 }  
+    if lower_var == "path_color" { resultant.path_color = ind_2 }   
+    if lower_var == "pipe_color" { resultant.pipe_color = ind_2 }   
+    if lower_var ==  "chard_color" { resultant.chard_color = ind_2 }  
+    if lower_var == "blockd_color" { resultant.blockd_color = ind_2 }  
+    if lower_var == "socket_color" { resultant.socket_color = ind_2 }   
+    if lower_var == "read_color" { resultant.read_color = ind_2 }   
+    if lower_var == "write_color" { resultant.write_color = ind_2 }  
+    if lower_var == "execute_color" { resultant.execute_color = ind_2 }  
+    if lower_var == "dash_color" { resultant.dash_color = ind_2 }   
+    if lower_var == "spacing" { resultant.spacing = ind_2 }  
+    if lower_var == "show_short" { resultant.show_short = ind_2 }
 
     resultant
 }
 
-fn check_valid_set_var(env_input: String) -> bool{
-    let used_positions: Vec<String> = protocols::checkconfig::get_used_positions();
+fn check_valid_set_var(env_input: String, config_input: ConfigInput) -> bool{
+    let used_positions: Vec<String> = protocols::checkconfig::get_used_positions(config_input);
     let string_vec: Vec<&str> = env_input.split("=").collect();
     if string_vec.len() != 2{
         println!("ERROR: invalid flag variable for --set-var");

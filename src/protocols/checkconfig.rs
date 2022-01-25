@@ -81,16 +81,16 @@ pub fn print_config(config_input: &ConfigManager){
     println!("{}", colormanager::colorize_string("WHITE", "".to_string()));
 }
 
-// pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
-//     let mut used_positions = vec![];
-//     let config_vars = to_config_view_array(config_input);
-//     for config_var in config_vars {
-//         if is_position_path(&config_var.property) && config_var.value != "-1"{
-//             used_positions.push(config_var.value);
-//         }
-//     }
-//     return used_positions;
-// }
+pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
+    let mut used_positions = vec![];
+    let config_vars = to_config_view_array(config_input);
+    for config_var in config_vars {
+        if is_position_path(&config_var.property) && config_var.value != "-1"{
+            used_positions.push(config_var.value);
+        }
+    }
+    return used_positions;
+}
 
 pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool{
     let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string()];
