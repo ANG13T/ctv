@@ -160,7 +160,9 @@ pub fn configure_variables() -> ConfigInput {
         let config: ConfigInput = match config_file {
             Ok(file) => toml::from_str(&file).unwrap(),
             Err(_) => {
-            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit https://github.com/angelina-tsuboi/ctv/blob/main/README.md to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", config_dir.display())));
+            let website = colormanager::colorize_string("GREEN", decorators::underline("https://github.com/angelina-tsuboi/ctv/blob/main/README.md"));
+            let project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", config_dir.display())));
+            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", website, project_dir)));
             println!("{}", config_message);
             default_config
             }
