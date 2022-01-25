@@ -13,7 +13,7 @@ pub struct Cli {
   #[structopt(short = "l", long = "layer", default_value = "3")]
   pub layer: String,
 
-  /// Set ENV Variable via CLI
+  /// Set Config Variable via CLI
   #[structopt(long = "set-var", default_value = "")]
   pub set_var: String,
 

@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     let mut check_config = protocols::ConfigManager::init(config_input.clone());
 
     if !protocols::checkconfig::check_config(&check_config, &config_input) {
-        Err("ENV variables not declared properly")?
+        Err("Config variables not declared properly")?
     }
 
     if input::Cli::from_args().show_env {
@@ -55,9 +55,102 @@ fn make_concat_env(var_1: String, var_2: String) -> String {
     return format!("{}={}", var_1, var_2);
 }
 
-fn set_config_var(env_string: &str){
+fn set_config_var(env_string: &str, initial_config: protocols::ConfigInput) -> protocols::ConfigInput {
+    let mut resultant = initial_config.clone();
+    let config_array = vec![
+        "file_size_position", 
+        "file_owner_position", 
+        "file_perms_position", 
+        "file_time_position", 
+        "file_extension_position",
+        "dir_name_color", 
+        "file_name_color", 
+        "file_time_color", 
+        "file_size_color", 
+        "file_owner_color",
+        "file_perms_color",
+        "file_extension_color",
+        "dir_name_style", 
+        "file_name_style", 
+        "file_time_style", 
+        "file_size_style", 
+        "file_owner_style",
+        "file_perms_style",
+        "file_extension_style",
+        "file_time_format", 
+        "file_time_type", 
+        "tree_layer_limit", 
+        "show_file_metadata", 
+        "show_dir_metadata", 
+        "pipe", 
+        "elbow",
+        "tee",
+        "pipe_prefix",
+        "space_prefix", 
+        "dir_color", 
+        "symlink_color",
+        "path_color", 
+        "pipe_color", 
+        "chard_color",
+        "blockd_color", 
+        "socket_color", 
+        "read_color", 
+        "write_color",
+        "execute_color",
+        "dash_color", 
+        "spacing", 
+        "show_short"
+    ];
     let string_vec: Vec<&str> = env_string.split("=").collect();
-    env::set_var(string_vec[0].to_uppercase(), string_vec[1].to_uppercase());
+    let ind_1 = config_array.iter().position(|&r| r == string_vec[0].to_lowercase()).unwrap();
+    let ind_2 = config_array.iter().position(|&r| r == string_vec[1].to_lowercase()).unwrap().to_uppercase();
+    
+    match string_vec[0].to_lowercase() {
+        "file_size_position" => resultant.file_size_position = ind_2, 
+        "file_owner_position" => resultant.file_owner_position = ind_2, 
+        "file_perms_position" => resultant.file_perms_position = ind_2, 
+        "file_time_position" => resultant.file_time_position = ind_2,  
+        "file_extension_position" => resultant.file_extension_position = ind_2,  
+        "dir_name_color" => resultant.dir_name_color = ind_2,  
+        "file_name_color" => resultant.file_name_color = ind_2,  
+        "file_time_color" => resultant.file_time_color = ind_2,  
+        "file_size_color" => resultant.file_size_color = ind_2,  
+        "file_owner_color" => resultant.file_owner_color = ind_2,  
+        "file_perms_color" => resultant.file_perms_color = ind_2,  
+        "file_extension_color" => resultant.file_extension_color = ind_2,  
+        "dir_name_style" => resultant.dir_name_style = ind_2,    
+        "file_name_style" => resultant.file_name_style = ind_2,   
+        "file_time_style" => resultant.file_time_style = ind_2,   
+        "file_size_style" => resultant.file_size_style = ind_2,   
+        "file_owner_style" => resultant.file_owner_style = ind_2,  
+        "file_perms_style" => resultant.file_perms_style = ind_2,  
+        "file_extension_style" => resultant.file_extension_style = ind_2,  
+        "file_time_format" => resultant.file_time_format = ind_2,  
+        "file_time_type" => resultant.file_time_type = ind_2,   
+        "tree_layer_limit" => resultant.tree_layer_limit = ind_2,  
+        "show_file_metadata" => resultant.show_file_metadata = ind_2,  
+        "show_dir_metadata" => resultant.show_dir_metadata = ind_2,  
+        "pipe" => resultant.pipe = ind_2,   
+        "elbow" => resultant.elbow = ind_2,  
+        "tee" => resultant.tee = ind_2,  
+        "pipe_prefix" => resultant.pipe_prefix = ind_2,  
+        "space_prefix" => resultant.space_prefix = ind_2,  
+        "dir_color" => resultant.dir_color = ind_2,   
+        "symlink_color" => resultant.symlink_color = ind_2,  
+        "path_color" => resultant.path_color = ind_2,   
+        "pipe_color" => resultant.pipe_color = ind_2,   
+        "chard_color" => resultant.chard_color = ind_2,  
+        "blockd_color" => resultant.blockd_color = ind_2,  
+        "socket_color" => resultant.socket_color = ind_2,   
+        "read_color" => resultant.read_color = ind_2,   
+        "write_color" => resultant.write_color = ind_2,  
+        "execute_color" => resultant.execute_color = ind_2,  
+        "dash_color" => resultant.dash_color = ind_2,   
+        "spacing" => resultant.spacing = ind_2,  
+        "show_short" => resultant.show_short = ind_2
+    };
+
+    resultant
 }
 
 fn check_valid_set_var(env_input: String) -> bool{
