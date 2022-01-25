@@ -17,7 +17,7 @@ fn main() -> Result<(), Box<dyn Error>>{
 
     let mut check_config = protocols::ConfigManager::init(config_input.clone());
 
-    if !protocols::checkconfig::check_config(&check_config, &config_input) {
+    if !protocols::checkconfig::check_config(&config_input) {
         Err("Config variables not declared properly")?
     }
 
@@ -26,14 +26,14 @@ fn main() -> Result<(), Box<dyn Error>>{
         return Ok(());
     }
 
-    check_config = modify_config_with_flags(&check_config, config_input);
+    check_config = modify_config_with_flags(&check_config);
 
     let mut dir_tree = protocols::DirTree::init(input::Cli::from_args().dir, &check_config);
     dir_tree.gen();
     Ok(())
 }
 
-fn modify_config_with_flags(config_input: &protocols::configmanager::ConfigManager, conf: protocols::configmanager::ConfigInput) -> protocols::configmanager::ConfigManager {
+fn modify_config_with_flags(config_input: &protocols::configmanager::ConfigManager) -> protocols::configmanager::ConfigManager {
     let layer: &str = &input::Cli::from_args().layer.clone();
     let mut new_config : protocols::ConfigManager = config_input.clone();
     let used_pos = vec![];
@@ -56,59 +56,14 @@ fn modify_config_with_flags(config_input: &protocols::configmanager::ConfigManag
 }
 
 
-fn make_concat_env(var_1: String, var_2: String) -> String {
-    return format!("{}={}", var_1, var_2);
-}
+// fn make_concat_env(var_1: String, var_2: String) -> String {
+//     return format!("{}={}", var_1, var_2);
+// }
 
 fn set_config_var(env_string: &str, initial_config: protocols::configmanager::ConfigInput) -> protocols::configmanager::ConfigInput {
     let mut resultant = initial_config.clone();
-    let config_array = vec![
-        "file_size_position", 
-        "file_owner_position", 
-        "file_perms_position", 
-        "file_time_position", 
-        "file_extension_position",
-        "dir_name_color", 
-        "file_name_color", 
-        "file_time_color", 
-        "file_size_color", 
-        "file_owner_color",
-        "file_perms_color",
-        "file_extension_color",
-        "dir_name_style", 
-        "file_name_style", 
-        "file_time_style", 
-        "file_size_style", 
-        "file_owner_style",
-        "file_perms_style",
-        "file_extension_style",
-        "file_time_format", 
-        "file_time_type", 
-        "tree_layer_limit", 
-        "show_file_metadata", 
-        "show_dir_metadata", 
-        "pipe", 
-        "elbow",
-        "tee",
-        "pipe_prefix",
-        "space_prefix", 
-        "dir_color", 
-        "symlink_color",
-        "path_color", 
-        "pipe_color", 
-        "chard_color",
-        "blockd_color", 
-        "socket_color", 
-        "read_color", 
-        "write_color",
-        "execute_color",
-        "dash_color", 
-        "spacing", 
-        "show_short"
-    ];
     let string_vec: Vec<&str> = env_string.split("=").collect();
     let lower_var = string_vec[0].to_lowercase();
-    let ind_1 = config_array.iter().position(|&r| r == lower_var).unwrap();
     let ind_2 = string_vec[1].to_uppercase();
     
    

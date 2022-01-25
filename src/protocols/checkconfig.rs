@@ -15,9 +15,8 @@ impl ConfigView {
     }
 }
 
-pub fn check_config(config_manager: &ConfigManager, config_input: &ConfigInput) -> bool {
+pub fn check_config(config_input: &ConfigInput) -> bool {
     let mut used_positions = vec![];
-    // let new_config : ConfigManager = config_manager.clone();
     let config_vars = to_config_view_array(config_input);
     for config_var in config_vars {
         if !check_env_var(&config_var.property, &config_var.value, &used_positions) {return false;}
@@ -105,14 +104,12 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     }
 
     if is_color_path(&key) {
-        if !all_colors.contains(&val.to_uppercase()){
+        if !all_colors.contains(&val.to_uppercase()) {
             println!("ERROR: config variable with invalid color name. {} for variable {} is not a valid color!", val, key);
             return false;
-        }else {
-            return true;
         }
 
-        if !is_valid_rgb(&val.to_uppercase(), &key) {
+        if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase(), &key) {
             println!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key);
             return false;
         }
