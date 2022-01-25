@@ -14,8 +14,8 @@ pub struct Cli {
   pub layer: String,
 
   /// Set ENV Variable via CLI
-  #[structopt(long = "set-env", default_value = "")]
-  pub set_env: String,
+  #[structopt(long = "set-var", default_value = "")]
+  pub set_var: String,
 
   /// Shows the file created time instead of the file modified time
   #[structopt(short = "i", long = "ct")]

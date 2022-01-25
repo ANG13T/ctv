@@ -153,7 +153,7 @@ pub fn configure_variables() -> ConfigInput {
             config_dir.join("config.toml"),
         );
 
-        println!("f {}", config_dir.display());
+        // println!("f {}", config_dir.display());
 
         let config: ConfigInput = match config_file {
             Ok(file) => toml::from_str(&file).unwrap(),

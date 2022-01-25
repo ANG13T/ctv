@@ -17,7 +17,7 @@ impl ConfigView {
 
 pub fn check_config(config_manager: &ConfigManager, config_input: &ConfigInput) -> bool {
     let mut used_positions = vec![];
-    let new_config : ConfigManager = config_manager.clone();
+    // let new_config : ConfigManager = config_manager.clone();
     let config_vars = to_config_view_array(config_input);
     for config_var in config_vars {
         if !check_env_var(&config_var.property, &config_var.value, &used_positions) {return false;}
@@ -77,19 +77,20 @@ fn to_config_view_array(config_input: &ConfigInput) -> Vec<ConfigView>{
 }
 
 pub fn print_config(config_input: &ConfigManager){
-    println!("{}", colormanager::colorize_string("LIGHTBLUE", format!("{:#?}", config_input)));
+    println!("{}", colormanager::colorize_string("GREEN", format!("{:#?}", config_input)));
+    println!("{}", colormanager::colorize_string("WHITE", "".to_string()));
 }
 
-pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
-    let mut used_positions = vec![];
-    let config_vars = to_config_view_array(config_input);
-    for config_var in config_vars {
-        if is_position_path(&config_var.property) && config_var.value != "-1"{
-            used_positions.push(config_var.value);
-        }
-    }
-    return used_positions;
-}
+// pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
+//     let mut used_positions = vec![];
+//     let config_vars = to_config_view_array(config_input);
+//     for config_var in config_vars {
+//         if is_position_path(&config_var.property) && config_var.value != "-1"{
+//             used_positions.push(config_var.value);
+//         }
+//     }
+//     return used_positions;
+// }
 
 pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool{
     let all_var_names = ["PIPE".to_string(), "ELBOW".to_string(), "TEE".to_string(), "PIPE_PREFIX".to_string(), "SPACE_PREFIX".to_string(), "SHOW_FILE_METADATA".to_string(), "SHOW_DIR_METADATA".to_string()];
@@ -99,32 +100,32 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     let file_detail_num = 5;
 
     if key != "SPACE_PREFIX" && all_var_names.contains(&key.to_string()) && val.len() == 0 {
-        println!("ERROR: Invalid ENV variable with key {}. ENV variable must have a value", key);
+        println!("ERROR: Invalid config variable with key {}. config variable must have a value", key);
         return false;
     }
 
     if is_color_path(&key) {
         if !all_colors.contains(&val.to_uppercase()){
-            println!("ERROR: ENV variable with invalid color name. {} for variable {} is not a valid color!", val, key);
+            println!("ERROR: config variable with invalid color name. {} for variable {} is not a valid color!", val, key);
             return false;
         }
 
         if is_valid_rgb(&val.to_uppercase(), &key) {
-            println!("ERROR: ENV variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key);
+            println!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key);
             return false;
         }
     }
 
     if is_style_path(&key) {
         if !all_styles.contains(&val.to_uppercase()){
-            println!("ERROR: ENV variable with invalid style name. {} for variable {} is not a valid style!", val, key);
+            println!("ERROR: config variable with invalid style name. {} for variable {} is not a valid style!", val, key);
             return false;
         }
     }
 
     if is_metadata_path(&key) {
         if &val.to_uppercase() != "TRUE" &&  &val.to_uppercase() != "FALSE" {
-            println!("ERROR: ENV variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key);
+            println!("ERROR: config variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key);
             return false;
         }
     }
@@ -132,26 +133,26 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     if is_limit_path(&key) {
         let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
         if key_int <= 0 {
-            println!("ERROR: ENV variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be greater than 0", val, key);
+            println!("ERROR: config variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be greater than 0", val, key);
             return false;
         }
 
         if key_int > 7 {
-            println!("ERROR: ENV variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be less than 8", val, key);
+            println!("ERROR: config variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be less than 8", val, key);
             return false;
         }
     }
 
     if key == "FILE_TIME_TYPE" {
         if !all_time_formats.contains(&val.to_uppercase()){
-            println!("ERROR: ENV variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key);
+            println!("ERROR: config variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key);
             return false;
         }
     }
 
     if key == "SHOW_SHORT" {
         if val.to_uppercase() != "TRUE" && val.to_uppercase() != "FALSE"{
-            println!("ERROR: ENV variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key);
+            println!("ERROR: config variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key);
             return false;
         }
     }
@@ -159,12 +160,12 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     if key == "SPACING" {
         let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
         if key_int < 0 {
-            println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than or equal to 0", val, key);
+            println!("ERROR: config variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than or equal to 0", val, key);
             return false;
         }
 
         if key_int > 7 {
-            println!("ERROR: ENV variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be less than 7", val, key);
+            println!("ERROR: config variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be less than 7", val, key);
             return false;
         }
     }
@@ -172,11 +173,11 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     if is_position_path(&key) {
         let key_int: i32 = val.parse::<i32>().ok().expect("INVALID integer in env variable!");
         if (key_int <= 0 && key_int != -1) || key_int > file_detail_num {
-            println!("ERROR: ENV variable with invalid position range. Position {} for variable {} is out of range! Position should be -1, 1, 2, 3, 4, or 5!", val, key);
+            println!("ERROR: config variable with invalid position range. Position {} for variable {} is out of range! Position should be -1, 1, 2, 3, 4, or 5!", val, key);
             return false;
         }
         if used_positions.contains(&key.to_string()) {
-            println!("ERROR: ENV variable with invalid position. Position {} for variable {} has already been used! Please consider giving it a different position", val, key);
+            println!("ERROR: config variable with invalid position. Position {} for variable {} has already been used! Please consider giving it a different position", val, key);
             return false;
         }
     }
