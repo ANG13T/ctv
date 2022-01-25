@@ -104,7 +104,7 @@ pub fn configure_variables() -> ConfigInput {
         file_perms_position: "3".to_string(),
         file_time_position: "4".to_string(),
         file_extension_position: "-1".to_string(),
-        dir_name_color: "LIGHTRED".to_string(),
+        dir_name_color: "BLUE".to_string(),
         file_name_color: "LIGHTRED".to_string(),
         file_time_color: "LIGHTCYAN".to_string(),
         file_size_color: "BLUE".to_string(),
