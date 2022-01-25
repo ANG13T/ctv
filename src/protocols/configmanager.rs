@@ -155,6 +155,16 @@ pub fn configure_variables() -> ConfigInput {
             config_dir.join("config.toml"),
         );
 
+        let dev_ctv: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
+        let mut ctv_path = "".to_string();
+
+        for path in dev_ctv {
+            if path != "dev.ctv.ctv" && path != "" {
+                ctv_path = format!("{}/{}", ctv_path, path);
+            }
+        }
+
+
         // println!("f {}", config_dir.display());
 
         let config: ConfigInput = match config_file {
@@ -162,7 +172,7 @@ pub fn configure_variables() -> ConfigInput {
             Err(_) => {
             let website = colormanager::colorize_string("GREEN", decorators::underline("https://github.com/angelina-tsuboi/ctv/blob/main/README.md"));
             let project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", config_dir.display())));
-            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a config.toml file at {}", website, project_dir)));
+            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a directory called {} and make a config.toml file inside at {}", website, ctv_path, project_dir)));
             println!("{}", config_message);
             default_config
             }

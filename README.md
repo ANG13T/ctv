@@ -50,7 +50,7 @@ ctv
 cd ~
 ```
 
-#### Step 3: Go to Root Directory
+#### Step 4: Go to Root Directory
 ```bash
 cd ~
 ```
