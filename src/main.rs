@@ -11,7 +11,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     let set_var: &str = &input::Cli::from_args().set_var.clone();
     
 
-    if set_var != "" && check_valid_set_var(set_var.to_string(), config_input){
+    if set_var != "" && check_valid_set_var(set_var.to_string(), config_input.clone()){
         config_input = set_config_var(&set_var, config_input.clone());
     }
 

@@ -108,9 +108,11 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
         if !all_colors.contains(&val.to_uppercase()){
             println!("ERROR: config variable with invalid color name. {} for variable {} is not a valid color!", val, key);
             return false;
+        }else {
+            return true;
         }
 
-        if is_valid_rgb(&val.to_uppercase(), &key) {
+        if !is_valid_rgb(&val.to_uppercase(), &key) {
             println!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key);
             return false;
         }
