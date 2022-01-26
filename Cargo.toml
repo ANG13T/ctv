@@ -23,7 +23,6 @@ termion = "1.5.6"
 filetime = "0.2"
 users = "0.11.0"
 chrono = "0.4"
-dotenv = "0.14.1"
 config = "0.11"
 directories = "3.0.2"
 serde = { version = "1.0.127", features = ["derive"] }
