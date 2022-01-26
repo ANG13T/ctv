@@ -41,19 +41,28 @@ The dev.ctv.ctv directory and config.toml file must be manually created to start
 ctv
 ```
 
-#### Step 2: Copy the Cyan, Underlined Path Printed from the top of the CTV command 
+#### Step 2: Copy the Yellow, Underlined Path Printed from the top of the CTV command 
 
-<img src="./media/ctv_printout.png" width="750" title="CTV Config Dir Path">
+<img src="./media/ctv_print.png" width="750" title="CTV Config Dir Path">
 
-#### Step 3: Go to Root Directory
+#### Step 3: Go inside the copied path
 ```bash
-cd ~
+cd <copied-path>
 ```
 
-#### Step 4: Go to Root Directory
+#### Step 4: Make a dev.ctv.ctv directory
 ```bash
-cd ~
+mkdir dev.ctv.ctv
+cd dev.ctv.ctv
 ```
+
+#### Step 5: Make a config.toml file
+```bash
+touch config.toml
+```
+
+#### Step 6: Copy the Default Configurable config.toml variables BELOW and paste into config.toml
+
 
 #### Default Configurable config.toml variables
 ```
