@@ -14,7 +14,11 @@ A highly configurable tree view visualizer CLI tool written in Rust!
 
 ## Installation
 ``` bash
+# Cargo Installation
 cargo install ctv
+
+# Homebrew Installation
+brew install angelina-tsuboi/ctv/ctv
 ```
 
 ## Using ctv
