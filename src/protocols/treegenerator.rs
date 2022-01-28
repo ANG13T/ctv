@@ -8,7 +8,6 @@ use crate::protocols::file::{FileStyle, DisplayPositions};
 pub struct TreeGenerator {
     root_dir: PathBuf,
     tree: Vec<String>,
-    pipe: String,
     elbow: String, 
     tee: String,
     pipe_prefix: String,
@@ -37,7 +36,6 @@ impl TreeGenerator {
             env_manager.file_perms_color,
             env_manager.file_extension_color,
             env_manager.dir_name_style,
-            env_manager.file_name_style,
             env_manager.file_size_style,
             env_manager.file_owner_style,
             env_manager.file_perms_style,
@@ -60,7 +58,6 @@ impl TreeGenerator {
 
         Self {
             tree: Vec::new(),
-            pipe:  env_manager.pipe,
             elbow:  env_manager.elbow,
             tee:  env_manager.tee,
             pipe_prefix:  env_manager.pipe_prefix,

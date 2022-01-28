@@ -54,7 +54,6 @@ fn to_config_view_array(config_input: &ConfigInput) -> Vec<ConfigView>{
         ConfigView::new("tree_layer_limit", &config_input.tree_layer_limit),
         ConfigView::new("show_file_metadata", &config_input.show_file_metadata),
         ConfigView::new("show_dir_metadata", &config_input.show_dir_metadata),
-        ConfigView::new("pipe", &config_input.pipe),
         ConfigView::new("elbow", &config_input.elbow),
         ConfigView::new("tee", &config_input.tee),
         ConfigView::new("pipe_prefix", &config_input.pipe_prefix),

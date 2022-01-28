@@ -91,7 +91,6 @@ fn set_config_var(env_string: &str, initial_config: protocols::configmanager::Co
     if lower_var == "tree_layer_limit" { resultant.tree_layer_limit = ind_2.clone() }  
     if lower_var == "show_file_metadata" { resultant.show_file_metadata = ind_2.clone() }  
     if lower_var == "show_dir_metadata" { resultant.show_dir_metadata = ind_2.clone() }  
-    if lower_var == "pipe" { resultant.pipe = ind_2.clone() }   
     if lower_var == "elbow" { resultant.elbow = ind_2.clone() }  
     if lower_var == "tee" { resultant.tee = ind_2.clone() }  
     if lower_var == "pipe_prefix" { resultant.pipe_prefix = ind_2.clone() }  
