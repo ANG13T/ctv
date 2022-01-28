@@ -76,10 +76,8 @@ fn set_config_var(env_string: &str, initial_config: protocols::configmanager::Co
     if lower_var == "file_name_color" { resultant.file_name_color = ind_2.clone() }  
     if lower_var == "file_time_color" { resultant.file_time_color = ind_2.clone() }  
     if lower_var == "file_size_color" { resultant.file_size_color = ind_2.clone() }  
-    if lower_var == "file_owner_color" { resultant.file_owner_color = ind_2.clone() }  
-    if lower_var == "file_perms_color" { resultant.file_perms_color = ind_2.clone() }  
-    if lower_var == "file_extension_color" { resultant.file_extension_color = ind_2.clone() }  
-    if lower_var == "dir_name_style" { resultant.dir_name_style = ind_2.clone() }    
+    if lower_var == "file_owner_color" { resultant.file_owner_color = ind_2.clone() }   
+    if lower_var == "file_extension_color" { resultant.file_extension_color = ind_2.clone() }   
     if lower_var == "file_name_style" { resultant.file_name_style = ind_2.clone() }   
     if lower_var == "file_time_style" { resultant.file_time_style = ind_2.clone() }   
     if lower_var == "file_size_style" { resultant.file_size_style = ind_2.clone() }   
