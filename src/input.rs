@@ -1,9 +1,10 @@
 use structopt::StructOpt;
+use std::path::PathBuf;
 #[derive(StructOpt)]
 pub struct Cli {
   /// Pass in a directory
   #[structopt(parse(from_os_str), default_value = ".")]
-  pub dir: std::path::PathBuf,
+  pub dir: PathBuf,
 
   /// Uses short format 
   #[structopt(short = "h", long = "short")]
