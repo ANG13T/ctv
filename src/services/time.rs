@@ -17,9 +17,17 @@ pub fn time_modified(file: PathBuf, time_format: &str) -> String{
 pub fn time_created(file: PathBuf, time_format: &str) -> String{
     let meta = fs::metadata(file).unwrap();
 
+    let file_time = filetime::FileTime::from_creation_time(&meta);
+
+    if file_time == None {
+      println!("FILE TIME IS NONE");
+    }
+
+
+
     let naive_time = chrono::NaiveDateTime::from_timestamp(
-    filetime::FileTime::from_creation_time(&meta).unwrap().seconds()
-    as i64, 0);
+      file_time.unwrap().seconds()
+      as i64, 0);
 
     let datetime: chrono::DateTime<chrono::Local> =
       chrono::DateTime::from_utc(naive_time, *chrono::Local::now().offset());
