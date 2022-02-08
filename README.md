@@ -1,4 +1,4 @@
-# ctv - configurable tree view
+# 🎄 ctv - configurable tree view 🎄
 
 A highly configurable tree view visualizer CLI tool written in Rust!
 
