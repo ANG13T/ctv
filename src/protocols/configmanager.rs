@@ -159,7 +159,11 @@ pub fn configure_variables() -> ConfigInput {
             Ok(file) => toml::from_str(&file).unwrap(),
             Err(_) => {
             let website = colormanager::colorize_string("GREEN", decorators::underline("https://github.com/angelina-tsuboi/ctv/blob/main/README.md"));
-            let project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", config_dir.display())));
+            let mut project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", config_dir.display())));
+            let dev_ctv_check: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
+            if !dev_ctv_check.contains(&"dev.ctv.ctv") {
+                project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}/dev.ctv.ctv", config_dir.display())));
+            } 
             let styled_ctv_path = colormanager::colorize_string("YELLOW", decorators::underline(&format!("{}", ctv_path)));
             let config_name = colormanager::colorize_string("WHITE", decorators::bold(&format!("{}", "config.toml")));
             let dev_str = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", "dev.ctv.ctv")));

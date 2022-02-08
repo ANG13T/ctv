@@ -21,6 +21,7 @@ pub fn time_created(file: PathBuf, time_format: &str) -> String{
 
     if file_time == None {
       println!("FILE TIME IS NONE");
+      return "".to_string();
     }
 
 
