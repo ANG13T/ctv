@@ -180,7 +180,6 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
     if is_limit_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
-            .ok()
             .expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
         if key_int <= 0 {
             print_error(format!("ERROR: config variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be greater than 0", val, key));
@@ -210,7 +209,6 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
     if key == "SPACING" {
         let key_int: i32 = val
             .parse::<i32>()
-            .ok()
             .expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
         if key_int < 0 {
             print_error(format!("ERROR: config variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than or equal to 0", val, key));
@@ -226,7 +224,6 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
     if is_position_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
-            .ok()
             .expect("INVALID integer in env variable!");
         if (key_int <= 0 && key_int != -1) || key_int > file_detail_num {
             print_error(format!("ERROR: config variable with invalid position range. Position {} for variable {} is out of range! Position should be -1, 1, 2, 3, 4, or 5!", val, key));
