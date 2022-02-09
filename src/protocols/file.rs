@@ -355,9 +355,9 @@ impl File {
     // TODO: do timing stuff (env check if mod or created or accessed)
     pub fn get_result_for_position(&self, position: &str) -> String {
         let res = match position {
-            "FILE_SIZE_POSITION" => format!("{}", self.size),
-            "FILE_OWNER_POSITION" => format!("{}", self.user),
-            "FILE_PERMS_POSITION" => format!("{}", self.perms),
+            "FILE_SIZE_POSITION" => self.size.to_string(),
+            "FILE_OWNER_POSITION" => self.user.to_string(),
+            "FILE_PERMS_POSITION" => self.perms.to_string(),
             "FILE_TIME_POSITION" => {
                 let time: String = if self.file_time_type == "CREATED" {
                     self.created.to_string()

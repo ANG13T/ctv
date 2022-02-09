@@ -159,7 +159,7 @@ pub fn configure_variables() -> ConfigInput {
                 );
                 let mut project_dir = colormanager::colorize_string(
                     "LIGHTCYAN",
-                    decorators::underline(&format!("{}", config_dir.display())),
+                    decorators::underline(&config_dir.display().to_string()),
                 );
                 if !config_dir
                     .to_str()
@@ -172,17 +172,13 @@ pub fn configure_variables() -> ConfigInput {
                         decorators::underline(&format!("{}/dev.ctv.ctv", config_dir.display())),
                     );
                 }
-                let styled_ctv_path = colormanager::colorize_string(
-                    "YELLOW",
-                    decorators::underline(&format!("{}", ctv_path)),
-                );
-                let config_name = colormanager::colorize_string(
-                    "WHITE",
-                    decorators::bold(&format!("{}", "config.toml")),
-                );
+                let styled_ctv_path =
+                    colormanager::colorize_string("YELLOW", decorators::underline(&ctv_path));
+                let config_name =
+                    colormanager::colorize_string("WHITE", decorators::bold("config.toml"));
                 let dev_str = colormanager::colorize_string(
                     "LIGHTCYAN",
-                    decorators::underline(&format!("{}", "dev.ctv.ctv")),
+                    decorators::underline("dev.ctv.ctv"),
                 );
                 let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a directory called {} inside {} \n Then make a {} file inside {}", website, dev_str, styled_ctv_path, config_name, project_dir)));
                 println!("{}", config_message);
