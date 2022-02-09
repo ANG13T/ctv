@@ -163,18 +163,14 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
         }
     }
 
-    if is_style_path(key) {
-        if !all_styles.contains(&val.to_uppercase()) {
-            print_error(format!("ERROR: config variable with invalid style name. {} for variable {} is not a valid style!", val, key));
-            return false;
-        }
+    if is_style_path(key) && !all_styles.contains(&val.to_uppercase()) {
+        print_error(format!("ERROR: config variable with invalid style name. {} for variable {} is not a valid style!", val, key));
+        return false;
     }
 
-    if is_metadata_path(key) {
-        if &val.to_uppercase() != "TRUE" && &val.to_uppercase() != "FALSE" {
-            print_error(format!("ERROR: config variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key));
-            return false;
-        }
+    if is_metadata_path(key) && &val.to_uppercase() != "TRUE" && &val.to_uppercase() != "FALSE" {
+        print_error(format!("ERROR: config variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key));
+        return false;
     }
 
     if is_limit_path(key) {
@@ -192,18 +188,14 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
         }
     }
 
-    if key == "FILE_TIME_TYPE" {
-        if !all_time_formats.contains(&val.to_uppercase()) {
-            print_error(format!("ERROR: config variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key));
-            return false;
-        }
+    if key == "FILE_TIME_TYPE" && !all_time_formats.contains(&val.to_uppercase()) {
+        print_error(format!("ERROR: config variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key));
+        return false;
     }
 
-    if key == "SHOW_SHORT" {
-        if val.to_uppercase() != "TRUE" && val.to_uppercase() != "FALSE" {
-            print_error(format!("ERROR: config variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key));
-            return false;
-        }
+    if key == "SHOW_SHORT" && val.to_uppercase() != "TRUE" && val.to_uppercase() != "FALSE" {
+        print_error(format!("ERROR: config variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key));
+        return false;
     }
 
     if key == "SPACING" {
