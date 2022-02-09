@@ -71,121 +71,83 @@ fn set_config_var(
     };
 
     if lower_var == "file_size_position" {
-        resultant.file_size_position = ind_2.clone()
-    }
-    if lower_var == "file_owner_position" {
-        resultant.file_owner_position = ind_2.clone()
-    }
-    if lower_var == "file_perms_position" {
-        resultant.file_perms_position = ind_2.clone()
-    }
-    if lower_var == "file_time_position" {
-        resultant.file_time_position = ind_2.clone()
-    }
-    if lower_var == "file_extension_position" {
-        resultant.file_extension_position = ind_2.clone()
-    }
-    if lower_var == "dir_name_color" {
-        resultant.dir_name_color = ind_2.clone()
-    }
-    if lower_var == "file_name_color" {
-        resultant.file_name_color = ind_2.clone()
-    }
-    if lower_var == "file_time_color" {
-        resultant.file_time_color = ind_2.clone()
-    }
-    if lower_var == "file_size_color" {
-        resultant.file_size_color = ind_2.clone()
-    }
-    if lower_var == "file_owner_color" {
-        resultant.file_owner_color = ind_2.clone()
-    }
-    if lower_var == "file_extension_color" {
-        resultant.file_extension_color = ind_2.clone()
-    }
-    if lower_var == "file_name_style" {
-        resultant.file_name_style = ind_2.clone()
-    }
-    if lower_var == "file_time_style" {
-        resultant.file_time_style = ind_2.clone()
-    }
-    if lower_var == "file_size_style" {
-        resultant.file_size_style = ind_2.clone()
-    }
-    if lower_var == "file_owner_style" {
-        resultant.file_owner_style = ind_2.clone()
-    }
-    if lower_var == "file_perms_style" {
-        resultant.file_perms_style = ind_2.clone()
-    }
-    if lower_var == "file_extension_style" {
-        resultant.file_extension_style = ind_2.clone()
-    }
-    if lower_var == "file_time_format" {
-        resultant.file_time_format = ind_2.clone()
-    }
-    if lower_var == "file_time_type" {
-        resultant.file_time_type = ind_2.clone()
-    }
-    if lower_var == "tree_layer_limit" {
-        resultant.tree_layer_limit = ind_2.clone()
-    }
-    if lower_var == "show_file_metadata" {
-        resultant.show_file_metadata = ind_2.clone()
-    }
-    if lower_var == "show_dir_metadata" {
-        resultant.show_dir_metadata = ind_2.clone()
-    }
-    if lower_var == "elbow" {
-        resultant.elbow = ind_2.clone()
-    }
-    if lower_var == "tee" {
-        resultant.tee = ind_2.clone()
-    }
-    if lower_var == "pipe_prefix" {
-        resultant.pipe_prefix = ind_2.clone()
-    }
-    if lower_var == "space_prefix" {
-        resultant.space_prefix = ind_2.clone()
-    }
-    if lower_var == "dir_color" {
-        resultant.dir_color = ind_2.clone()
-    }
-    if lower_var == "symlink_color" {
-        resultant.symlink_color = ind_2.clone()
-    }
-    if lower_var == "path_color" {
-        resultant.path_color = ind_2.clone()
-    }
-    if lower_var == "pipe_color" {
-        resultant.pipe_color = ind_2.clone()
-    }
-    if lower_var == "chard_color" {
-        resultant.chard_color = ind_2.clone()
-    }
-    if lower_var == "blockd_color" {
-        resultant.blockd_color = ind_2.clone()
-    }
-    if lower_var == "socket_color" {
-        resultant.socket_color = ind_2.clone()
-    }
-    if lower_var == "read_color" {
-        resultant.read_color = ind_2.clone()
-    }
-    if lower_var == "write_color" {
-        resultant.write_color = ind_2.clone()
-    }
-    if lower_var == "execute_color" {
-        resultant.execute_color = ind_2.clone()
-    }
-    if lower_var == "dash_color" {
-        resultant.dash_color = ind_2.clone()
-    }
-    if lower_var == "spacing" {
-        resultant.spacing = ind_2.clone()
-    }
-    if lower_var == "show_short" {
-        resultant.show_short = ind_2.clone()
+        resultant.file_size_position = ind_2;
+    } else if lower_var == "file_owner_position" {
+        resultant.file_owner_position = ind_2;
+    } else if lower_var == "file_perms_position" {
+        resultant.file_perms_position = ind_2;
+    } else if lower_var == "file_time_position" {
+        resultant.file_time_position = ind_2;
+    } else if lower_var == "file_extension_position" {
+        resultant.file_extension_position = ind_2;
+    } else if lower_var == "dir_name_color" {
+        resultant.dir_name_color = ind_2;
+    } else if lower_var == "file_name_color" {
+        resultant.file_name_color = ind_2;
+    } else if lower_var == "file_time_color" {
+        resultant.file_time_color = ind_2;
+    } else if lower_var == "file_size_color" {
+        resultant.file_size_color = ind_2;
+    } else if lower_var == "file_owner_color" {
+        resultant.file_owner_color = ind_2;
+    } else if lower_var == "file_extension_color" {
+        resultant.file_extension_color = ind_2;
+    } else if lower_var == "file_name_style" {
+        resultant.file_name_style = ind_2;
+    } else if lower_var == "file_time_style" {
+        resultant.file_time_style = ind_2;
+    } else if lower_var == "file_size_style" {
+        resultant.file_size_style = ind_2;
+    } else if lower_var == "file_owner_style" {
+        resultant.file_owner_style = ind_2;
+    } else if lower_var == "file_perms_style" {
+        resultant.file_perms_style = ind_2;
+    } else if lower_var == "file_extension_style" {
+        resultant.file_extension_style = ind_2;
+    } else if lower_var == "file_time_format" {
+        resultant.file_time_format = ind_2;
+    } else if lower_var == "file_time_type" {
+        resultant.file_time_type = ind_2;
+    } else if lower_var == "tree_layer_limit" {
+        resultant.tree_layer_limit = ind_2;
+    } else if lower_var == "show_file_metadata" {
+        resultant.show_file_metadata = ind_2;
+    } else if lower_var == "show_dir_metadata" {
+        resultant.show_dir_metadata = ind_2;
+    } else if lower_var == "elbow" {
+        resultant.elbow = ind_2;
+    } else if lower_var == "tee" {
+        resultant.tee = ind_2;
+    } else if lower_var == "pipe_prefix" {
+        resultant.pipe_prefix = ind_2;
+    } else if lower_var == "space_prefix" {
+        resultant.space_prefix = ind_2;
+    } else if lower_var == "dir_color" {
+        resultant.dir_color = ind_2;
+    } else if lower_var == "symlink_color" {
+        resultant.symlink_color = ind_2;
+    } else if lower_var == "path_color" {
+        resultant.path_color = ind_2;
+    } else if lower_var == "pipe_color" {
+        resultant.pipe_color = ind_2;
+    } else if lower_var == "chard_color" {
+        resultant.chard_color = ind_2;
+    } else if lower_var == "blockd_color" {
+        resultant.blockd_color = ind_2;
+    } else if lower_var == "socket_color" {
+        resultant.socket_color = ind_2;
+    } else if lower_var == "read_color" {
+        resultant.read_color = ind_2;
+    } else if lower_var == "write_color" {
+        resultant.write_color = ind_2;
+    } else if lower_var == "execute_color" {
+        resultant.execute_color = ind_2;
+    } else if lower_var == "dash_color" {
+        resultant.dash_color = ind_2;
+    } else if lower_var == "spacing" {
+        resultant.spacing = ind_2;
+    } else if lower_var == "show_short" {
+        resultant.show_short = ind_2;
     }
 
     resultant
