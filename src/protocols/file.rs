@@ -138,32 +138,29 @@ impl DisplayPositions {
 impl File {
     // TODO: add diff time options
     pub fn new(
-        file: std::path::PathBuf,
+        path: std::path::PathBuf,
         time_format: &str,
-        time_type: &str,
-        styles: &FileStyle,
-        show_ext: bool,
-        display_pos: &DisplayPositions,
+        file_time_type: String,
+        styles: FileStyle,
+        show_extension: bool,
+        display_positions: DisplayPositions,
         show_short: bool,
     ) -> Self {
-        let ref_to_file_styles: FileStyle = styles.clone();
-        let ref_to_display_position: DisplayPositions = display_pos.clone();
-
         Self {
-            group: services::group(file.to_path_buf()),
-            user: services::user(file.to_path_buf()),
-            modified: services::time::time_modified(file.to_path_buf(), time_format),
-            created: services::time::time_created(file.to_path_buf(), time_format),
-            accessed: services::time::time_acessed(file.to_path_buf(), time_format),
-            size: services::size::size(file.to_path_buf()),
-            perms: services::perms::perms(file.to_path_buf(), ref_to_file_styles),
-            file_type: PathType::new(&file).unwrap(),
-            path: file,
-            styles: styles.clone(),
-            file_time_type: time_type.to_string(),
-            show_extension: show_ext,
-            display_positions: ref_to_display_position,
-            show_short: show_short,
+            group: services::group(path.to_path_buf()),
+            user: services::user(path.to_path_buf()),
+            modified: services::time::time_modified(path.to_path_buf(), time_format),
+            created: services::time::time_created(path.to_path_buf(), time_format),
+            accessed: services::time::time_acessed(path.to_path_buf(), time_format),
+            size: services::size::size(path.to_path_buf()),
+            perms: services::perms::perms(path.to_path_buf(), styles.clone()),
+            file_type: PathType::new(&path).unwrap(),
+            path,
+            styles,
+            file_time_type,
+            show_extension,
+            display_positions,
+            show_short,
         }
     }
 

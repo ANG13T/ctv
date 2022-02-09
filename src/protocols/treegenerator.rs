@@ -112,10 +112,10 @@ impl TreeGenerator {
         let dir_file = File::new(
             self.root_dir.clone(),
             &self.time_format,
-            &self.time_type,
-            &self.file_styles,
+            self.time_type.clone(),
+            self.file_styles.clone(),
             self.show_extension,
-            &self.file_styles.positions,
+            self.file_styles.positions.clone(),
             self.show_short,
         );
         self.tree.push(dir_file.display_format()); // prints out head dir
@@ -171,10 +171,10 @@ impl TreeGenerator {
         let new_file = File::new(
             directory,
             &self.time_format,
-            &self.time_type,
-            &self.file_styles,
+            self.time_type.clone(),
+            self.file_styles.clone(),
             self.show_extension,
-            &self.file_styles.positions,
+            self.file_styles.positions.clone(),
             self.show_short,
         );
         let file_name = if self.show_dir_metadata == "TRUE" {
@@ -199,10 +199,10 @@ impl TreeGenerator {
         let new_file = File::new(
             file,
             &self.time_format,
-            &self.time_type,
-            &self.file_styles,
+            self.time_type.clone(),
+            self.file_styles.clone(),
             self.show_extension,
-            &self.file_styles.positions,
+            self.file_styles.positions.clone(),
             self.show_short,
         );
         let file_name: String = if self.show_file_metadata == "TRUE" {
