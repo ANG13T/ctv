@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let set_var: &str = &input::Cli::from_args().set_var.clone();
 
-    if set_var != "" && check_valid_set_var(set_var.to_string(), config_input.clone()) {
+    if !set_var.is_empty() && check_valid_set_var(set_var.to_string(), config_input.clone()) {
         config_input = set_config_var(&set_var, config_input.clone());
     }
 
@@ -39,7 +39,9 @@ fn modify_config_with_flags(
     let mut new_config: protocols::ConfigManager = config_input.clone();
     let used_pos = vec![];
 
-    if layer != "" && protocols::checkconfig::check_env_var("TREE_LAYER_LIMIT", layer, &used_pos) {
+    if !layer.is_empty()
+        && protocols::checkconfig::check_env_var("TREE_LAYER_LIMIT", layer, &used_pos)
+    {
         new_config.tree_layer_limit = layer.parse::<i32>().unwrap();
     }
 

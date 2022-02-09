@@ -283,7 +283,7 @@ impl File {
     }
 
     pub fn get_styled_text(&self, text: &str, style: &str, is_end: bool) -> String {
-        if text.len() == 0 {
+        if text.is_empty() {
             return "".to_string();
         };
         let mut result = match style {

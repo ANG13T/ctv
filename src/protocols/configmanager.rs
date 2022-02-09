@@ -143,7 +143,7 @@ pub fn configure_variables() -> ConfigInput {
         let mut ctv_path = "".to_string();
 
         for path in dev_ctv {
-            if path != "dev.ctv.ctv" && path != "" {
+            if path != "dev.ctv.ctv" && !path.is_empty() {
                 ctv_path = format!("{}/{}", ctv_path, path);
             }
         }

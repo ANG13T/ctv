@@ -143,7 +143,7 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
     ];
     let file_detail_num = 5;
 
-    if key != "SPACE_PREFIX" && all_var_names.contains(&key.to_string()) && val.len() == 0 {
+    if key != "SPACE_PREFIX" && all_var_names.contains(&key.to_string()) && val.is_empty() {
         print_error(format!(
             "ERROR: Invalid config variable with key {}. config variable must have a value",
             key
