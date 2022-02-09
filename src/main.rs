@@ -63,9 +63,12 @@ fn set_config_var(
     initial_config: protocols::configmanager::ConfigInput,
 ) -> protocols::configmanager::ConfigInput {
     let mut resultant = initial_config.clone();
-    let string_vec: Vec<&str> = env_string.split("=").collect();
-    let lower_var = string_vec[0].to_lowercase();
-    let ind_2 = string_vec[1].to_uppercase();
+    let (lower_var, ind_2) = match env_string.split_once('=') {
+        Some((env_key, env_value)) => (env_key.to_lowercase(), env_value.to_uppercase()),
+        None => {
+            panic!("ERROR: invalid environment variable string");
+        }
+    };
 
     if lower_var == "file_size_position" {
         resultant.file_size_position = ind_2.clone()
@@ -193,12 +196,14 @@ fn check_valid_set_var(
     config_input: protocols::configmanager::ConfigInput,
 ) -> bool {
     let used_positions: Vec<String> = protocols::checkconfig::get_used_positions(&config_input);
-    let string_vec: Vec<&str> = env_input.split("=").collect();
-    if string_vec.len() != 2 {
-        println!("ERROR: invalid flag variable for --set-var");
-        return false;
-    }
-    return protocols::checkconfig::check_env_var(string_vec[0], string_vec[1], &used_positions);
+    let (env_key, env_value) = match env_input.split_once('=') {
+        Some(split) => split,
+        None => {
+            println!("ERROR: invalid flag variable for --set-var");
+            return false;
+        }
+    };
+    return protocols::checkconfig::check_env_var(env_key, env_value, &used_positions);
 }
 
 #[cfg(test)]
