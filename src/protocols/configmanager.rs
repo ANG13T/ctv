@@ -1,8 +1,8 @@
-use std::{fs};
-use directories::ProjectDirs;
-use serde::{Deserialize};
-use crate::protocols::{colormanager};
 use crate::decorators;
+use crate::protocols::colormanager;
+use directories::ProjectDirs;
+use serde::Deserialize;
+use std::fs;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct ConfigInput {
@@ -44,7 +44,7 @@ pub struct ConfigInput {
     pub execute_color: String,
     pub dash_color: String,
     pub spacing: String,
-    pub show_short: String
+    pub show_short: String,
 }
 
 #[derive(Debug, Clone)]
@@ -89,12 +89,11 @@ pub struct ConfigManager {
     pub execute_color: String,
     pub dash_color: String,
     pub spacing: i32,
-    pub show_short: bool
+    pub show_short: bool,
 }
 
-
 pub fn configure_variables() -> ConfigInput {
-    let default_config : ConfigInput = ConfigInput {
+    let default_config: ConfigInput = ConfigInput {
         file_size_position: "1".to_string(),
         file_owner_position: "2".to_string(),
         file_perms_position: "3".to_string(),
@@ -133,18 +132,12 @@ pub fn configure_variables() -> ConfigInput {
         execute_color: "LIGHTGREEN".to_string(),
         dash_color: "LIGHTBLACK".to_string(),
         spacing: "0".to_string(),
-        show_short: "false".to_string()
+        show_short: "false".to_string(),
     };
-    if let Some(proj_dirs) = ProjectDirs::from(
-        "dev",
-        "ctv",
-        "ctv",
-    ) {
+    if let Some(proj_dirs) = ProjectDirs::from("dev", "ctv", "ctv") {
         let config_dir = proj_dirs.config_dir();
 
-        let config_file = fs::read_to_string(
-            config_dir.join("config.toml"),
-        );
+        let config_file = fs::read_to_string(config_dir.join("config.toml"));
 
         let dev_ctv: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
         let mut ctv_path = "".to_string();
@@ -158,18 +151,38 @@ pub fn configure_variables() -> ConfigInput {
         let config: ConfigInput = match config_file {
             Ok(file) => toml::from_str(&file).unwrap(),
             Err(_) => {
-            let website = colormanager::colorize_string("GREEN", decorators::underline("https://github.com/angelina-tsuboi/ctv/blob/main/README.md"));
-            let mut project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", config_dir.display())));
-            let dev_ctv_check: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
-            if !dev_ctv_check.contains(&"dev.ctv.ctv") {
-                project_dir = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}/dev.ctv.ctv", config_dir.display())));
-            } 
-            let styled_ctv_path = colormanager::colorize_string("YELLOW", decorators::underline(&format!("{}", ctv_path)));
-            let config_name = colormanager::colorize_string("WHITE", decorators::bold(&format!("{}", "config.toml")));
-            let dev_str = colormanager::colorize_string("LIGHTCYAN", decorators::underline(&format!("{}", "dev.ctv.ctv")));
-            let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a directory called {} inside {} \n Then make a {} file inside {}", website, dev_str, styled_ctv_path, config_name, project_dir)));
-            println!("{}", config_message);
-            default_config
+                let website = colormanager::colorize_string(
+                    "GREEN",
+                    decorators::underline(
+                        "https://github.com/angelina-tsuboi/ctv/blob/main/README.md",
+                    ),
+                );
+                let mut project_dir = colormanager::colorize_string(
+                    "LIGHTCYAN",
+                    decorators::underline(&format!("{}", config_dir.display())),
+                );
+                let dev_ctv_check: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
+                if !dev_ctv_check.contains(&"dev.ctv.ctv") {
+                    project_dir = colormanager::colorize_string(
+                        "LIGHTCYAN",
+                        decorators::underline(&format!("{}/dev.ctv.ctv", config_dir.display())),
+                    );
+                }
+                let styled_ctv_path = colormanager::colorize_string(
+                    "YELLOW",
+                    decorators::underline(&format!("{}", ctv_path)),
+                );
+                let config_name = colormanager::colorize_string(
+                    "WHITE",
+                    decorators::bold(&format!("{}", "config.toml")),
+                );
+                let dev_str = colormanager::colorize_string(
+                    "LIGHTCYAN",
+                    decorators::underline(&format!("{}", "dev.ctv.ctv")),
+                );
+                let config_message = decorators::bold(&colormanager::colorize_string("LIGHTGREEN", format!("Config file not created. Please visit {} to learn how to set up a config.toml file for CTV \n Create a directory called {} inside {} \n Then make a {} file inside {}", website, dev_str, styled_ctv_path, config_name, project_dir)));
+                println!("{}", config_message);
+                default_config
             }
         };
 
@@ -180,15 +193,25 @@ pub fn configure_variables() -> ConfigInput {
 }
 
 impl ConfigManager {
-    pub fn init(config_file : ConfigInput) -> Self {  
-        let mut original : i32 = 5;
-        if config_file.file_size_position.parse::<i32>().unwrap() == -1 {original -= 1};
-        if config_file.file_owner_position.parse::<i32>().unwrap() == -1 {original -= 1};
-        if config_file.file_perms_position.parse::<i32>().unwrap() == -1 {original -= 1};
-        if config_file.file_time_position.parse::<i32>().unwrap() == -1 {original -= 1};
-        if config_file.file_extension_position.parse::<i32>().unwrap() == -1 {original -= 1};
+    pub fn init(config_file: ConfigInput) -> Self {
+        let mut original: i32 = 5;
+        if config_file.file_size_position.parse::<i32>().unwrap() == -1 {
+            original -= 1
+        };
+        if config_file.file_owner_position.parse::<i32>().unwrap() == -1 {
+            original -= 1
+        };
+        if config_file.file_perms_position.parse::<i32>().unwrap() == -1 {
+            original -= 1
+        };
+        if config_file.file_time_position.parse::<i32>().unwrap() == -1 {
+            original -= 1
+        };
+        if config_file.file_extension_position.parse::<i32>().unwrap() == -1 {
+            original -= 1
+        };
 
-        let mut dir_num_pos : i32 = original;
+        let mut dir_num_pos: i32 = original;
         if config_file.file_extension_position.parse::<i32>().unwrap() != -1 {
             dir_num_pos -= 1;
         }
@@ -231,15 +254,15 @@ impl ConfigManager {
             symlink_color: config_file.symlink_color,
             path_color: config_file.path_color,
             pipe_color: config_file.pipe_color,
-            chard_color: config_file.chard_color,            
+            chard_color: config_file.chard_color,
             blockd_color: config_file.blockd_color,
             socket_color: config_file.socket_color,
             read_color: config_file.read_color,
-            write_color: config_file.write_color,            
+            write_color: config_file.write_color,
             execute_color: config_file.execute_color,
             dash_color: config_file.dash_color,
             spacing: config_file.spacing.parse::<i32>().unwrap(),
-            show_short: show_result
+            show_short: show_result,
         }
     }
 }

@@ -2,12 +2,11 @@
 // use crate::services;
 // use crate::protocols;
 
-
 // fn get_num_pos() -> Vec<i32>{
-//   let mut config_input = protocols::configmanager::configure_variables();  
+//   let mut config_input = protocols::configmanager::configure_variables();
 
 //   let mut check_config = protocols::ConfigManager::init(config_input.clone());
-  
+
 //   let mut result = Vec::new();
 
 //   let mut original : i32 = 5;
@@ -53,7 +52,7 @@
 
 // #[test]
 // fn test_file_user() {
-//   // CHANGE BELOW to your user 
+//   // CHANGE BELOW to your user
 //   let user_name = "angelinatsuboi";
 //   let path = env::current_dir().unwrap();
 //   let test_file_display_pos : DisplayPositions = DisplayPositions::new(1,2,3,4,5);
