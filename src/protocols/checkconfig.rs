@@ -157,7 +157,7 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
             return false;
         }
 
-        if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase(), key) {
+        if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase()) {
             print_error(format!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key));
             return false;
         }
@@ -237,7 +237,7 @@ fn is_metadata_path(path: &str) -> bool {
     path.split('_').any(|segment| segment == "METADATA")
 }
 
-fn is_valid_rgb(color: &str, path: &str) -> bool {
+fn is_valid_rgb(color: &str) -> bool {
     let uppercased_no_space: String = color.to_uppercase().replace(" ", "");
     if &uppercased_no_space[..4] != "RGB("
         || &uppercased_no_space[&uppercased_no_space.len() - 1..] != ")"
