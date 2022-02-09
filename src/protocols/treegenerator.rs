@@ -121,21 +121,20 @@ impl TreeGenerator {
         self.tree.push(dir_file.display_format()); // prints out head dir
     }
 
-    fn tree_body(&mut self, directory: PathBuf, prefix: &String, limit: i32) {
+    fn tree_body(&mut self, directory: PathBuf, prefix: &str, limit: i32) {
         let entries = self.sort_dir_first(directory).unwrap();
         let entries_count = entries.len();
 
         for (index, entry) in entries.iter().enumerate() {
-            let connector;
             let metadata = fs::metadata(entry.path()).unwrap();
 
-            if index == entries_count - 1
+            let connector = if index == entries_count - 1
                 && (!metadata.is_dir() || self.get_dir_item_amount(entry.path()) == 0)
             {
-                connector = &self.elbow;
+                self.elbow.clone()
             } else {
-                connector = &self.tee;
-            }
+                self.tee.clone()
+            };
 
             if metadata.is_dir() {
                 self.add_directory(
@@ -144,11 +143,11 @@ impl TreeGenerator {
                     index,
                     entries_count,
                     prefix.to_string(),
-                    connector.to_string(),
+                    connector,
                     limit - 1,
                 )
             } else {
-                self.add_file(entry.path(), prefix.to_string(), connector.to_string())
+                self.add_file(entry.path(), prefix.to_string(), connector)
             }
         }
     }
