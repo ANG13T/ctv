@@ -51,7 +51,7 @@ fn modify_config_with_flags(
         new_config.show_short = true;
     }
 
-    return new_config;
+    new_config
 }
 
 // fn make_concat_env(var_1: String, var_2: String) -> String {
@@ -203,7 +203,7 @@ fn check_valid_set_var(
             return false;
         }
     };
-    return protocols::checkconfig::check_env_var(env_key, env_value, &used_positions);
+    protocols::checkconfig::check_env_var(env_key, env_value, &used_positions)
 }
 
 #[cfg(test)]

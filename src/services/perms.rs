@@ -54,7 +54,7 @@ fn colorize_perm(input: &str, file_style: FileStyle) -> String {
     } else if input == "x" {
         return colorize_string(&file_style.execute_color, "x".to_string());
     }
-    return colorize_string("RESET", "".to_string());
+    colorize_string("RESET", "".to_string())
 }
 
 fn construct_perm_string(
@@ -67,5 +67,5 @@ fn construct_perm_string(
     result.push_str(&colorize_perm(string2, file_style.clone()));
     result.push_str(&colorize_perm(string3, file_style.clone()));
     result.push_str(&colorize_perm(".", file_style.clone()));
-    return result;
+    result
 }

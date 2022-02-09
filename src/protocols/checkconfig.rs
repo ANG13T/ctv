@@ -75,7 +75,7 @@ fn to_config_view_array(config_input: &ConfigInput) -> Vec<ConfigView> {
         ConfigView::new("spacing", &config_input.spacing),
         ConfigView::new("show_short", &config_input.show_short),
     ];
-    return config_array;
+    config_array
 }
 
 pub fn print_config(config_input: &ConfigManager) {
@@ -94,7 +94,7 @@ pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
             used_positions.push(config_var.value);
         }
     }
-    return used_positions;
+    used_positions
 }
 
 pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool {
@@ -237,7 +237,7 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn is_color_path(path: &str) -> bool {
@@ -273,7 +273,7 @@ fn is_valid_rgb(color: &str, path: &str) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn is_style_path(path: &str) -> bool {

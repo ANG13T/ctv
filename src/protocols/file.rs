@@ -192,7 +192,7 @@ impl File {
             }
             _ => "".to_string(),
         };
-        return result;
+        result
     }
 
     pub fn display_format(&self) -> String {
@@ -301,7 +301,7 @@ impl File {
         if !is_end {
             result.push_str(" ");
         }
-        return result;
+        result
     }
 
     pub fn get_name(&self) -> String {
@@ -325,7 +325,7 @@ impl File {
             res = v.get_text_traits_for_type(&res, &self.path);
             res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
         }
-        return res;
+        res
     }
 
     pub fn get_position_category(&self, index: i32) -> String {
@@ -349,7 +349,7 @@ impl File {
             return "FILE_EXTENSION_POSITION".to_string();
         }
 
-        return "".to_string();
+        "".to_string()
     }
 
     // TODO: do timing stuff (env check if mod or created or accessed)
@@ -369,18 +369,18 @@ impl File {
             "FILE_EXTENSION_POSITION" => services::extension::extension(&self.path),
             _ => "".to_string(),
         };
-        return res;
+        res
     }
 
     pub fn get_style_for_position(&self, position: &str) -> String {
-        return match position {
+        match position {
             "FILE_SIZE_POSITION" => self.styles.file_size_style.clone(),
             "FILE_OWNER_POSITION" => self.styles.file_owner_style.clone(),
             "FILE_PERMS_POSITION" => self.styles.file_perms_style.clone(),
             "FILE_TIME_POSITION" => self.styles.file_time_style.clone(),
             "FILE_EXTENSION_POSITION" => self.styles.file_extension_style.clone(),
             _ => "".to_string(),
-        };
+        }
     }
 }
 

@@ -81,7 +81,7 @@ impl TreeGenerator {
     pub fn build_tree(&mut self) -> Vec<String> {
         self.tree_head();
         self.tree_body(self.root_dir.clone(), &"".to_string(), self.layer_limit);
-        return self.tree.clone();
+        self.tree.clone()
     }
 
     fn sort_dir_first(&self, directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>> {
