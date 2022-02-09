@@ -66,7 +66,7 @@ impl TreeGenerator {
             tee: env_manager.tee,
             pipe_prefix: env_manager.pipe_prefix,
             space_prefix: env_manager.space_prefix,
-            root_dir: root_dir,
+            root_dir,
             show_dir_metadata: env_manager.show_dir_metadata,
             show_file_metadata: env_manager.show_file_metadata,
             file_styles: file_style,
