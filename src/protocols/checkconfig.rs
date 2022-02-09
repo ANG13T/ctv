@@ -256,7 +256,7 @@ fn is_valid_rgb(color: &str, path: &str) -> bool {
         return false;
     };
     let substring: &str = &uppercased_no_space[4..uppercased_no_space.len()];
-    let split_values: Vec<&str> = substring.split(",").collect();
+    let split_values: Vec<&str> = substring.split(',').collect();
     if split_values.len() != 3 {
         return false;
     };

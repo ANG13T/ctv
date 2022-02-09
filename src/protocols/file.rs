@@ -171,7 +171,7 @@ impl File {
         if typ == "FILE_PERMS_POSITION" {
             return input;
         }
-        let result = match typ {
+        match typ {
             "FILE_OWNER_POSITION" => {
                 colormanager::colorize_string(&self.styles.file_owner_color, input)
             }
@@ -191,8 +191,7 @@ impl File {
                 colormanager::colorize_string(&self.styles.file_extension_color, input)
             }
             _ => "".to_string(),
-        };
-        result
+        }
     }
 
     pub fn display_format(&self) -> String {
@@ -299,7 +298,7 @@ impl File {
             _ => decorators::bold("INVALID FONT STYLE"),
         };
         if !is_end {
-            result.push_str(" ");
+            result.push(' ');
         }
         result
     }
@@ -354,22 +353,20 @@ impl File {
 
     // TODO: do timing stuff (env check if mod or created or accessed)
     pub fn get_result_for_position(&self, position: &str) -> String {
-        let res = match position {
+        match position {
             "FILE_SIZE_POSITION" => self.size.to_string(),
             "FILE_OWNER_POSITION" => self.user.to_string(),
             "FILE_PERMS_POSITION" => self.perms.to_string(),
             "FILE_TIME_POSITION" => {
-                let time: String = if self.file_time_type == "CREATED" {
+                if self.file_time_type == "CREATED" {
                     self.created.to_string()
                 } else {
                     self.modified.to_string()
-                };
-                return time;
+                }
             }
             "FILE_EXTENSION_POSITION" => services::extension::extension(&self.path),
             _ => "".to_string(),
-        };
-        res
+        }
     }
 
     pub fn get_style_for_position(&self, position: &str) -> String {

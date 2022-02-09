@@ -139,7 +139,7 @@ pub fn configure_variables() -> ConfigInput {
 
         let config_file = fs::read_to_string(config_dir.join("config.toml"));
 
-        let dev_ctv: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
+        let dev_ctv: Vec<&str> = config_dir.to_str().unwrap().split('/').collect();
         let mut ctv_path = "".to_string();
 
         for path in dev_ctv {
