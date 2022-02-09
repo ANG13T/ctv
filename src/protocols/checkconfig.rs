@@ -241,13 +241,11 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
 }
 
 fn is_color_path(path: &str) -> bool {
-    let string_vec: Vec<&str> = path.split("_").collect();
-    return string_vec.contains(&"COLOR");
+    path.split('_').any(|segment| segment == "COLOR")
 }
 
 fn is_metadata_path(path: &str) -> bool {
-    let string_vec: Vec<&str> = path.split("_").collect();
-    return string_vec.contains(&"METADATA");
+    path.split('_').any(|segment| segment == "METADATA")
 }
 
 fn is_valid_rgb(color: &str, path: &str) -> bool {
@@ -279,8 +277,7 @@ fn is_valid_rgb(color: &str, path: &str) -> bool {
 }
 
 fn is_style_path(path: &str) -> bool {
-    let string_vec: Vec<&str> = path.split("_").collect();
-    return string_vec.contains(&"STYLE");
+    path.split('_').any(|segment| segment == "STYLE")
 }
 
 fn print_error(error_message: String) {
@@ -291,11 +288,9 @@ fn print_error(error_message: String) {
 }
 
 fn is_position_path(path: &str) -> bool {
-    let string_vec: Vec<&str> = path.split("_").collect();
-    return string_vec.contains(&"POSITION");
+    path.split('_').any(|segment| segment == "POSITION")
 }
 
 fn is_limit_path(path: &str) -> bool {
-    let string_vec: Vec<&str> = path.split("_").collect();
-    return string_vec.contains(&"LIMIT");
+    path.split('_').any(|segment| segment == "LIMIT")
 }

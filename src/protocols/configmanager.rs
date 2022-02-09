@@ -161,8 +161,12 @@ pub fn configure_variables() -> ConfigInput {
                     "LIGHTCYAN",
                     decorators::underline(&format!("{}", config_dir.display())),
                 );
-                let dev_ctv_check: Vec<&str> = config_dir.to_str().unwrap().split("/").collect();
-                if !dev_ctv_check.contains(&"dev.ctv.ctv") {
+                if !config_dir
+                    .to_str()
+                    .unwrap()
+                    .split('/')
+                    .any(|segment| segment == "dev.ctv.ctv")
+                {
                     project_dir = colormanager::colorize_string(
                         "LIGHTCYAN",
                         decorators::underline(&format!("{}/dev.ctv.ctv", config_dir.display())),
