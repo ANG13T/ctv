@@ -151,33 +151,33 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
         return false;
     }
 
-    if is_color_path(&key) {
+    if is_color_path(key) {
         if !all_colors.contains(&val.to_uppercase()) {
             print_error(format!("ERROR: config variable with invalid color name. {} for variable {} is not a valid color!", val, key));
             return false;
         }
 
-        if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase(), &key) {
+        if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase(), key) {
             print_error(format!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key));
             return false;
         }
     }
 
-    if is_style_path(&key) {
+    if is_style_path(key) {
         if !all_styles.contains(&val.to_uppercase()) {
             print_error(format!("ERROR: config variable with invalid style name. {} for variable {} is not a valid style!", val, key));
             return false;
         }
     }
 
-    if is_metadata_path(&key) {
+    if is_metadata_path(key) {
         if &val.to_uppercase() != "TRUE" && &val.to_uppercase() != "FALSE" {
             print_error(format!("ERROR: config variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key));
             return false;
         }
     }
 
-    if is_limit_path(&key) {
+    if is_limit_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
             .ok()
@@ -223,7 +223,7 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool
         }
     }
 
-    if is_position_path(&key) {
+    if is_position_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
             .ok()

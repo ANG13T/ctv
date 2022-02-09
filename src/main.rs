@@ -11,7 +11,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let set_var: &str = &input::Cli::from_args().set_var;
 
     if !set_var.is_empty() && check_valid_set_var(set_var.to_string(), config_input.clone()) {
-        config_input = set_config_var(&set_var, config_input.clone());
+        config_input = set_config_var(set_var, config_input.clone());
     }
 
     let mut check_config = protocols::ConfigManager::init(config_input.clone());
