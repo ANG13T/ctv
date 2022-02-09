@@ -260,20 +260,9 @@ fn is_valid_rgb(color: &str, path: &str) -> bool {
     if split_values.len() != 3 {
         return false;
     };
-    for value in split_values {
-        let rgb_number: i32 = value
-            .parse::<i32>()
-            .ok()
-            .expect("Invalid RGB number value in env");
-        if rgb_number < 0 || rgb_number > 255 {
-            print_error(format!(
-                "INVALID RGB number value of {} for {}",
-                rgb_number, path
-            ));
-            return false;
-        }
-    }
-    true
+    split_values
+        .iter()
+        .all(|segment| segment.parse::<u8>().is_ok())
 }
 
 fn is_style_path(path: &str) -> bool {
