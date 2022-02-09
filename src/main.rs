@@ -8,7 +8,7 @@ mod services;
 fn main() -> Result<(), Box<dyn Error>> {
     let mut config_input = protocols::configmanager::configure_variables();
 
-    let set_var: &str = &input::Cli::from_args().set_var.clone();
+    let set_var: &str = &input::Cli::from_args().set_var;
 
     if !set_var.is_empty() && check_valid_set_var(set_var.to_string(), config_input.clone()) {
         config_input = set_config_var(&set_var, config_input.clone());
@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 fn modify_config_with_flags(
     config_input: &protocols::configmanager::ConfigManager,
 ) -> protocols::configmanager::ConfigManager {
-    let layer: &str = &input::Cli::from_args().layer.clone();
+    let layer: &str = &input::Cli::from_args().layer;
     let mut new_config: protocols::ConfigManager = config_input.clone();
     let used_pos = vec![];
 

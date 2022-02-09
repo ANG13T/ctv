@@ -221,7 +221,7 @@ impl File {
         if metadata.is_dir() {
             let file_count = fs::read_dir(&self.path).unwrap().count();
             if self.show_short {
-                return format!("{}", res);
+                return res;
             }
             return format!( "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
@@ -233,7 +233,7 @@ impl File {
        );
         } else {
             if self.show_short {
-                return format!("{}", res);
+                return res;
             }
             return format!(
                 "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",

@@ -27,7 +27,7 @@ pub fn perms(file: std::path::PathBuf, file_style: FileStyle) -> String {
         S_IXOTH as u16,
         file_style.clone(),
     );
-    let f = protocols::PathType::new(&file).unwrap()[0].get_letter_for_type(file_style.clone());
+    let f = protocols::PathType::new(&file).unwrap()[0].get_letter_for_type(file_style);
     [f, user, group, other].join("")
 }
 
@@ -66,6 +66,6 @@ fn construct_perm_string(
     let mut result: String = colorize_perm(string1, file_style.clone());
     result.push_str(&colorize_perm(string2, file_style.clone()));
     result.push_str(&colorize_perm(string3, file_style.clone()));
-    result.push_str(&colorize_perm(".", file_style.clone()));
+    result.push_str(&colorize_perm(".", file_style));
     result
 }
