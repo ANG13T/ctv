@@ -37,11 +37,8 @@ fn modify_config_with_flags(
 ) -> protocols::configmanager::ConfigManager {
     let layer: &str = &input::Cli::from_args().layer;
     let mut new_config: protocols::ConfigManager = config_input.clone();
-    let used_pos = vec![];
 
-    if !layer.is_empty()
-        && protocols::checkconfig::check_env_var("TREE_LAYER_LIMIT", layer, &used_pos)
-    {
+    if !layer.is_empty() && protocols::checkconfig::check_env_var("TREE_LAYER_LIMIT", layer, &[]) {
         new_config.tree_layer_limit = layer.parse::<i32>().unwrap();
     }
 

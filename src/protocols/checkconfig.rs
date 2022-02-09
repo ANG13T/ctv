@@ -97,7 +97,7 @@ pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
     used_positions
 }
 
-pub fn check_env_var(key: &str, val: &str, used_positions: &Vec<String>) -> bool {
+pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
     let all_var_names = [
         "PIPE".to_string(),
         "ELBOW".to_string(),

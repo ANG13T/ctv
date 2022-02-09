@@ -1,4 +1,4 @@
-pub fn extension(file: &std::path::PathBuf) -> String {
+pub fn extension(file: &std::path::Path) -> String {
     if file.is_dir() {
         return "".to_string();
     }
