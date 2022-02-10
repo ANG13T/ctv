@@ -1,49 +1,24 @@
-use std::fs;
-use std::path::PathBuf;
+use filetime::FileTime;
+use std::fs::Metadata;
 
-pub fn time_modified(file: PathBuf, time_format: &str) -> String {
-    if file.symlink_metadata().unwrap().modified().is_ok() {
-        let naive = chrono::NaiveDateTime::from_timestamp(
-            filetime::FileTime::from_last_modification_time(&file.symlink_metadata().unwrap())
-                .seconds() as i64,
-            0,
-        );
-
-        let datetime: chrono::DateTime<chrono::Local> =
-            chrono::DateTime::from_utc(naive, *chrono::Local::now().offset());
-        datetime.format(time_format).to_string()
-    } else {
-        "00 000 00:00:00".to_string()
-    }
+pub fn time_modified(metadata: &Metadata, time_format: &str) -> String {
+    let time = filetime::FileTime::from_last_modification_time(metadata);
+    format_time(&time, time_format)
 }
 
-pub fn time_created(file: PathBuf, time_format: &str) -> String {
-    if filetime::FileTime::from_creation_time(&file.symlink_metadata().unwrap()).is_some() {
-        let naive = chrono::NaiveDateTime::from_timestamp(
-            filetime::FileTime::from_creation_time(&file.symlink_metadata().unwrap())
-                .unwrap()
-                .seconds() as i64,
-            0,
-        );
-
-        let datetime: chrono::DateTime<chrono::Local> =
-            chrono::DateTime::from_utc(naive, *chrono::Local::now().offset());
-        datetime.format(time_format).to_string()
-    } else {
-        "00 000 00:00:00".to_string()
-    }
+pub fn time_created(metadata: &Metadata, time_format: &str) -> String {
+    let time = filetime::FileTime::from_creation_time(metadata);
+    let time = time.unwrap_or(filetime::FileTime::zero());
+    format_time(&time, time_format)
 }
 
-pub fn time_acessed(file: PathBuf, time_format: &str) -> String {
-    let meta = fs::metadata(file).unwrap();
+pub fn time_accessed(metadata: &Metadata, time_format: &str) -> String {
+    let time = filetime::FileTime::from_last_access_time(metadata);
+    format_time(&time, time_format)
+}
 
-    let naive_time = chrono::NaiveDateTime::from_timestamp(
-        filetime::FileTime::from_last_access_time(&meta).seconds() as i64,
-        0,
-    );
-
-    let datetime: chrono::DateTime<chrono::Local> =
-        chrono::DateTime::from_utc(naive_time, *chrono::Local::now().offset());
-
-    return datetime.format(time_format).to_string();
+fn format_time(time: &FileTime, format: &str) -> String {
+    let time = chrono::NaiveDateTime::from_timestamp(time.seconds(), time.nanoseconds());
+    let time = <chrono::DateTime<chrono::Local>>::from_utc(time, *chrono::Local::now().offset());
+    time.format(format).to_string()
 }

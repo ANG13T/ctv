@@ -92,7 +92,7 @@ pub struct ConfigManager {
     pub show_short: bool,
 }
 
-pub fn configure_variables() -> ConfigInput {
+pub fn configure_variables() -> anyhow::Result<ConfigInput> {
     let default_config: ConfigInput = ConfigInput {
         file_size_position: "1".to_string(),
         file_owner_position: "2".to_string(),
@@ -139,7 +139,11 @@ pub fn configure_variables() -> ConfigInput {
 
         let config_file = fs::read_to_string(config_dir.join("config.toml"));
 
-        let dev_ctv: Vec<&str> = config_dir.to_str().unwrap().split('/').collect();
+        let dev_ctv: Vec<&str> = config_dir
+            .to_str()
+            .ok_or_else(|| anyhow::anyhow!("Config directory is not valid UTF-8"))?
+            .split('/')
+            .collect();
         let mut ctv_path = "".to_string();
 
         for path in dev_ctv {
@@ -149,7 +153,7 @@ pub fn configure_variables() -> ConfigInput {
         }
 
         let config: ConfigInput = match config_file {
-            Ok(file) => toml::from_str(&file).unwrap(),
+            Ok(file) => toml::from_str(&file)?,
             Err(_) => {
                 let website = colormanager::colorize_string(
                     "GREEN",
@@ -163,7 +167,7 @@ pub fn configure_variables() -> ConfigInput {
                 );
                 if !config_dir
                     .to_str()
-                    .unwrap()
+                    .ok_or_else(|| anyhow::anyhow!("Config directory is not valid UTF-8"))?
                     .split('/')
                     .any(|segment| segment == "dev.ctv.ctv")
                 {
@@ -186,33 +190,33 @@ pub fn configure_variables() -> ConfigInput {
             }
         };
 
-        return config;
+        return Ok(config);
     }
 
-    default_config
+    Ok(default_config)
 }
 
 impl ConfigManager {
-    pub fn init(config_file: ConfigInput) -> Self {
+    pub fn init(config_file: ConfigInput) -> anyhow::Result<Self> {
         let mut original: i32 = 5;
-        if config_file.file_size_position.parse::<i32>().unwrap() == -1 {
+        if config_file.file_size_position.parse::<i32>()? == -1 {
             original -= 1
         };
-        if config_file.file_owner_position.parse::<i32>().unwrap() == -1 {
+        if config_file.file_owner_position.parse::<i32>()? == -1 {
             original -= 1
         };
-        if config_file.file_perms_position.parse::<i32>().unwrap() == -1 {
+        if config_file.file_perms_position.parse::<i32>()? == -1 {
             original -= 1
         };
-        if config_file.file_time_position.parse::<i32>().unwrap() == -1 {
+        if config_file.file_time_position.parse::<i32>()? == -1 {
             original -= 1
         };
-        if config_file.file_extension_position.parse::<i32>().unwrap() == -1 {
+        if config_file.file_extension_position.parse::<i32>()? == -1 {
             original -= 1
         };
 
         let mut dir_num_pos: i32 = original;
-        if config_file.file_extension_position.parse::<i32>().unwrap() != -1 {
+        if config_file.file_extension_position.parse::<i32>()? != -1 {
             dir_num_pos -= 1;
         }
 
@@ -221,12 +225,12 @@ impl ConfigManager {
             show_result = false;
         }
 
-        Self {
-            file_size_position: config_file.file_size_position.parse::<i32>().unwrap(),
-            file_owner_position: config_file.file_owner_position.parse::<i32>().unwrap(),
-            file_perms_position: config_file.file_perms_position.parse::<i32>().unwrap(),
-            file_time_position: config_file.file_time_position.parse::<i32>().unwrap(),
-            file_extension_position: config_file.file_extension_position.parse::<i32>().unwrap(),
+        Ok(Self {
+            file_size_position: config_file.file_size_position.parse::<i32>()?,
+            file_owner_position: config_file.file_owner_position.parse::<i32>()?,
+            file_perms_position: config_file.file_perms_position.parse::<i32>()?,
+            file_time_position: config_file.file_time_position.parse::<i32>()?,
+            file_extension_position: config_file.file_extension_position.parse::<i32>()?,
             dir_name_color: config_file.dir_name_color,
             file_name_color: config_file.file_name_color,
             file_time_color: config_file.file_time_color,
@@ -241,7 +245,7 @@ impl ConfigManager {
             file_extension_style: config_file.file_extension_style,
             file_time_format: config_file.file_time_format,
             file_time_type: config_file.file_time_type,
-            tree_layer_limit: config_file.tree_layer_limit.parse::<i32>().unwrap(),
+            tree_layer_limit: config_file.tree_layer_limit.parse::<i32>()?,
             show_file_metadata: config_file.show_file_metadata,
             show_dir_metadata: config_file.show_dir_metadata,
             elbow: config_file.elbow,
@@ -261,8 +265,8 @@ impl ConfigManager {
             write_color: config_file.write_color,
             execute_color: config_file.execute_color,
             dash_color: config_file.dash_color,
-            spacing: config_file.spacing.parse::<i32>().unwrap(),
+            spacing: config_file.spacing.parse::<i32>()?,
             show_short: show_result,
-        }
+        })
     }
 }

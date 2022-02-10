@@ -2,10 +2,11 @@ use crate::protocols;
 use crate::protocols::colormanager::colorize_string;
 use crate::protocols::file::FileStyle;
 use libc::{S_IRGRP, S_IROTH, S_IRUSR, S_IWGRP, S_IWOTH, S_IWUSR, S_IXGRP, S_IXOTH, S_IXUSR};
+use std::fs::Metadata;
 use std::os::unix::fs::PermissionsExt;
 
-pub fn perms(file: std::path::PathBuf, file_style: FileStyle) -> String {
-    let mode = file.symlink_metadata().unwrap().permissions().mode() as u16;
+pub fn perms(metadata: &Metadata, file_style: FileStyle) -> String {
+    let mode = metadata.permissions().mode() as u16;
     let user = masking(
         mode,
         S_IRUSR as u16,
@@ -27,7 +28,7 @@ pub fn perms(file: std::path::PathBuf, file_style: FileStyle) -> String {
         S_IXOTH as u16,
         file_style.clone(),
     );
-    let f = protocols::PathType::new(&file).unwrap()[0].get_letter_for_type(file_style);
+    let f = protocols::PathType::new(metadata)[0].get_letter_for_type(file_style);
     [f, user, group, other].join("")
 }
 

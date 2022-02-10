@@ -16,10 +16,11 @@ impl DirTree {
         }
     }
 
-    pub fn gen(&mut self) {
-        self.tree = self.tree_gen.build_tree();
+    pub fn gen(&mut self) -> anyhow::Result<()> {
+        self.tree = self.tree_gen.build_tree()?;
         for entry in &self.tree {
             println!("{}", entry);
         }
+        Ok(())
     }
 }

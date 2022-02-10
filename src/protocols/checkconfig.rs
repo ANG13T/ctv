@@ -1,6 +1,7 @@
 use crate::decorators;
 use crate::protocols::colormanager;
 use crate::protocols::configmanager::{ConfigInput, ConfigManager};
+use anyhow::Context;
 
 struct ConfigView {
     property: String,
@@ -16,18 +17,18 @@ impl ConfigView {
     }
 }
 
-pub fn check_config(config_input: &ConfigInput) -> bool {
+pub fn check_config(config_input: &ConfigInput) -> anyhow::Result<bool> {
     let mut used_positions = vec![];
     let config_vars = to_config_view_array(config_input);
     for config_var in config_vars {
-        if !check_env_var(&config_var.property, &config_var.value, &used_positions) {
-            return false;
+        if !check_env_var(&config_var.property, &config_var.value, &used_positions)? {
+            return Ok(false);
         }
         if is_position_path(&config_var.property) && config_var.value != "-1" {
             used_positions.push(config_var.value);
         }
     }
-    true
+    Ok(true)
 }
 
 fn to_config_view_array(config_input: &ConfigInput) -> Vec<ConfigView> {
@@ -97,7 +98,7 @@ pub fn get_used_positions(config_input: &ConfigInput) -> Vec<String> {
     used_positions
 }
 
-pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
+pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> anyhow::Result<bool> {
     let all_var_names = [
         "PIPE".to_string(),
         "ELBOW".to_string(),
@@ -148,85 +149,85 @@ pub fn check_env_var(key: &str, val: &str, used_positions: &[String]) -> bool {
             "ERROR: Invalid config variable with key {}. config variable must have a value",
             key
         ));
-        return false;
+        return Ok(false);
     }
 
     if is_color_path(key) {
         if !all_colors.contains(&val.to_uppercase()) {
             print_error(format!("ERROR: config variable with invalid color name. {} for variable {} is not a valid color!", val, key));
-            return false;
+            return Ok(false);
         }
 
         if !all_colors.contains(&val.to_uppercase()) && !is_valid_rgb(&val.to_uppercase()) {
             print_error(format!("ERROR: config variable with invalid RGB value for color. {} for variable {} is not a valid RGB value!", val, key));
-            return false;
+            return Ok(false);
         }
     }
 
     if is_style_path(key) && !all_styles.contains(&val.to_uppercase()) {
         print_error(format!("ERROR: config variable with invalid style name. {} for variable {} is not a valid style!", val, key));
-        return false;
+        return Ok(false);
     }
 
     if is_metadata_path(key) && &val.to_uppercase() != "TRUE" && &val.to_uppercase() != "FALSE" {
         print_error(format!("ERROR: config variable with invalid metadata name. {} for variable {} is not a valid variable! It must be either TRUE or FALSE", val, key));
-        return false;
+        return Ok(false);
     }
 
     if is_limit_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
-            .expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
+            .context("INVALID integer for TREE_LAYER_LIMIT in env variable!")?;
         if key_int <= 0 {
             print_error(format!("ERROR: config variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be greater than 0", val, key));
-            return false;
+            return Ok(false);
         }
 
         if key_int > 7 {
             print_error(format!("ERROR: config variable with invalid tree layer limit. {} for variable {} is not a valid variable! It must be less than 8", val, key));
-            return false;
+            return Ok(false);
         }
     }
 
     if key == "FILE_TIME_TYPE" && !all_time_formats.contains(&val.to_uppercase()) {
         print_error(format!("ERROR: config variable with invalid time type. {} for variable {} is not a valid time type! Valid time types are CREATED or MODIFIED", val, key));
-        return false;
+        return Ok(false);
     }
 
     if key == "SHOW_SHORT" && val.to_uppercase() != "TRUE" && val.to_uppercase() != "FALSE" {
         print_error(format!("ERROR: config variable with invalid show short type. {} for variable {} is not a valid show short type! Valid types are TRUE or FALSE", val, key));
-        return false;
+        return Ok(false);
     }
 
     if key == "SPACING" {
         let key_int: i32 = val
             .parse::<i32>()
-            .expect("INVALID integer for TREE_LAYER_LIMIT in env variable!");
+            .context("INVALID integer for TREE_LAYER_LIMIT in env variable!")?;
         if key_int < 0 {
             print_error(format!("ERROR: config variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be greater than or equal to 0", val, key));
-            return false;
+            return Ok(false);
         }
 
         if key_int > 7 {
             print_error(format!("ERROR: config variable with invalid spacing amount. {} for variable {} is not a valid spacing! Spacing must be less than 7", val, key));
-            return false;
+            return Ok(false);
         }
     }
 
     if is_position_path(key) {
         let key_int: i32 = val
             .parse::<i32>()
-            .expect("INVALID integer in env variable!");
+            .context("INVALID integer in env variable!")?;
         if (key_int <= 0 && key_int != -1) || key_int > file_detail_num {
             print_error(format!("ERROR: config variable with invalid position range. Position {} for variable {} is out of range! Position should be -1, 1, 2, 3, 4, or 5!", val, key));
-            return false;
+            return Ok(false);
         }
         if used_positions.contains(&key.to_string()) {
             print_error(format!("ERROR: config variable with invalid position. Position {} for variable {} has already been used! Please consider giving it a different position", val, key));
-            return false;
+            return Ok(false);
         }
     }
-    true
+    Ok(true)
 }
 
 fn is_color_path(path: &str) -> bool {

@@ -1,7 +1,8 @@
+use std::fs::Metadata;
 use std::os::unix::fs::MetadataExt;
 
-pub fn group(path: std::path::PathBuf) -> String {
-    let group = users::get_group_by_gid(path.symlink_metadata().unwrap().gid());
+pub fn group(metadata: &Metadata) -> String {
+    let group = users::get_group_by_gid(metadata.gid());
     if let Some(g) = group {
         String::from(g.name().to_string_lossy())
     } else {
@@ -9,8 +10,8 @@ pub fn group(path: std::path::PathBuf) -> String {
     }
 }
 
-pub fn user(path: std::path::PathBuf) -> String {
-    let user = users::get_user_by_uid(path.symlink_metadata().unwrap().uid());
+pub fn user(metadata: &Metadata) -> String {
+    let user = users::get_user_by_uid(metadata.uid());
     if let Some(u) = user {
         String::from(u.name().to_string_lossy())
     } else {

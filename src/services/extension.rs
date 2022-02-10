@@ -1,12 +1,12 @@
-pub fn extension(file: &std::path::Path) -> String {
+pub fn extension(file: &std::path::Path) -> anyhow::Result<String> {
     if file.is_dir() {
-        return "".to_string();
+        return Ok("".to_string());
     }
-    return file
+    Ok(file
         .extension()
-        .unwrap()
+        .ok_or_else(|| anyhow::anyhow!("File has no extension"))?
         .to_str()
-        .unwrap()
+        .ok_or_else(|| anyhow::anyhow!("File extension is invalid UTF-8"))?
         .to_string()
-        .to_uppercase();
+        .to_uppercase())
 }

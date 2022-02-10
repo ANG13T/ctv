@@ -1,6 +1,5 @@
 use crate::protocols::file::{DisplayPositions, FileStyle};
 use crate::protocols::{ConfigManager, File};
-use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
 
@@ -78,13 +77,13 @@ impl TreeGenerator {
             show_short: env_manager.show_short,
         }
     }
-    pub fn build_tree(&mut self) -> Vec<String> {
-        self.tree_head();
-        self.tree_body(self.root_dir.clone(), &"".to_string(), self.layer_limit);
-        self.tree.clone()
+    pub fn build_tree(&mut self) -> anyhow::Result<Vec<String>> {
+        self.tree_head()?;
+        self.tree_body(self.root_dir.clone(), &"".to_string(), self.layer_limit)?;
+        Ok(self.tree.clone())
     }
 
-    fn sort_dir_first(&self, directory: PathBuf) -> Result<Vec<fs::DirEntry>, Box<dyn Error>> {
+    fn sort_dir_first(&self, directory: PathBuf) -> anyhow::Result<Vec<fs::DirEntry>> {
         let mut dir_vec: Vec<fs::DirEntry> = Vec::new();
         let mut file_vec: Vec<fs::DirEntry> = Vec::new();
         for entry in fs::read_dir(directory)? {
@@ -108,7 +107,7 @@ impl TreeGenerator {
         return directory.iter().count();
     }
 
-    fn tree_head(&mut self) {
+    fn tree_head(&mut self) -> anyhow::Result<()> {
         let dir_file = File::new(
             self.root_dir.clone(),
             &self.time_format,
@@ -117,16 +116,17 @@ impl TreeGenerator {
             self.show_extension,
             self.file_styles.positions.clone(),
             self.show_short,
-        );
-        self.tree.push(dir_file.display_format()); // prints out head dir
+        )?;
+        self.tree.push(dir_file.display_format()?); // prints out head dir
+        Ok(())
     }
 
-    fn tree_body(&mut self, directory: PathBuf, prefix: &str, limit: i32) {
-        let entries = self.sort_dir_first(directory).unwrap();
+    fn tree_body(&mut self, directory: PathBuf, prefix: &str, limit: i32) -> anyhow::Result<()> {
+        let entries = self.sort_dir_first(directory)?;
         let entries_count = entries.len();
 
         for (index, entry) in entries.iter().enumerate() {
-            let metadata = fs::metadata(entry.path()).unwrap();
+            let metadata = fs::metadata(entry.path())?;
 
             let connector = if index == entries_count - 1
                 && (!metadata.is_dir() || self.get_dir_item_amount(entry.path()) == 0)
@@ -145,11 +145,12 @@ impl TreeGenerator {
                     prefix.to_string(),
                     connector,
                     limit - 1,
-                )
+                )?;
             } else {
-                self.add_file(entry.path(), prefix.to_string(), connector)
+                self.add_file(entry.path(), prefix.to_string(), connector)?;
             }
         }
+        Ok(())
     }
 
     fn add_spacing(&mut self, prefix: String) {
@@ -167,7 +168,7 @@ impl TreeGenerator {
         mut prefix: String,
         connector: String,
         limit: i32,
-    ) {
+    ) -> anyhow::Result<()> {
         let new_file = File::new(
             directory,
             &self.time_format,
@@ -176,9 +177,9 @@ impl TreeGenerator {
             self.show_extension,
             self.file_styles.positions.clone(),
             self.show_short,
-        );
+        )?;
         let file_name = if self.show_dir_metadata == "TRUE" {
-            new_file.display_format()
+            new_file.display_format()?
         } else {
             new_file.get_name()
         };
@@ -191,11 +192,12 @@ impl TreeGenerator {
             prefix += &self.space_prefix;
         }
         if limit > 0 {
-            self.tree_body(directory2, &prefix.to_string(), limit)
+            self.tree_body(directory2, &prefix.to_string(), limit)?;
         }
+        Ok(())
     }
 
-    fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) {
+    fn add_file(&mut self, file: PathBuf, prefix: String, connector: String) -> anyhow::Result<()> {
         let new_file = File::new(
             file,
             &self.time_format,
@@ -204,14 +206,15 @@ impl TreeGenerator {
             self.show_extension,
             self.file_styles.positions.clone(),
             self.show_short,
-        );
+        )?;
         let file_name: String = if self.show_file_metadata == "TRUE" {
-            new_file.display_format()
+            new_file.display_format()?
         } else {
             new_file.get_name()
         };
         self.add_spacing(prefix.clone());
         self.tree
             .push(format!("{}{} {}", prefix, connector, file_name));
+        Ok(())
     }
 }

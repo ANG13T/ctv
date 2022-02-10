@@ -145,23 +145,24 @@ impl File {
         show_extension: bool,
         display_positions: DisplayPositions,
         show_short: bool,
-    ) -> Self {
-        Self {
-            group: services::group(path.to_path_buf()),
-            user: services::user(path.to_path_buf()),
-            modified: services::time::time_modified(path.to_path_buf(), time_format),
-            created: services::time::time_created(path.to_path_buf(), time_format),
-            accessed: services::time::time_acessed(path.to_path_buf(), time_format),
-            size: services::size::size(path.to_path_buf()),
-            perms: services::perms::perms(path.to_path_buf(), styles.clone()),
-            file_type: PathType::new(&path).unwrap(),
+    ) -> anyhow::Result<Self> {
+        let metadata = path.metadata()?;
+        Ok(Self {
+            group: services::group(&metadata),
+            user: services::user(&metadata),
+            modified: services::time::time_modified(&metadata, time_format),
+            created: services::time::time_created(&metadata, time_format),
+            accessed: services::time::time_accessed(&metadata, time_format),
+            size: services::size::size(&metadata)?,
+            perms: services::perms::perms(&metadata, styles.clone()),
+            file_type: PathType::new(&metadata),
             path,
             styles,
             file_time_type,
             show_extension,
             display_positions,
             show_short,
-        }
+        })
     }
 
     fn get_color_for(&self, typ: &str, input: String) -> String {
@@ -191,7 +192,7 @@ impl File {
         }
     }
 
-    pub fn display_format(&self) -> String {
+    pub fn display_format(&self) -> anyhow::Result<String> {
         let mut res = String::new();
         for (i, v) in self.file_type.iter().enumerate() {
             if i == 0 {
@@ -200,7 +201,7 @@ impl File {
                         .path
                         .components()
                         .next_back()
-                        .unwrap()
+                        .ok_or_else(|| anyhow::anyhow!(""))?
                         .as_os_str()
                         .to_string_lossy()
                         .to_string(),
@@ -213,68 +214,30 @@ impl File {
             res = format!("{}{}", v.get_color_for_type(self.styles.clone()), res);
         }
 
-        let metadata = fs::metadata(&self.path).unwrap();
+        if self.show_short {
+            return Ok(res);
+        }
+        let metadata = fs::metadata(&self.path)?;
+        let elements: String = (1..=5)
+            .into_iter()
+            .map::<anyhow::Result<String>, _>(|i| {
+                Ok(self.get_styled_text(
+                    &self.get_color_for(
+                        &self.get_position_category(i),
+                        self.get_result_for_position(&self.get_position_category(i))?,
+                    ),
+                    &self.get_style_for_position(&self.get_position_category(i)),
+                    i == self.styles.dir_num_positions,
+                ))
+            })
+            .fold(Ok(String::new()), |acc: anyhow::Result<String>, element| {
+                Ok(acc? + &element?)
+            })?;
         if metadata.is_dir() {
-            let file_count = fs::read_dir(&self.path).unwrap().count();
-            if self.show_short {
-                return res;
-            }
-            return format!( "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
-        res, file_count,
-        element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
-        element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.dir_num_positions),
-        element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.dir_num_positions),
-        element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.dir_num_positions),
-        element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
-       );
+            let file_count = fs::read_dir(&self.path)?.count();
+            Ok(format!("{} [{}] ({} items)", res, elements, file_count))
         } else {
-            if self.show_short {
-                return res;
-            }
-            return format!(
-                "{} [{element_one}{element_two}{element_three}{element_four}{element_five}]",
-                res,
-                element_one = self.get_styled_text(
-                    &self.get_color_for(
-                        &self.get_position_category(1),
-                        self.get_result_for_position(&self.get_position_category(1))
-                    ),
-                    &self.get_style_for_position(&self.get_position_category(1)),
-                    1 == self.styles.num_positions
-                ),
-                element_two = self.get_styled_text(
-                    &self.get_color_for(
-                        &self.get_position_category(2),
-                        self.get_result_for_position(&self.get_position_category(2))
-                    ),
-                    &self.get_style_for_position(&self.get_position_category(2)),
-                    2 == self.styles.num_positions
-                ),
-                element_three = self.get_styled_text(
-                    &self.get_color_for(
-                        &self.get_position_category(3),
-                        self.get_result_for_position(&self.get_position_category(3))
-                    ),
-                    &self.get_style_for_position(&self.get_position_category(3)),
-                    3 == self.styles.num_positions
-                ),
-                element_four = self.get_styled_text(
-                    &self.get_color_for(
-                        &self.get_position_category(4),
-                        self.get_result_for_position(&self.get_position_category(4))
-                    ),
-                    &self.get_style_for_position(&self.get_position_category(4)),
-                    4 == self.styles.num_positions
-                ),
-                element_five = self.get_styled_text(
-                    &self.get_color_for(
-                        &self.get_position_category(5),
-                        self.get_result_for_position(&self.get_position_category(5))
-                    ),
-                    &self.get_style_for_position(&self.get_position_category(5)),
-                    5 == self.styles.num_positions
-                )
-            );
+            Ok(format!("{} [{}]", res, elements))
         }
     }
 
@@ -349,20 +312,20 @@ impl File {
     }
 
     // TODO: do timing stuff (env check if mod or created or accessed)
-    pub fn get_result_for_position(&self, position: &str) -> String {
+    pub fn get_result_for_position(&self, position: &str) -> anyhow::Result<String> {
         match position {
-            "FILE_SIZE_POSITION" => self.size.to_string(),
-            "FILE_OWNER_POSITION" => self.user.to_string(),
-            "FILE_PERMS_POSITION" => self.perms.to_string(),
+            "FILE_SIZE_POSITION" => Ok(self.size.to_string()),
+            "FILE_OWNER_POSITION" => Ok(self.user.to_string()),
+            "FILE_PERMS_POSITION" => Ok(self.perms.to_string()),
             "FILE_TIME_POSITION" => {
                 if self.file_time_type == "CREATED" {
-                    self.created.to_string()
+                    Ok(self.created.to_string())
                 } else {
-                    self.modified.to_string()
+                    Ok(self.modified.to_string())
                 }
             }
             "FILE_EXTENSION_POSITION" => services::extension::extension(&self.path),
-            _ => "".to_string(),
+            _ => Ok("".to_string()),
         }
     }
 
@@ -442,11 +405,11 @@ impl std::fmt::Debug for File {
             }
             return writeln!(f, "{} [{element_one}{element_two}{element_three}{element_four}{element_five}] ({} items)",
         res, file_count,
-         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1))), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
-         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2))), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.dir_num_positions),
-         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3))), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.dir_num_positions),
-         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4))), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.dir_num_positions),
-         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5))), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
+         element_one = self.get_styled_text(&self.get_color_for(&self.get_position_category(1), self.get_result_for_position(&self.get_position_category(1)).unwrap()), &self.get_style_for_position(&self.get_position_category(1)), 1 == self.styles.dir_num_positions),
+         element_two = self.get_styled_text(&self.get_color_for(&self.get_position_category(2), self.get_result_for_position(&self.get_position_category(2)).unwrap()), &self.get_style_for_position(&self.get_position_category(2)), 2 == self.styles.dir_num_positions),
+         element_three = self.get_styled_text(&self.get_color_for(&self.get_position_category(3), self.get_result_for_position(&self.get_position_category(3)).unwrap()), &self.get_style_for_position(&self.get_position_category(3)), 3 == self.styles.dir_num_positions),
+         element_four = self.get_styled_text(&self.get_color_for(&self.get_position_category(4), self.get_result_for_position(&self.get_position_category(4)).unwrap()), &self.get_style_for_position(&self.get_position_category(4)), 4 == self.styles.dir_num_positions),
+         element_five = self.get_styled_text(&self.get_color_for(&self.get_position_category(5), self.get_result_for_position(&self.get_position_category(5)).unwrap()), &self.get_style_for_position(&self.get_position_category(5)), 5 >= self.styles.dir_num_positions)
        );
         } else {
             if self.show_short {
@@ -460,6 +423,7 @@ impl std::fmt::Debug for File {
                     &self.get_color_for(
                         &self.get_position_category(1),
                         self.get_result_for_position(&self.get_position_category(1))
+                            .unwrap()
                     ),
                     &self.get_style_for_position(&self.get_position_category(1)),
                     1 == self.styles.num_positions
@@ -468,6 +432,7 @@ impl std::fmt::Debug for File {
                     &self.get_color_for(
                         &self.get_position_category(2),
                         self.get_result_for_position(&self.get_position_category(2))
+                            .unwrap()
                     ),
                     &self.get_style_for_position(&self.get_position_category(2)),
                     2 == self.styles.num_positions
@@ -476,6 +441,7 @@ impl std::fmt::Debug for File {
                     &self.get_color_for(
                         &self.get_position_category(3),
                         self.get_result_for_position(&self.get_position_category(3))
+                            .unwrap()
                     ),
                     &self.get_style_for_position(&self.get_position_category(3)),
                     3 == self.styles.num_positions
@@ -484,6 +450,7 @@ impl std::fmt::Debug for File {
                     &self.get_color_for(
                         &self.get_position_category(4),
                         self.get_result_for_position(&self.get_position_category(4))
+                            .unwrap()
                     ),
                     &self.get_style_for_position(&self.get_position_category(4)),
                     4 == self.styles.num_positions
@@ -492,6 +459,7 @@ impl std::fmt::Debug for File {
                     &self.get_color_for(
                         &self.get_position_category(5),
                         self.get_result_for_position(&self.get_position_category(5))
+                            .unwrap()
                     ),
                     &self.get_style_for_position(&self.get_position_category(5)),
                     5 == self.styles.num_positions

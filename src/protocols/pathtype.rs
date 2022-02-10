@@ -1,6 +1,7 @@
 use crate::decorators;
 use crate::protocols::colormanager;
 use crate::protocols::file::FileStyle;
+use std::fs::Metadata;
 use std::os::unix::fs::FileTypeExt;
 use std::path::Path;
 
@@ -16,30 +17,30 @@ pub enum PathType {
 }
 
 impl PathType {
-    pub fn new(file: &Path) -> Result<Vec<Self>, Box<dyn std::error::Error>> {
+    pub fn new(metadata: &Metadata) -> Vec<Self> {
         let mut return_val = Vec::new();
-        if file.symlink_metadata()?.is_dir() {
+        if metadata.is_dir() {
             return_val.push(Self::Dir)
         }
-        if file.symlink_metadata()?.file_type().is_symlink() {
+        if metadata.file_type().is_symlink() {
             return_val.push(Self::Symlink)
         }
-        if file.symlink_metadata()?.file_type().is_fifo() {
+        if metadata.file_type().is_fifo() {
             return_val.push(Self::Pipe)
         }
-        if file.symlink_metadata()?.file_type().is_char_device() {
+        if metadata.file_type().is_char_device() {
             return_val.push(Self::CharD)
         }
-        if file.symlink_metadata()?.file_type().is_block_device() {
+        if metadata.file_type().is_block_device() {
             return_val.push(Self::BlockD)
         }
-        if file.symlink_metadata()?.file_type().is_socket() {
+        if metadata.file_type().is_socket() {
             return_val.push(Self::Socket)
         }
         if return_val.is_empty() {
             return_val.push(Self::Path)
         }
-        Ok(return_val)
+        return_val
     }
 
     fn create_letter(&self, letter: &str, file_style: FileStyle) -> String {
