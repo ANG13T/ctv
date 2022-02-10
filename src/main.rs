@@ -1,7 +1,8 @@
 use structopt::StructOpt;
-mod input;
 use std::error::Error;
+
 mod decorators;
+mod input;
 mod protocols;
 mod services;
 
