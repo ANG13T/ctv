@@ -10,21 +10,20 @@ repository = "https://github.com/angelina-tsuboi/ctv"
 keywords = ["cli", "treeview", "tree", "visualizer", "file"]
 categories = ["command-line-utilities"]
 edition = "2018"
-license-file = "license.txt"
 include = ["/src", "README.md", "contributing.md", "Cargo.toml", "media"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-humansize = "1.1.1"
-libc = "0.2.95"
-structopt = { version = "0.3.21", features = [ "paw" ] }
-termion = "1.5.6"
-filetime = "0.2"
-users = "0.11.0"
 chrono = "0.4"
 config = "0.11"
 directories = "3.0.2"
-serde = { version = "1.0.127", features = ["derive"] }
-toml = "0.5.8"
 dirs = "4.0.0"
+filetime = "0.2"
+humansize = "1.1.1"
+libc = "0.2.95"
+serde = { version = "1.0.127", features = ["derive"] }
+structopt = { version = "0.3.21", features = ["paw"] }
+termion = "1.5.6"
+toml = "0.5.8"
+users = "0.11.0"
