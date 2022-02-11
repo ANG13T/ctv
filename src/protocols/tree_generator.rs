@@ -38,12 +38,10 @@ impl<'a> TreeGenerator<'a> {
     }
 
     fn tree_body(&mut self, directory: &Path, prefix: &str, limit: usize) -> anyhow::Result<()> {
-        eprintln!("tree_body {}", directory.display());
         let entries = self.sort_dir_first(directory)?;
         let entries_count = entries.len();
 
         for (index, entry) in entries.iter().enumerate() {
-            eprintln!("entry: {} {:?}", index, entry);
             let metadata = fs::metadata(entry.path())?;
 
             let connector = if index == entries_count - 1
