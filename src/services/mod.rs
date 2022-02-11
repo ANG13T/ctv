@@ -1,4 +1,3 @@
-pub mod extension;
 mod group_user;
 pub mod perms;
 pub mod size;
