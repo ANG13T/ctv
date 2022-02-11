@@ -1,11 +1,12 @@
 use crate::config::{self, Config};
 use crate::protocols::PathType;
 use crate::services;
+use std::borrow::Cow;
 use std::fmt::{self, Display, Formatter};
 use std::path::Path;
 
 pub struct File<'a> {
-    pub path: &'a Path,
+    pub path: Cow<'a, Path>,
     pub file_type: PathType,
     pub group: String,
     pub user: String,
@@ -16,7 +17,7 @@ pub struct File<'a> {
 }
 
 impl<'a> File<'a> {
-    pub fn new(path: &'a Path, config: &'a Config) -> anyhow::Result<Self> {
+    pub fn new(path: Cow<'a, Path>, config: &'a Config) -> anyhow::Result<Self> {
         use config::TimeType;
         let metadata = path.symlink_metadata()?;
         let time = match config.time.ty {
@@ -35,17 +36,19 @@ impl<'a> File<'a> {
             config,
         })
     }
+    pub fn file_name(&self) -> std::borrow::Cow<'_, str> {
+        self.path
+            .file_name()
+            .map(|path| path.to_string_lossy())
+            .unwrap_or(std::borrow::Cow::Borrowed(""))
+    }
 }
 
 impl Display for File<'_> {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         use crate::config::ViewFormat;
         use colored::Colorize;
-        let file_name = self
-            .path
-            .file_name()
-            .map(|path| path.to_string_lossy())
-            .unwrap_or(std::borrow::Cow::Borrowed(""));
+        let file_name = self.file_name();
         write!(
             formatter,
             "{}{}",
