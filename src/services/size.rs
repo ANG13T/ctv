@@ -1,10 +1,10 @@
 use humansize::{file_size_opts as options, FileSize};
+use std::fs::Metadata;
 use std::os::unix::fs::MetadataExt;
 
-pub fn size(file: std::path::PathBuf) -> String {
-    std::fs::symlink_metadata(file)
-        .unwrap()
+pub fn size(metadata: &Metadata) -> anyhow::Result<String> {
+    metadata
         .size()
         .file_size(options::CONVENTIONAL)
-        .unwrap()
+        .map_err(|err| anyhow::anyhow!(err))
 }
