@@ -61,7 +61,8 @@ impl<'a> TreeGenerator<'a> {
                     &connector,
                     limit - 1,
                 )?;
-            } else {
+            }
+            else {
                 self.add_file(&entry.path(), &prefix, &connector)?;
             }
         }
