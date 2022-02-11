@@ -17,5 +17,5 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    protocols::DirTree::init(&args.dir, config).gen()
+    protocols::DirTree::new(&args.dir, &config).write(&mut std::io::stdout())
 }
