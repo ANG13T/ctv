@@ -10,8 +10,8 @@ pub struct Args {
     #[clap(long, short = 'h')]
     pub short: bool,
 
-    #[clap(short, long, default_value = "3")]
-    pub limit: usize,
+    #[clap(short, long)]
+    pub limit: Option<usize>,
 
     /// Show config variables and exit
     #[clap(long = "config", short)]

@@ -11,6 +11,9 @@ fn main() -> anyhow::Result<()> {
     if args.short {
         config.view_format = config::ViewFormat::Short;
     }
+    if let Some(limit) = args.limit {
+        config.max_depth = limit;
+    }
 
     if args.print_config {
         println!("{:#?}\n{:#?}", config, args);

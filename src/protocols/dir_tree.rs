@@ -54,7 +54,8 @@ impl<'a> DirTree<'a> {
             }
         }
 
-        if self.root.symlink_metadata()?.file_type().is_dir() {
+        if self.root.symlink_metadata()?.file_type().is_dir() && self.depth < self.config.max_depth
+        {
             let entries: Vec<std::fs::DirEntry> =
                 fs::read_dir(self.root)?.collect::<std::io::Result<_>>()?;
             let num_entries = entries.len();
