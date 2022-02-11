@@ -19,6 +19,3 @@ fn main() -> anyhow::Result<()> {
 
     protocols::DirTree::init(&args.dir, config).gen()
 }
-
-#[cfg(test)]
-mod test_suite;
