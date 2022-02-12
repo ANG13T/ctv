@@ -1,0 +1,27 @@
+name: ctv-cli
+version: git
+summary: A highly configurable tree view file visualizer CLI tool written in Rust
+description: |
+  ctv is a command line tool for visualizing
+  your file hiearchy with a highly customizable
+  tree view:
+  - Visualize your file hierarchy in a tree view
+  - Customize the appearance of your tree
+  - Display custom file information (permissions, time, user, etc)
+  - Personalize tree color and text styling
+
+base: core20
+
+
+parts:
+  ctv:
+    plugin: rust
+    source: .
+    build-packages:
+      - gcc-multilib
+
+apps:
+  ctv:
+    command: bin/ctv
+    plugs:
+      - home
