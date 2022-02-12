@@ -1,7 +1,7 @@
 [package]
 name = "ctv"
 license = "MIT"
-version = "0.2.7"
+version = "0.3.0"
 authors = ["Angelina Tsuboi <angelina.t1832@gmail.com>"]
 description = "A highly configurable tree file view visualizer CLI tool"
 readme = "README.md"
