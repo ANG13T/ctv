@@ -7,9 +7,11 @@ pub struct Args {
     #[clap(default_value = ".")]
     pub dir: PathBuf,
 
+    /// If provided, hide metadata and only show entry names
     #[clap(long, short = 'h')]
     pub short: bool,
 
+    /// The maximum depth of the tree
     #[clap(short, long)]
     pub limit: Option<usize>,
 

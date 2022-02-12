@@ -5,20 +5,27 @@ use std::path::PathBuf;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
     pub colors: Colors,
+    /// The order of the metadata fields shown next to each entry
     pub field_order: Vec<FieldName>,
+    /// The maximum depth of the tree
     pub max_depth: usize,
+    /// Whether to show metadata, configurable based on the entry type
     pub show_metadata: ShowMetadataConfig,
     pub styles: FieldStyles,
     pub symbols: Symbols,
     pub time: TimeConfig,
     pub view_format: ViewFormat,
+    /// How directory entries should be sorted, as a list of methods and/or types.
+    /// If only a type is provided, it will be converted to a method where `ty` is the type and `descending` is false.
     pub sorting: Vec<SortMethod>,
 }
 
 #[derive(Serialize, Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SortMethod {
+    /// The key to sort by
     #[serde(rename = "type")]
     pub ty: SortType,
+    /// Whether to invert the sorting
     pub descending: bool,
 }
 
@@ -155,6 +162,7 @@ impl Default for ShowMetadataConfig {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TimeConfig {
+    /// The type of time (created, modified, accessed) to show
     #[serde(rename = "type")]
     pub ty: TimeType,
     pub format: String,
@@ -219,6 +227,7 @@ impl Default for TypeColors {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PermColors {
     pub execute: Color,
+    /// The color if the field is not set (shown as a dash)
     pub none: Color,
     pub read: Color,
     pub write: Color,
