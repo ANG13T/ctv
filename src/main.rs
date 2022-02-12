@@ -20,5 +20,5 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    protocols::DirTree::new(&args.dir, &config)?.write(&mut std::io::stdout())
+    protocols::DirTree::new(&args.dir.canonicalize()?, &config)?.write(&mut std::io::stdout())
 }
