@@ -54,9 +54,9 @@ impl PermType {
 pub fn perms(metadata: &std::fs::Metadata, colors: &PermColors) -> String {
     let mode = metadata.permissions().mode();
 
-    let user = PermType::User.format(mode as u16, colors);
-    let group = PermType::Group.format(mode as u16, colors);
-    let other = PermType::Other.format(mode as u16, colors);
+    let user = PermType::User.format(mode, colors);
+    let group = PermType::Group.format(mode, colors);
+    let other = PermType::Other.format(mode, colors);
 
     [user, group, other].join("")
 }
