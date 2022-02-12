@@ -52,5 +52,6 @@ sorting = ["size", "name", "time"]
 ```
 
 ```bash
-CTV_SORTING='["size", "name", "time"]' ctv
+# command line
+$ CTV_SORTING='["size", "name", "time"]' ctv
 ```
