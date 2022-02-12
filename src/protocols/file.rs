@@ -55,9 +55,13 @@ impl Display for File<'_> {
                 .extra()
                 .unwrap_or(colored::Colorize::normal("")),
         )?;
+        let show_metadata = if matches!(self.file_type, PathType::Directory { .. }) {
+            self.config.show_metadata.directory
+        } else {
+            self.config.show_metadata.file
+        };
         match self.config.view_format {
-            ViewFormat::Short => Ok(()),
-            ViewFormat::Full => {
+            ViewFormat::Full if show_metadata => {
                 struct FieldDisplay<'a>(&'a File<'a>);
                 impl Display for FieldDisplay<'_> {
                     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
@@ -89,6 +93,7 @@ impl Display for File<'_> {
                     _ => Ok(()),
                 }
             }
+            _ => Ok(()),
         }
     }
 }
