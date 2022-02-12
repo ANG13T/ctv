@@ -12,6 +12,56 @@ pub struct Config {
     pub symbols: Symbols,
     pub time: TimeConfig,
     pub view_format: ViewFormat,
+    pub sorting: Vec<SortMethod>,
+}
+
+#[derive(Serialize, Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SortMethod {
+    #[serde(rename = "type")]
+    pub ty: SortType,
+    pub descending: bool,
+}
+
+impl<'de> Deserialize<'de> for SortMethod {
+    fn deserialize<D: serde::de::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        #[derive(Deserialize)]
+        pub struct SortMethodProxy {
+            #[serde(rename = "type")]
+            ty: SortType,
+            descending: bool,
+        }
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum WithOrWithoutOrder {
+            WithoutOrder(SortType),
+            WithOrder(SortMethodProxy),
+        }
+        let raw = WithOrWithoutOrder::deserialize(deserializer)?;
+        Ok(match raw {
+            WithOrWithoutOrder::WithOrder(SortMethodProxy { ty, descending }) => {
+                SortMethod { ty, descending }
+            }
+            WithOrWithoutOrder::WithoutOrder(ty) => Self::from(ty),
+        })
+    }
+}
+
+impl From<SortType> for SortMethod {
+    fn from(ty: SortType) -> Self {
+        Self {
+            ty,
+            descending: false,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum SortType {
+    Type,
+    Size,
+    Name,
+    Time,
 }
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug)]
@@ -36,31 +86,29 @@ impl FieldName {
 
 impl std::fmt::Display for FieldNameDisplay<'_> {
     fn fmt(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        use crate::services;
         match self.field {
-            FieldName::Owner => write!(
-                formatter,
-                "{}",
-                self.file.config.styles.owner.apply(self.file.user.as_str())
-            ),
-            FieldName::Perms => write!(
-                formatter,
-                "{}{}",
-                self.file
-                    .file_type
-                    .color(&self.file.config.colors.types)
-                    .apply(self.file.file_type.letter()),
-                self.file.perms,
-            ),
-            FieldName::Size => write!(
-                formatter,
-                "{}",
-                self.file.config.styles.size.apply(self.file.size.as_str()),
-            ),
-            FieldName::Time => write!(
-                formatter,
-                "{}",
-                self.file.config.styles.time.apply(self.file.time.as_str()),
-            ),
+            FieldName::Owner => {
+                let owner: &str = &self.file.user;
+                let owner = self.file.config.styles.owner.apply(owner);
+                write!(formatter, "{}", owner)
+            }
+            FieldName::Perms => {
+                let color = &self.file.config.colors.types;
+                let letter = self.file.file_type.letter();
+                let letter = self.file.file_type.color(color).apply(letter);
+                write!(formatter, "{}{}", letter, self.file.perms)
+            }
+            FieldName::Size => {
+                let size = services::size::format(self.file.size);
+                let size = self.file.config.styles.size.apply(size.as_str());
+                write!(formatter, "{}", size)
+            }
+            FieldName::Time => {
+                let time = services::time::format(&self.file.time, &self.file.config.time.format);
+                let time = self.file.config.styles.time.apply(time.as_str());
+                write!(formatter, "{}", time)
+            }
         }
     }
 }
@@ -81,6 +129,11 @@ impl Default for Config {
             symbols: Default::default(),
             time: Default::default(),
             view_format: Default::default(),
+            sorting: vec![
+                SortType::Type.into(),
+                SortType::Name.into(),
+                SortType::Size.into(),
+            ],
         }
     }
 }
@@ -116,7 +169,7 @@ impl Default for TimeConfig {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy)]
 #[serde(rename_all = "snake_case")]
 pub enum TimeType {
     Created,
@@ -345,4 +398,40 @@ pub fn load() -> anyhow::Result<Config> {
 
 pub fn config_file_path() -> Option<PathBuf> {
     dirs::config_dir().map(|path| path.join("ctv.toml"))
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn test_sort_parsing() {
+        use super::{SortMethod, SortType};
+        use figment::providers::{Format, Toml};
+        use serde::{Deserialize, Serialize};
+
+        #[derive(Serialize, Deserialize)]
+        struct Container {
+            inner: SortMethod,
+        }
+
+        let as_string = r#"inner = "size""#;
+        let as_object = r#"inner = { type = "time", descending = true }"#;
+
+        let as_string: Container = Toml::from_str(as_string).unwrap();
+        let as_object: Container = Toml::from_str(as_object).unwrap();
+
+        assert_eq!(
+            as_string.inner,
+            SortMethod {
+                ty: SortType::Size,
+                descending: false
+            }
+        );
+        assert_eq!(
+            as_object.inner,
+            SortMethod {
+                ty: SortType::Time,
+                descending: true
+            }
+        );
+    }
 }

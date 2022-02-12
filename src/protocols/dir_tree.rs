@@ -46,6 +46,28 @@ impl<'a> DirTree<'a> {
         writeln!(formatter, "{}", self.root)?;
         Ok(())
     }
+    fn sort_entries(&self, entries: &mut Vec<File<'_>>) {
+        use crate::config::SortType;
+        let methods = self.config.sorting.as_slice();
+        entries.sort_unstable_by(|a, b| {
+            for method in methods {
+                let cmp = match method.ty {
+                    SortType::Name => a.path.file_name().cmp(&b.path.file_name()),
+                    SortType::Size => a.size.cmp(&b.size),
+                    SortType::Time => a.time.cmp(&b.time),
+                    SortType::Type => a.file_type.cmp(&b.file_type),
+                };
+                if !cmp.is_eq() {
+                    return if method.descending {
+                        cmp.reverse()
+                    } else {
+                        cmp
+                    };
+                }
+            }
+            std::cmp::Ordering::Equal
+        });
+    }
     fn write_body(&self, formatter: &mut dyn Write) -> anyhow::Result<()> {
         use anyhow::Context;
         struct TreeContext(String);
@@ -60,9 +82,10 @@ impl<'a> DirTree<'a> {
             crate::protocols::PathType::Directory { .. }
         ) && self.depth < self.config.max_depth
         {
-            let entries: Vec<File> = fs::read_dir(&self.root.path)?
+            let mut entries: Vec<File> = fs::read_dir(&self.root.path)?
                 .map(|entry| File::new(Cow::Owned(entry?.path()), &self.config))
                 .collect::<anyhow::Result<_>>()?;
+            self.sort_entries(&mut entries);
             let num_entries = entries.len();
             for (idx, entry) in entries.into_iter().enumerate() {
                 let name = entry.file_name().into_owned();

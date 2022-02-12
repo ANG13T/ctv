@@ -3,7 +3,7 @@ use std::fs::Metadata;
 use std::os::unix::fs::FileTypeExt;
 use std::path::{Path, PathBuf};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum PathType {
     BlockDevice,
     CharDevice,

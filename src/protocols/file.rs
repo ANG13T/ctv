@@ -1,4 +1,4 @@
-use crate::config::{self, Config};
+use crate::config::Config;
 use crate::protocols::PathType;
 use crate::services;
 use std::borrow::Cow;
@@ -10,26 +10,21 @@ pub struct File<'a> {
     pub file_type: PathType,
     pub group: String,
     pub user: String,
-    pub time: String,
-    pub size: String,
+    pub time: filetime::FileTime,
+    pub size: u64,
     pub perms: String,
     pub config: &'a Config,
 }
 
 impl<'a> File<'a> {
     pub fn new(path: Cow<'a, Path>, config: &'a Config) -> anyhow::Result<Self> {
-        use config::TimeType;
         let metadata = path.symlink_metadata()?;
-        let time = match config.time.ty {
-            TimeType::Accessed => services::time::time_accessed,
-            TimeType::Created => services::time::time_created,
-            TimeType::Modified => services::time::time_modified,
-        }(&metadata, &config.time.format);
+        let time = services::time::get(&metadata, config.time.ty);
         Ok(Self {
             group: services::group(&metadata),
             user: services::user(&metadata),
             time,
-            size: services::size::size(&metadata)?,
+            size: services::size::get(&metadata),
             perms: services::perms::perms(&metadata, &config.colors.perms),
             file_type: PathType::from_path(&path, Some(metadata))?,
             path,
