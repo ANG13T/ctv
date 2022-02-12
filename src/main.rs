@@ -12,9 +12,9 @@ fn main() -> anyhow::Result<()> {
         config.view_format = config::ViewFormat::Short;
     }
 
-    if args.search.len() > 0 {
-        println!("searching {}", args.search);
-    }
+    // if args.search.len() > 0 {
+    //     println!("searching {}", args.search);
+    // }
 
     if args.print_config {
         println!("{:#?}\n{:#?}", config, args);

@@ -17,8 +17,8 @@ pub struct Args {
     #[clap(long = "config", short)]
     pub print_config: bool,
 
-    #[clap(short = 's', long = "search", default_value = "")]
-    pub search: String,
+    // #[clap(short = 's', long = "search", default_value = "")]
+    // pub search: String,
 }
 
 pub fn parse() -> anyhow::Result<Args> {
