@@ -15,6 +15,10 @@ fn main() -> anyhow::Result<()> {
         config.max_depth = limit;
     }
 
+    // if args.search.len() > 0 {
+    //     println!("searching {}", args.search);
+    // }
+
     if args.print_config {
         println!("{:#?}\n{:#?}", config, args);
         return Ok(());
