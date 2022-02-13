@@ -17,8 +17,6 @@ parts:
   ctv:
     plugin: rust
     source: .
-    build-packages:
-      - gcc-multilib
 
 apps:
   ctv:
