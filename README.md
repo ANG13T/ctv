@@ -1,8 +1,14 @@
+ [![Github Release](https://img.shields.io/github/v/release/angelina-tsuboi/ctv?display_name=tag)](https://github.com/angelina-tsuboi/ctv/releases) [![ctv-cli](https://snapcraft.io/ctv-cli/badge.svg)](https://snapcraft.io/ctv-cli) [![Crates.io](https://img.shields.io/crates/v/ctv.svg)](https://crates.io/crates/ctv)  
+ 
+
 # 🎄 ctv - configurable tree view 🎄
 
 A highly configurable tree view visualizer CLI tool written in Rust!
 
+
 <img src="./media/ctv_preview.png" width="750" title="CTV Preview Image">
+
+
 
 ## What does ctv do?
 
