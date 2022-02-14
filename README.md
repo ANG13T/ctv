@@ -65,11 +65,11 @@ sorting = ["size", "name", "time"]
 $ CTV_SORTING='["size", "name", "time"]' ctv
 ```
 
-# 🎉 Repo Support
+## 🎉 Repo Support
 
-## Stargazers
+### Stargazers
 [![Stargazers repo roster for @angelina-tsuboi/ctv](https://reporoster.com/stars/angelina-tsuboi/ctv)](https://github.com/angelina-tsuboi/ctv/stargazers)
 
 
-## Forkers
+### Forkers
 [![Forkers repo roster for @angelina-tsuboi/ctv](https://reporoster.com/forks/angelina-tsuboi/ctv)](https://github.com/angelina-tsuboi/ctv/network/members)
