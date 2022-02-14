@@ -25,6 +25,9 @@ cargo install ctv
 
 # Homebrew Installation
 brew install angelina-tsuboi/ctv/ctv
+
+# NetBSD
+pkgin install ctv
 ```
 
 ## Using ctv
@@ -46,7 +49,7 @@ ctv <flags> <directory_path>
 ## Config File
 
 The `config.toml` file located at `~/.config/ctv.toml` allows you to customize the appearance of your tree display!
-If the configuration does not exist, defaults will be used.
+If the configuration does not exist, defaults will be used. A copy of the default `ctv.toml` is available on this repository.
 
 ## Via Environment
 
